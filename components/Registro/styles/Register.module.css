@@ -1,0 +1,51 @@
+.parent_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 90vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contas_container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 5px #209b108e;
+  color: #222222d0;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+
+.account_infos p {
+  font-size: 1.1rem;
+  cursor: not-allowed;
+  color: #222;
+}
+
+.actions {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.actions button {
+  color: rgb(34, 34, 34);
+  flex: 1;
+  padding: 8px;
+  font-size: 1.092rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background-color: #1bb623bb;
+  box-shadow: .4px .5px 3px #011530c7;
+  transition: .25s;
+  margin: 8px 0;
+}
+
+.actions button:hover {
+  background-color: #15941bbb;
+}
+.table_container {
+  margin-left: 20px;
+}

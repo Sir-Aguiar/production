@@ -9,7 +9,7 @@ async function Conectar() {
   }
 }
 
-export default async function Timing(request, response) {
+export default async function Registro(request, response) {
 
   response.setHeader('Access-Control-Allow-Credentials', true)
   response.setHeader('Access-Control-Allow-Origin', '*')
@@ -21,17 +21,28 @@ export default async function Timing(request, response) {
 
   const newTime = new Date().toGMTString()
   const { db } = await Conectar()
-  const users = await db.collection('users')
-
-  if (request.method == 'GET') {
-    users.find({}).toArray(function (err, result) {
-      if (err) {
-        response.status(400).json({
-          "WORKED": false
-        })
-      };
-      response.json(result)
-      return
-    });
+  const col = await db.collection('novo_teste')
+  const { nome, c1_i, c1_f, c2_i, c2_f, c3_i, c3_f, c4_i, c4_f, tota, farm, media } = request.body
+  if (request.method == "POST") {
+    col.insertOne({
+      'Nome': nome,
+      'Conta 1 (Inicio)': c1_i,
+      'Conta 1 (Final)': c1_f,
+      'Conta 2 (Inicio)': c2_i,
+      'Conta 2 (Final)': c2_f,
+      'Conta 3 (Inicio)': c3_i,
+      'Conta 3 (Final)': c3_f,
+      'Conta 4 (Inicio)': c4_i,
+      'Conta 4 (Final)': c4_f,
+      'Total': tota,
+      'Farm': farm,
+      "BCOIN/hora": media
+    })
+      .then(
+        () => response.json({ message: 'Inserido com sucesso' })
+      )
+      .catch(
+        (err) => response.json({ message: "Houve um erro" })
+      )
   }
 }

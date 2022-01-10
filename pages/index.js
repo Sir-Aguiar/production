@@ -1,22 +1,19 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
-import axios from 'axios'
+import Login from '../components/Login/Login'
+import { useState } from 'react'
+import Registro from '../components/Registro/Registro';
 export default function Home() {
-  useEffect(() => {
-    axios.post('https://production-jet.vercel.app/api/teste', {
-      nome: 'Felipe'
-    })
-      .then((response) => {
-        console.log(response.data)
-      })
-  })
+  const [userIsLoged, toggleLogin] = useState(false);
+  const [username, setUsername] = useState()
   return (
     <div className={styles.container}>
       <Head>
         <title>Home page</title>
       </Head>
-      <h1>Home page</h1>
+      {
+        !userIsLoged ? <Login toggleLogin={toggleLogin} setNome={setUsername} /> : <Registro nome={username} />
+      }
     </div>
   )
 }

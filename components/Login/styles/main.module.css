@@ -1,0 +1,71 @@
+.login_parent_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formulary_container {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.user_input {
+  margin: 5px 0;
+  display: flex;
+}
+
+.formulary_container input {
+  padding: 12px 10px;
+  width: 290px;
+  margin: 3px 0;
+  outline: none;
+  border: 1px solid #38383881;
+  border-radius: 3px;
+  font-size: 1.09rem;
+  transition: .3s;
+  
+}
+
+.submit_field input {
+  margin: auto;
+  outline: none;
+  border: none;
+  background-color: #5bca1bb0;
+  transition: .3s;
+  box-shadow: 0px 1px 3px #00250481;
+  cursor: pointer;
+}
+
+.username_field input{
+  margin: auto;
+}
+
+.submit_field input:hover {
+  background-color: #2dbb11b0;
+  color: #222222e1;
+}
+
+.userdata_input input:focus {
+  border: 1px solid #0355118c;
+  box-shadow: 1px 1px 2px #37914648;
+}
+
+.userdata_input input:hover {
+  border: 1px solid #03552c8e;
+}
+.userpassword_field {
+  display: flex;
+  align-items: center;
+}
+.userpassword_field svg {
+  position: relative;
+  fill: #0355118c;
+  right: 25px;
+  cursor: pointer;
+}
+.userpassword_field input {
+  margin-left: 15px;
+}
