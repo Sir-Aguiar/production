@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import axios from 'axios'
 export default function Home() {
   useEffect(() => {
-    axios.post('https://register-fawn.vercel.app/api/registro', {
+    axios.post('https://production-jet.vercel.app/api/teste', {
       nome: 'Felipe'
     })
       .then((response) => {
