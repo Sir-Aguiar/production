@@ -6,7 +6,6 @@ export default function Tables(props) {
     <table border="1" className={styles.data_table}>
       <thead className={styles.table_head}>
         <tr>
-          <th>id</th>
           <th>Nome</th>
           <th>Conta 1</th>
           <th>Conta 2</th>
@@ -19,7 +18,7 @@ export default function Tables(props) {
       </thead>
       <tbody>
         <tr>
-          <td>{data.getDay()}{data.getUTCDate()}:{data.getHours()}{data.getMinutes()}{data.getSeconds()}</td>
+        
           <td>{props.nome}</td>
           <td>
             <span>{props.c1_i}</span> &rarr; <span>{props.c1_f}</span>

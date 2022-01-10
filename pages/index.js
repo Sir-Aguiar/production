@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import Login from '../components/Login/Login'
 import { useState } from 'react'
 import Registro from '../components/Registro/Registro';
+import Pesquisar from '../components/Pesquisar/Pesquisar';
 export default function Home() {
   const [userIsLoged, toggleLogin] = useState(false);
   const [username, setUsername] = useState()
@@ -13,6 +14,7 @@ export default function Home() {
       </Head>
       {
         !userIsLoged ? <Login toggleLogin={toggleLogin} setNome={setUsername} /> : <Registro nome={username} />
+        
       }
     </div>
   )

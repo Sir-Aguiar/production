@@ -22,28 +22,16 @@ export default async function Registro(request, response) {
   const newTime = new Date().toGMTString()
   const { db } = await Conectar()
   const col = await db.collection('novo_teste')
-  const { nome, c1_i, c1_f, c2_i, c2_f, c3_i, c3_f, c4_i, c4_f, tota, farm, media, identifier } = request.body
+  const { nome } = request.body
   if (request.method == "POST") {
-    col.insertOne({
-      "_id": identifier,
-      'Nome': nome,
-      'Conta 1 (Inicial)': c1_i,
-      'Conta 1 (Final)': c1_f,
-      'Conta 2 (Inicial)': c2_i,
-      'Conta 2 (Final)': c2_f,
-      'Conta 3 (Inicial)': c3_i,
-      'Conta 3 (Final)': c3_f,
-      'Conta 4 (Inicial)': c4_i,
-      'Conta 4 (Final)': c4_f,
-      'Total geral': tota,
-      'Farm total': farm,
-      "BCOIN/hora": media
-    })
-      .then(
-        () => response.json({ message: 'Inserido com sucesso' })
-      )
-      .catch(
-        (err) => response.json({ message: "Houve um erro" })
-      )
+    col.find({'Nome' : nome}).toArray(function (err, result) {
+      if (err) {
+        response.status(400).json({
+          "WORKED": false
+        })
+      };
+      response.json(result)
+      return
+    });
   }
 }
