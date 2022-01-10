@@ -16,7 +16,7 @@ export default function Login(props) {
   }
 
   function getLogins(username, userpassword) {
-    axios.get("http://localhost:3000/api/teste").then((response) => {
+    axios.get("https://production-jet.vercel.app/api/teste").then((response) => {
       response.data.forEach((user) => {
         if (user["senha"] === userpassword && user["user"] === username) {
           props.toggleLogin(true);

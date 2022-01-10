@@ -38,7 +38,7 @@ export default function Registro(props) {
   }
   function Registrar() {
     axios
-      .post("http://localhost:3000//api/registro", {
+      .post("https://production-jet.vercel.app/api/registro", {
         nome: props.nome,
         c1_i: Conta1_i,
         c1_f: Conta1_f,
