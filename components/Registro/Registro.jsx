@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Contas from "./components/Contas";
 import Tables from "./components/Tables";
-import Pesquisar from "../Pesquisar/Pesquisar";
+
 export default function Registro(props) {
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
