@@ -3,7 +3,7 @@ const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.
 
 async function Conectar() {
   if (!client.isConnected) await client.connect()
-  const db = client.db('other')
+  const db = client.db('plantoes')
   return {
     db, client
   }
@@ -21,7 +21,7 @@ export default async function Registro(request, response) {
 
   const newTime = new Date().toGMTString()
   const { db } = await Conectar()
-  const col = await db.collection('novo_teste')
+  const col = await db.collection('plantao_registro')
   const { nome } = request.body
   if (request.method == "POST") {
     col.find({'Nome' : nome}).toArray(function (err, result) {

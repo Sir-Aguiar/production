@@ -21,8 +21,8 @@ export default function Registro(props) {
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
-  
-  const [in_time, setIntime] = useState()
+
+  const [in_time, setIntime] = useState();
 
   const data = new Date();
   function Calcular() {
@@ -51,7 +51,7 @@ export default function Registro(props) {
   function Registrar() {
     axios
       .post("https://production-jet.vercel.app/api/registro", {
-        identifier: `${data.getDay()}${data.getUTCDate()}:${data.getHours()}${data.getMinutes()}${data.getSeconds()}`,
+        identifier: `${data.getDay()}${data.getUTCDate()}:${data.getHours()}`,
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
         c1_f: Number(Conta1_f).toFixed(2),
@@ -68,11 +68,15 @@ export default function Registro(props) {
       })
       .then((response) => {
         console.log(response.data);
-        toast.success("Registro realizado com sucesso");
-      })
-      .catch((err) => {
-        toast.warn("Falha ao realizar o registro, tente novamente mais tarde");
-      })
+        if (response.data.message == "Houve um erro") {
+          toast.error(
+            "Você excedeu o limite de registros permitidos, tente novamente mais tarde."
+          );
+        }
+        if (response.data.message == "Inserido com sucesso") {
+          toast.success("Registro realizado com sucesso");
+        }
+      });
   }
   const [dados, setDados] = useState();
   function Query() {
@@ -81,9 +85,9 @@ export default function Registro(props) {
         nome: props.nome,
       })
       .then((response) => {
-        console.log(response.data);
+        /* console.log(response.data); */
         setDados(response.data);
-        /* console.log(dados); */
+        
       });
   }
   return (
@@ -95,7 +99,7 @@ export default function Registro(props) {
           <Contas index={3} setconta_i={setConta3_i} setconta_f={setConta3_f} />
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
           <div className={styles.account_infos}>
-            <p>Total: {total}</p> <p>Total farmado: {farm}</p>{" "}
+            <p>Total: {total.toFixed(2)}</p> <p>Total farmado: {farm.toFixed(2)}</p>
             <p>BCOIN/hora: {(farm / 12).toFixed(2)}</p>
           </div>
           <div className={styles.actions}>

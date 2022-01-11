@@ -6,13 +6,17 @@ export default function Contas(props) {
       <input
         type="text"
         placeholder="Saldo inicial"
-        onChange={(e) => props.setconta_i(e.target.value)}
+        onChange={(e) => {
+          props.setconta_i((e.target.value).replace(',','.'))
+        }}
         className="incials"
       />
       <input
         type="text"
         placeholder="Saldo final"
-        onChange={(e) => props.setconta_f(e.target.value)}
+        onChange={(e) => {
+          props.setconta_f((e.target.value).replace(',','.'))
+        }}
         className="finals"
       />
     </div>
