@@ -11,9 +11,10 @@ export default function Tables(props) {
           <th>Conta 2</th>
           <th>Conta 3</th>
           <th>Conta 4</th>
-          <th>Saldo total</th>
           <th>Saldo do turno</th>
           <th>Média/hora</th>
+          <th>Saldo inicial</th>
+          <th>Saldo</th>
         </tr>
       </thead>
       <tbody>
@@ -32,9 +33,10 @@ export default function Tables(props) {
           <td>
             <span>{props.c4_i}</span> &rarr; <span>{props.c4_f}</span>
           </td>
-          <td>{props.total}</td>
-          <td>{props.farm}</td>
+          <td>{props.farm.toFixed(2)}</td>
           <td>{(props.farm / 12).toFixed(2)}</td>
+          <td>{Number(props.inicial).toFixed(2)}</td>
+          <td>{props.total.toFixed(2)}</td>
         </tr>
       </tbody>
     </table>

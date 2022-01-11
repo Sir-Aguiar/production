@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 
 export default function Login(props) {
-  
   const [showPassword, setToggle] = useState(false);
 
   function handleSubmit(e) {
@@ -16,16 +15,18 @@ export default function Login(props) {
   }
 
   function getLogins(username, userpassword) {
-    axios.get("https://production-jet.vercel.app/api/teste").then((response) => {
-      response.data.forEach((user) => {
-        if (user["senha"] === userpassword && user["user"] === username) {
-          props.toggleLogin(true);
-          toast.success(`Bem-vindo, ${username}`);
-          props.setNome(username)
-          return;
-        }
+    axios
+      .get("https://production-jet.vercel.app/api/teste")
+      .then((response) => {
+        response.data.forEach((user) => {
+          if (user["senha"] === userpassword && user["user"] === username) {
+            props.toggleLogin(true);
+            toast.success(`Bem-vindo, ${username}`);
+            props.setNome(username);
+            return;
+          }
+        });
       });
-    });
   }
 
   return (
