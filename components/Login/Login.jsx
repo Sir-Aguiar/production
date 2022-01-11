@@ -16,16 +16,19 @@ export default function Login(props) {
 
   function getLogins(username, userpassword) {
     axios
-      .get("https://production-jet.vercel.app/api/teste")
+      .post("https://production-jet.vercel.app/api/teste", {
+        username: username,
+        userpass: userpassword,
+      })
       .then((response) => {
-        response.data.forEach((user) => {
-          if (user["senha"] === userpassword && user["user"] === username) {
-            props.toggleLogin(true);
-            toast.success(`Bem-vindo, ${username}`);
-            props.setNome(username);
-            return;
-          }
-        });
+        if (response.data.message == "Válido") {
+          toast.success("Seja bem-vindo");
+          props.toggleLogin(true);
+          props.setNome(username);
+        } else if (response.data.message == "Inválido") {
+          toast.warn("Erro ao realizar login: Verifique seus dados");
+          
+        }
       });
   }
 
@@ -62,7 +65,7 @@ export default function Login(props) {
           <input type="submit" value="Entrar" />
         </div>
       </form>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={4000} />
     </div>
   );
 }

@@ -22,7 +22,7 @@ export default async function Registro(request, response) {
   const newTime = new Date().toGMTString()
   const { db } = await Conectar()
   const col = await db.collection('plantao_registro')
-  const { nome, c1_i, c1_f, c2_i, c2_f, c3_i, c3_f, c4_i, c4_f, tota, farm, media, identifier } = request.body
+  const { nome, c1_i, c1_f, c2_i, c2_f, c3_i, c3_f, c4_i, c4_f, tota, farm, media, identifier, tota_i } = request.body
   if (request.method == "POST") {
     col.insertOne({
       "_id": identifier,
@@ -35,7 +35,8 @@ export default async function Registro(request, response) {
       'Conta 3 (Final)': c3_f,
       'Conta 4 (Inicial)': c4_i,
       'Conta 4 (Final)': c4_f,
-      'Total geral': tota,
+      'Saldo inicial' : tota_i,
+      'Saldo': tota,
       'Farm total': farm,
       "BCOIN/hora": media
     })

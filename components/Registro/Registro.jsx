@@ -22,9 +22,8 @@ export default function Registro(props) {
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
 
-  const [in_time, setIntime] = useState();
-
-  const data = new Date();
+  const [in_time, setIntime] = useState()
+  const data = new Date;
   function Calcular() {
     setTotal(
       Number(Conta1_f) + Number(Conta2_f) + Number(Conta3_f) + Number(Conta4_f)
@@ -51,7 +50,7 @@ export default function Registro(props) {
   function Registrar() {
     axios
       .post("https://production-jet.vercel.app/api/registro", {
-        identifier: `${data.getDay()}${data.getUTCDate()}:${data.getHours()}`,
+        identifier: `${data.getDate()}${data.getMonth()+1}:${data.getHours()}`,
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
         c1_f: Number(Conta1_f).toFixed(2),
@@ -87,7 +86,6 @@ export default function Registro(props) {
       .then((response) => {
         /* console.log(response.data); */
         setDados(response.data);
-        
       });
   }
   return (
@@ -99,7 +97,8 @@ export default function Registro(props) {
           <Contas index={3} setconta_i={setConta3_i} setconta_f={setConta3_f} />
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
           <div className={styles.account_infos}>
-            <p>Total: {total.toFixed(2)}</p> <p>Total farmado: {farm.toFixed(2)}</p>
+            <p>Total: {total.toFixed(2)}</p>{" "}
+            <p>Total farmado: {farm.toFixed(2)}</p>
             <p>BCOIN/hora: {(farm / 12).toFixed(2)}</p>
           </div>
           <div className={styles.actions}>
@@ -130,15 +129,16 @@ export default function Registro(props) {
           <table border="1">
             <thead className={styles.table_head}>
               <tr>
-                <th>id</th>
+                <th>Id</th>
                 <th>Nome</th>
                 <th>Conta 1</th>
                 <th>Conta 2</th>
                 <th>Conta 3</th>
                 <th>Conta 4</th>
-                <th>Saldo total</th>
                 <th>Saldo do turno</th>
                 <th>Média/hora</th>
+                <th>Saldo inicial</th>
+                <th>Saldo</th>
               </tr>
             </thead>
             <tbody>
@@ -158,9 +158,10 @@ export default function Registro(props) {
                   <td>
                     {regi["Conta 4 (Inicial)"]} &rarr; {regi["Conta 4 (Final)"]}
                   </td>
-                  <td>{regi["Total geral"]}</td>
                   <td>{regi["Farm total"]}</td>
                   <td>{regi["BCOIN/hora"]}</td>
+                  <td>{regi["Saldo inicial"]}</td>
+                  <td>{regi["Saldo"]}</td>
                 </tr>
               ))}
             </tbody>

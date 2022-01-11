@@ -22,15 +22,34 @@ export default async function Timing(request, response) {
   const newTime = new Date().toGMTString()
   const { db } = await Conectar()
   const users = await db.collection('users')
-
+  const { username, userpass } = request.body
   if (request.method == 'GET') {
-    users.find({}).toArray(function (err, result) {
+    users.find({ "user": username }).toArray(function (err, result) {
       if (err) {
         response.status(400).json({
           "WORKED": false
         })
       };
-      response.json(result)
+      response.json({message : "You got pranked"})
+      return
+    });
+  }
+  if (request.method == "POST") {
+
+    users.find({ "user": username, "senha": userpass }).toArray(function (err, result) {
+      if (err) {
+        response.status(400).json({
+          "WORKED": false
+        })
+      };
+      if (result.length > 0) {
+        if (result[0].user == username && result[0].senha == userpass) {
+          response.json({ message: 'Válido' })
+        }
+      }
+      else {
+        response.json({ message: "Inválido" })
+      }
       return
     });
   }
