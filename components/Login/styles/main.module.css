@@ -1,6 +1,5 @@
 .login_parent_container {
-  width: 100vw;
-  height: 100vh;
+  height: 97vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +29,7 @@
 }
 
 .submit_field input {
+  flex: 0.9;
   margin: auto;
   outline: none;
   border: none;

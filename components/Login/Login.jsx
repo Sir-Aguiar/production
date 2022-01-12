@@ -16,7 +16,8 @@ export default function Login(props) {
 
   function getLogins(username, userpassword) {
     axios
-      .post("https://production-jet.vercel.app/api/teste", {
+      .post("https://production-jet.vercel.app/api/services", {
+        service: "LOGIN",
         username: username,
         userpass: userpassword,
       })
@@ -27,7 +28,6 @@ export default function Login(props) {
           props.setNome(username);
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
-          
         }
       });
   }
