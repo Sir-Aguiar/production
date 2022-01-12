@@ -22,8 +22,8 @@ export default function Registro(props) {
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
 
-  const [in_time, setIntime] = useState()
-  const data = new Date;
+  const [in_time, setIntime] = useState();
+  const data = new Date();
   function Calcular() {
     setTotal(
       Number(Conta1_f) + Number(Conta2_f) + Number(Conta3_f) + Number(Conta4_f)
@@ -49,9 +49,11 @@ export default function Registro(props) {
   }
   function Registrar() {
     axios
-      .post("http://localhost:3000/api/services", {
-        identifier: `${data.getDate()}${data.getMonth()+1}:${data.getHours()}`,
-        service : "REGISTER",
+      .post("https://production-jet.vercel.app/api/services", {
+        identifier: `${data.getDate()}${
+          data.getMonth() + 1
+        }:${data.getHours()}`,
+        service: "REGISTER",
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
         c1_f: Number(Conta1_f).toFixed(2),
@@ -81,8 +83,8 @@ export default function Registro(props) {
   const [dados, setDados] = useState();
   function Query() {
     axios
-      .post("http://localhost:3000/api/services", {
-        service : 'PESQUISAR',
+      .post("https://production-jet.vercel.app/api/services", {
+        service: "PESQUISAR",
         nome: props.nome,
       })
       .then((response) => {
