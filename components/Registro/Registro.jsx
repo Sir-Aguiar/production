@@ -22,8 +22,7 @@ export default function Registro(props) {
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
 
-  const [in_time, setIntime] = useState();
-  const data = new Date();
+  
   function Calcular() {
     setTotal(
       Number(Conta1_f) + Number(Conta2_f) + Number(Conta3_f) + Number(Conta4_f)
@@ -48,6 +47,7 @@ export default function Registro(props) {
     );
   }
   function Registrar() {
+    const data = new Date();
     axios
       .post("https://production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
@@ -88,7 +88,7 @@ export default function Registro(props) {
         nome: props.nome,
       })
       .then((response) => {
-        /* console.log(response.data); */
+        
         setDados(response.data);
       });
   }
@@ -100,6 +100,7 @@ export default function Registro(props) {
           <Contas index={2} setconta_i={setConta2_i} setconta_f={setConta2_f} />
           <Contas index={3} setconta_i={setConta3_i} setconta_f={setConta3_f} />
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
+      
           <div className={styles.account_infos}>
             <p>Total: {total.toFixed(2)}</p>{" "}
             <p>Total farmado: {farm.toFixed(2)}</p>
