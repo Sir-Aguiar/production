@@ -49,8 +49,9 @@ export default function Registro(props) {
   }
   function Registrar() {
     axios
-      .post("https://production-jet.vercel.app/api/registro", {
+      .post("http://localhost:3000/api/services", {
         identifier: `${data.getDate()}${data.getMonth()+1}:${data.getHours()}`,
+        service : "REGISTER",
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
         c1_f: Number(Conta1_f).toFixed(2),
@@ -80,7 +81,8 @@ export default function Registro(props) {
   const [dados, setDados] = useState();
   function Query() {
     axios
-      .post("https://production-jet.vercel.app/api/pesquisas", {
+      .post("http://localhost:3000/api/services", {
+        service : 'PESQUISAR',
         nome: props.nome,
       })
       .then((response) => {
