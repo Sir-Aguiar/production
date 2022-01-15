@@ -1,0 +1,36 @@
+.navigation_container {
+  display: flex;
+  height: 45px;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.navigation_container a {
+  text-decoration: none;
+  color: green;
+  margin: 0 15px;
+  font-size: 1.1rem;
+  transition: .2s;
+}
+
+.navigation_container a:hover {
+  color: #17be3b;
+}
+
+.navigation_container button {
+  position: absolute;
+  right: 25px;
+  background-color: transparent;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 5px 15px;
+  transition: .3s;
+  box-shadow: .5px 1px 4px #0c0c0c9c;
+}
+
+.navigation_container button:hover {
+  box-shadow: .5px .6px 4px #1f1f1f88;
+}
