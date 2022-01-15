@@ -11,11 +11,11 @@ export default function Home() {
       setName(sessionStorage.getItem('name'))
     }
     else {
-      sessionStorage.setItem('logado', [loged, name])
+      sessionStorage.setItem('logado', name)
       sessionStorage.setItem('name', name)
     }
   })
-  function Pushar () {
+  function Pushar() {
     Router.push('./home')
   }
   return (
@@ -29,7 +29,7 @@ export default function Home() {
           loged == 'true' ? (
             Pushar()
           ) : (
-            <Login toggleLog={setLoged} setNome={setName} />
+            <Login toggleLogin={setLoged} setNome={setName} />
           )
         }
       </div>
