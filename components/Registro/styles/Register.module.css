@@ -76,3 +76,14 @@
 .data_table span{
   margin: 0 5px;
 }
+.nametosearch  {
+  outline: none;
+  padding: 4px;
+  font-size: 1rem;
+  border: 1px solid #2b2b2b85;
+  transition: .2s;
+}
+.nametosearch:focus {
+  border: 1px solid #109e17bb;
+  box-shadow: .6px 0px 3px #1661356e;
+}

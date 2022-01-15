@@ -1,20 +1,38 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Login from '../components/Login/Login'
-import { useState } from 'react'
-import Registro from '../components/Registro/Registro';
+import { useEffect, useState } from 'react'
+import Router from 'next/router'
 export default function Home() {
-  const [userIsLoged, toggleLogin] = useState(false);
-  const [username, setUsername] = useState()
+  const [loged, setLoged] = useState(false)
+  const [name, setName] = useState('')
+  useEffect(() => {
+    if (sessionStorage.getItem('logado')) {
+      setLoged(sessionStorage.getItem('logado'))
+      setName(sessionStorage.getItem('name'))
+    }
+    else {
+      sessionStorage.setItem('logado', loged)
+      sessionStorage.setItem('name', name)
+    }
+  })
+  function Pushar () {
+    Router.push('./home')
+  }
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Home page</title>
       </Head>
-      {
-        !userIsLoged ? <Login toggleLogin={toggleLogin} setNome={setUsername} /> : <Registro nome={username} />
-        
-      }
-    </div>
+
+      <div className='main-container'>
+        {
+          loged == 'true' ? (
+            Pushar()
+          ) : (
+            <Login toggleLog={setLoged} setNome={setName} />
+          )
+        }
+      </div>
+    </>
   )
 }

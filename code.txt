@@ -1,0 +1,27 @@
+DIR - styles : Diretório de estilos das rotas {
+arch - globals.css {
+	define estilos aplicados de forma global no projeto, em todos elementos HTML
+	}
+arch - Home.module.css {
+	modulo de estilos da rota '/', ou a home page
+	}
+}
+-------------------------------------------------------
+DIR - pages : Diretório de rotas da aplicação {
+	DIR - api : Diretório contendo as rotas das apis da aplicação, utilizadas como back-end {
+	arch - services {
+		Arquivo principal do backend, responsável por ações como Login, Registro de dados, Consultas no 		banco de dados e Atualizações
+	}
+	arch - _app {
+		Arquivo que aplica definições globalmente em nossa aplicação
+	}
+	arch indes.js {
+		Rota '/' ou home page da aplicação, contendo todo conteúdo desta rota, qual o usuário vizualiza 		primeiro ao entrar na aplicação
+	}
+
+
+-------------------------------------------------------
+DIR - components : Diretório de componentes React da aplicação {
+	DIR - Login : Contém os componentes utilizados para entrada do usuário {
+			
+	}

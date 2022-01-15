@@ -23,9 +23,10 @@ export default function Login(props) {
       })
       .then((response) => {
         if (response.data.message == "Válido") {
-          toast.success("Seja bem-vindo");
           props.toggleLogin(true);
           props.setNome(username);
+          sessionStorage.setItem('logado',true)
+          sessionStorage.setItem('name', username)
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
         }

@@ -5,7 +5,9 @@ import Contas from "./components/Contas";
 import Tables from "./components/Tables";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export default function Registro(props) {
+import TableQuery from "./components/QueryTable";
+import Router from 'next/router'
+export default function Register(props) {
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
 
@@ -17,11 +19,10 @@ export default function Registro(props) {
 
   const [Conta4_i, setConta4_i] = useState(0);
   const [Conta4_f, setConta4_f] = useState(0);
-
+  const data = new Date();
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
-
   
   function Calcular() {
     setTotal(
@@ -47,12 +48,11 @@ export default function Registro(props) {
     );
   }
   function Registrar() {
-    const data = new Date();
     axios
       .post("https://production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
           data.getMonth() + 1
-        }:${data.getHours()}`,
+        }:${data.getHours()} ${data.getSeconds()}`,
         service: "REGISTER",
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
@@ -80,18 +80,25 @@ export default function Registro(props) {
         }
       });
   }
+
   const [dados, setDados] = useState();
   function Query() {
+    const name_to_search = document.querySelector(".nametosearch");
     axios
       .post("https://production-jet.vercel.app/api/services", {
         service: "PESQUISAR",
-        nome: props.nome,
+        nome: name_to_search.value != "" ? name_to_search.value : props.nome,
       })
       .then((response) => {
-        
         setDados(response.data);
+        if (response.data) {
+          if (response.data.length < 1) {
+            toast.warning("Busque por um nome válido");
+          }
+        }
       });
   }
+
   return (
     <div className={styles.parent_parent_container}>
       <div className={styles.parent_container}>
@@ -100,7 +107,7 @@ export default function Registro(props) {
           <Contas index={2} setconta_i={setConta2_i} setconta_f={setConta2_f} />
           <Contas index={3} setconta_i={setConta3_i} setconta_f={setConta3_f} />
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
-      
+
           <div className={styles.account_infos}>
             <p>Total: {total.toFixed(2)}</p>{" "}
             <p>Total farmado: {farm.toFixed(2)}</p>
@@ -109,6 +116,11 @@ export default function Registro(props) {
           <div className={styles.actions}>
             <button onClick={() => Registrar()}>Registrar</button>
             <button onClick={() => Calcular()}>Calcular</button>
+            <input
+              type="text"
+              placeholder="Pesquisar registros de"
+              className={`${styles.nametosearch} nametosearch`}
+            />
             <button onClick={() => Query()}>Pesquisar</button>
           </div>
         </div>
@@ -130,52 +142,9 @@ export default function Registro(props) {
         </div>
       </div>
       <div className={styles.data_table}>
-        {dados ? (
-          <table border="1">
-            <thead className={styles.table_head}>
-              <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Conta 1</th>
-                <th>Conta 2</th>
-                <th>Conta 3</th>
-                <th>Conta 4</th>
-                <th>Saldo do turno</th>
-                <th>Média/hora</th>
-                <th>Saldo inicial</th>
-                <th>Saldo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dados.map((regi) => (
-                <tr key={regi["_id"]}>
-                  <td>{regi["_id"]}</td>
-                  <td>{regi["Nome"]}</td>
-                  <td>
-                    {regi["Conta 1 (Inicial)"]} &rarr; {regi["Conta 1 (Final)"]}
-                  </td>
-                  <td>
-                    {regi["Conta 2 (Inicial)"]} &rarr; {regi["Conta 2 (Final)"]}
-                  </td>
-                  <td>
-                    {regi["Conta 3 (Inicial)"]} &rarr; {regi["Conta 3 (Final)"]}
-                  </td>
-                  <td>
-                    {regi["Conta 4 (Inicial)"]} &rarr; {regi["Conta 4 (Final)"]}
-                  </td>
-                  <td>{regi["Farm total"]}</td>
-                  <td>{regi["BCOIN/hora"]}</td>
-                  <td>{regi["Saldo inicial"]}</td>
-                  <td>{regi["Saldo"]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <h1></h1>
-        )}
+        <TableQuery dados={dados} />
       </div>
-      <ToastContainer autoClose={7000} />
+      <ToastContainer autoClose={4000} />
     </div>
   );
 }

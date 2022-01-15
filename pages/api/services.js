@@ -44,6 +44,7 @@ export default async function Timing(request, response) {
         }
       }
       else {
+
         response.json({ message: "Inválido" })
       }
       return
@@ -83,7 +84,7 @@ export default async function Timing(request, response) {
 
   // PESQUISAR
   if (request.method == 'POST' && service == 'PESQUISAR') {
-     plant_register.find({ 'Nome': nome }).toArray(function (err, result) {
+    plant_register.find({ 'Nome': nome }).toArray(function (err, result) {
       if (err) {
         response.status(400).json({
           "WORKED": false
@@ -95,4 +96,16 @@ export default async function Timing(request, response) {
   }
 
   // ATUALIZAR
+  if (request.method == "POST" && service == 'UPDATE') {
+    const update_object = { '_id': identifier }
+    plant_register.updateOne(update_object, {
+      $set: {
+        "Nome": "Rafael Aguiar"
+      }
+    }, function (err, res) {
+      if (err) throw err;
+      console.log("1 document updated")
+      response.json('Atualizado')
+    })
+  }
 }
