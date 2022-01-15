@@ -11,7 +11,7 @@ export default function Home() {
       setName(sessionStorage.getItem('name'))
     }
     else {
-      sessionStorage.setItem('logado', loged)
+      sessionStorage.setItem('logado', [loged, name])
       sessionStorage.setItem('name', name)
     }
   })
