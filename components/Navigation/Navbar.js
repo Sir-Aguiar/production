@@ -9,7 +9,7 @@ export default function Navbar(props) {
   }
   return (
     <nav className={styles.navigation_container}>
-      <Link href="/home">Home</Link>
+      {/* <Link href="/home">Home</Link> */}
       <Link href="/registro">Registro</Link>
       <button onClick={() => Logout()}>Sair</button>
     </nav>
