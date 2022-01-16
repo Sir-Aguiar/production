@@ -16,7 +16,7 @@ export default function Home() {
     }
   })
   function Pushar() {
-    Router.push('./home')
+    Router.push('./registro')
   }
   return (
     <>
