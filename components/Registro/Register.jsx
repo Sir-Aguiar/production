@@ -52,7 +52,7 @@ export default function Register(props) {
       .post("https://production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
           data.getMonth() + 1
-        }:${data.getHours()} ${data.getSeconds()}`,
+        }:${data.getHours()}`,
         service: "REGISTER",
         nome: props.nome,
         c1_i: Number(Conta1_i).toFixed(2),
