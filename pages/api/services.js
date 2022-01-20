@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb"
+import axios from 'axios'
 const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
 
 async function Conectar() {
@@ -24,10 +25,7 @@ export default async function Timing(request, response) {
   const plant_register = await db.collection('plantao_registro')
   const { service } = request.body
 
-  if (request.method == 'GET') {
-    response.json({ message: "You got pranked" })
-    return
-  };
+
 
   // LOGIN
   const { username, userpass } = request.body
@@ -40,7 +38,17 @@ export default async function Timing(request, response) {
       };
       if (result.length > 0) {
         if (result[0].user == username && result[0].senha == userpass) {
-          response.json({ message: 'Válido' })
+          let qs = `?start=1&limit=2950&convert=BRL`
+          axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest' + qs, {
+            headers: { 'X-CMC_PRO_API_KEY': 'f04378c1-59a3-4376-8bb4-af1a9bbc4f7a' }
+          }).then(res => {
+            res.data.data.forEach((cripto) => {
+              if (cripto["name"] == "Bombcrypto") {
+                response.json({ message: 'Válido', bomb: cripto["quote"]["BRL"]["price"] })
+              }
+            });
+          })
+
         }
       }
       else {
@@ -106,6 +114,15 @@ export default async function Timing(request, response) {
       if (err) throw err;
       console.log("1 document updated")
       response.json('Atualizado')
+    })
+  }
+  // COIN
+  if (request.method == 'POST' && service == "CRIPTO") {
+    let qs = `?start=1&limit=2950&convert=BRL`
+    axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest' + qs, {
+      headers: { 'X-CMC_PRO_API_KEY': 'f04378c1-59a3-4376-8bb4-af1a9bbc4f7a' }
+    }).then(res => {
+      response.json(res.data)
     })
   }
 }

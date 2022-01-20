@@ -22,11 +22,13 @@ export default function Login(props) {
         userpass: userpassword,
       })
       .then((response) => {
+        console.log(response.data)
         if (response.data.message == "Válido") {
           props.toggleLogin(true);
           props.setNome(username);
           sessionStorage.setItem("logado", true);
           sessionStorage.setItem("name", username);
+          sessionStorage.setItem('bomb', response.data.bomb)
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
         }

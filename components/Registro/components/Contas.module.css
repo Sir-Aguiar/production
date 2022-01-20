@@ -1,5 +1,8 @@
 .account_field {
   margin: 8px 0;
+ 
+  flex: 1;
+  
   background-color: transparent;
 }
 
@@ -20,6 +23,7 @@
   width: 90px;
   margin: 0 2px;
   transition: .26s;
+  flex: 1;
 }
 
 .account_field input:focus {

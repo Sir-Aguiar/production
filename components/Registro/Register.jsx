@@ -6,11 +6,11 @@ import Tables from "./components/Tables";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableQuery from "./components/QueryTable";
-import Router from 'next/router'
+
 export default function Register(props) {
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
-
+  const [BCOIN, setBcoin] = useState(Number(sessionStorage.getItem("bomb")));
   const [Conta2_i, setConta2_i] = useState(0);
   const [Conta2_f, setConta2_f] = useState(0);
 
@@ -23,7 +23,7 @@ export default function Register(props) {
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
-  
+
   function Calcular() {
     setTotal(
       Number(Conta1_f) + Number(Conta2_f) + Number(Conta3_f) + Number(Conta4_f)
@@ -109,9 +109,20 @@ export default function Register(props) {
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
 
           <div className={styles.account_infos}>
-            <p>Total: {total.toFixed(2)}</p>{" "}
-            <p>Total farmado: {farm.toFixed(2)}</p>
-            <p>BCOIN/hora: {(farm / 12).toFixed(2)}</p>
+            <p>
+              Total: {total.toFixed(2)} &rarr;{" "}
+              {`R$${(total * BCOIN).toFixed(2)}`}
+            </p>
+            <p>
+              Total farmado: {farm.toFixed(2)} &rarr;{" "}
+              {`R$${(farm * BCOIN).toFixed(2)}`}
+            </p>
+            <p>BCOIN/hora: {(farm / 12).toFixed(2)} </p>
+            <p>BCOIN: {`R$${BCOIN.toFixed(2)}`}</p>
+            <p className={styles.percentage}>
+              {total.toFixed(2) / 10} &rarr;{" "}
+              {`R$${((total / 10) * BCOIN).toFixed(2)}`}{" "}
+            </p>
           </div>
           <div className={styles.actions}>
             <button onClick={() => Registrar()}>Registrar</button>
@@ -121,7 +132,9 @@ export default function Register(props) {
               placeholder="Pesquisar registros de"
               className={`${styles.nametosearch} nametosearch`}
             />
-            <button onClick={() => Query()} className={styles.search_button}>Pesquisar</button>
+            <button onClick={() => Query()} className={styles.search_button}>
+              Pesquisar
+            </button>
           </div>
         </div>
         <div className={styles.table_container}>

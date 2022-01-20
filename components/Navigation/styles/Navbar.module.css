@@ -8,10 +8,11 @@
 
 .navigation_container a {
   text-decoration: none;
-  color: green;
+  color: #137520c5;
   margin: 0 15px;
   font-size: 1.1rem;
   transition: .2s;
+  
 }
 
 .navigation_container a:hover {
@@ -33,4 +34,9 @@
 
 .navigation_container button:hover {
   box-shadow: .5px .6px 4px #1f1f1f88;
+}
+
+.navigation_container svg {
+  cursor: pointer;
+  fill: #137520c5;
 }

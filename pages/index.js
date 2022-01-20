@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Login from '../components/Login/Login'
 import { useEffect, useState } from 'react'
 import Router from 'next/router'
+import axios from 'axios'
 export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
@@ -13,6 +14,7 @@ export default function Home() {
     else {
       sessionStorage.setItem('logado', name)
       sessionStorage.setItem('name', name)
+      
     }
   })
   function Pushar() {
