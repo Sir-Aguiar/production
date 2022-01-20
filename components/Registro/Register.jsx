@@ -121,7 +121,7 @@ export default function Register(props) {
               placeholder="Pesquisar registros de"
               className={`${styles.nametosearch} nametosearch`}
             />
-            <button onClick={() => Query()}>Pesquisar</button>
+            <button onClick={() => Query()} className={styles.search_button}>Pesquisar</button>
           </div>
         </div>
         <div className={styles.table_container}>

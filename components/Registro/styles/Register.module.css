@@ -6,12 +6,13 @@
   min-width: 98vw;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .parent_parent_container {
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 97vh;
-  
+
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -55,38 +56,46 @@
 .actions button:hover {
   background-color: #15941bbb;
 }
+
 .table_container {
   margin-left: 20px;
 }
+
 .data_table {
   font-size: 1rem;
   margin: 20px 0;
 }
-.data_table th{
+
+.data_table th {
   padding: 8px 5px;
   font-weight: lighter;
   font-size: 1.098rem;
-  
+
 }
+
 .data_table td {
   padding: 8px 5px;
   text-align: center;
   font-size: 1.08rem;
 }
-.data_table span{
+
+.data_table span {
   margin: 0 5px;
 }
-.nametosearch  {
+
+.nametosearch {
   outline: none;
   padding: 4px;
   font-size: 1rem;
   border: 1px solid #2b2b2b85;
   transition: .2s;
 }
+
 .nametosearch:focus {
   border: 1px solid #109e17bb;
   box-shadow: .6px 0px 3px #1661356e;
 }
+
 @media only screen and (max-width: 600px) {
   .parent_container {
     display: flex;
@@ -95,5 +104,19 @@
     height: 100vh;
     min-width: 98vw;
     font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .contas_container {
+    margin-top: 50px;
+  }
+
+  .table_container,
+  .nametosearch,
+  .data_table,
+  .search_button {
+    display: none;
+  }
+  .account_infos p {
+    margin: 5px 0;
   }
 }
