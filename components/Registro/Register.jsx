@@ -118,17 +118,17 @@ export default function Register(props) {
 
           <div className={styles.account_infos}>
             <p title="Saldo presente nas contas">
-              {total.toFixed(2)} &rarr;{" "}
+              Saldo: {total.toFixed(2)} &rarr;{" "}
               {`R$${(total * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p title="Quanto você lucrou em seu turno">
-              {farm.toFixed(2)} &rarr;{" "}
+              Turno: {farm.toFixed(2)} &rarr;{" "}
               {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
-            <p title='Sua média de lucro nas últimas 12 horas'>{(farm / 12).toFixed(2)} Bcoin</p>
-            <p title="Cotação da moeda">{`R$${Number(BCOIN).toFixed(2)}`}</p>
+            <p title='Sua média de lucro nas últimas 12 horas'>Média: {(farm / 12).toFixed(2)} Bcoin/hora</p>
+            <p title="Cotação da moeda (consultado no momento de seu login)">Cotação: {`R$${Number(BCOIN).toFixed(2)}`}</p>
             <p className={styles.percentage} title="Sua porcentagem">
-              {(total / 10).toFixed(2)} &rarr;{" "}
+              Seus 10%: {(total / 10).toFixed(2)} &rarr;{" "}
               {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}{" "}
             </p>
           </div>
