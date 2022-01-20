@@ -10,7 +10,7 @@ import TableQuery from "./components/QueryTable";
 export default function Register(props) {
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
-  const [BCOIN, setBcoin] = useState(0);
+
   const [Conta2_i, setConta2_i] = useState(0);
   const [Conta2_f, setConta2_f] = useState(0);
 
@@ -19,13 +19,16 @@ export default function Register(props) {
 
   const [Conta4_i, setConta4_i] = useState(0);
   const [Conta4_f, setConta4_f] = useState(0);
-  const data = new Date();
+  
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
+  const data = new Date();
+  const [BCOIN, setBcoin] = useState(0)
 
   useEffect(()=>{
-    setBcoin(Number(sessionStorage.getItem("bomb")))
+    console.log(sessionStorage.getItem('bomb'))
+    setBcoin(sessionStorage.getItem('bomb'))
   })
 
   function Calcular() {
@@ -105,6 +108,11 @@ export default function Register(props) {
 
   return (
     <div className={styles.parent_parent_container}>
+      <h1>
+        {
+          typeof BCOIN == 'string'? Number(BCOIN).toFixed(2): 'Nada'
+        }
+        </h1>
       <div className={styles.parent_container}>
         <div className={`${styles.contas_container}`}>
           <Contas index={1} setconta_i={setConta1_i} setconta_f={setConta1_f} />
@@ -115,17 +123,17 @@ export default function Register(props) {
           <div className={styles.account_infos}>
             <p>
               Total: {total.toFixed(2)} &rarr;{" "}
-              {`R$${(total * BCOIN).toFixed(2)}`}
+              {`R$${(total * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p>
               Total farmado: {farm.toFixed(2)} &rarr;{" "}
-              {`R$${(farm * BCOIN).toFixed(2)}`}
+              {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p>BCOIN/hora: {(farm / 12).toFixed(2)} </p>
-            <p>BCOIN: {`R$${BCOIN.toFixed(2)}`}</p>
+            <p>BCOIN: {`R$${Number(BCOIN).toFixed(2)}`}</p>
             <p className={styles.percentage}>
               {total.toFixed(2) / 10} &rarr;{" "}
-              {`R$${((total / 10) * BCOIN).toFixed(2)}`}{" "}
+              {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}{" "}
             </p>
           </div>
           <div className={styles.actions}>
