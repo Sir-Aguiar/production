@@ -10,7 +10,7 @@ import TableQuery from "./components/QueryTable";
 export default function Register(props) {
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
-  const [BCOIN, setBcoin] = useState(null);
+  const [BCOIN, setBcoin] = useState(0);
   const [Conta2_i, setConta2_i] = useState(0);
   const [Conta2_f, setConta2_f] = useState(0);
 
