@@ -108,11 +108,7 @@ export default function Register(props) {
 
   return (
     <div className={styles.parent_parent_container}>
-      <h1>
-        {
-          typeof BCOIN == 'string'? Number(BCOIN).toFixed(2): 'Nada'
-        }
-        </h1>
+
       <div className={styles.parent_container}>
         <div className={`${styles.contas_container}`}>
           <Contas index={1} setconta_i={setConta1_i} setconta_f={setConta1_f} />
@@ -122,11 +118,11 @@ export default function Register(props) {
 
           <div className={styles.account_infos}>
             <p>
-              Total: {total.toFixed(2)} &rarr;{" "}
+              Saldo: {total.toFixed(2)} &rarr;{" "}
               {`R$${(total * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p>
-              Total farmado: {farm.toFixed(2)} &rarr;{" "}
+              Saldo (turno): {farm.toFixed(2)} &rarr;{" "}
               {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p>BCOIN/hora: {(farm / 12).toFixed(2)} </p>
