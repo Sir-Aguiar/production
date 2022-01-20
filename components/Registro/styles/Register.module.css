@@ -32,6 +32,7 @@
   font-size: 1.1rem;
   cursor: not-allowed;
   color: #222;
+  text-align: center;
 }
 
 .actions {
@@ -42,7 +43,7 @@
 
 .actions button {
   color: rgb(34, 34, 34);
-  width: 240px;
+  width: 220px;
   padding: 8px;
   font-size: 1.092rem;
   cursor: pointer;

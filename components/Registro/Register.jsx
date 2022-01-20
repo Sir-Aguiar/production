@@ -117,18 +117,18 @@ export default function Register(props) {
           <Contas index={4} setconta_i={setConta4_i} setconta_f={setConta4_f} />
 
           <div className={styles.account_infos}>
-            <p>
-              Saldo: {total.toFixed(2)} &rarr;{" "}
+            <p title="Saldo presente nas contas">
+              {total.toFixed(2)} &rarr;{" "}
               {`R$${(total * Number(BCOIN)).toFixed(2)}`}
             </p>
-            <p>
-              Saldo (turno): {farm.toFixed(2)} &rarr;{" "}
+            <p title="Quanto você lucrou em seu turno">
+              {farm.toFixed(2)} &rarr;{" "}
               {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
-            <p>BCOIN/hora: {(farm / 12).toFixed(2)} </p>
-            <p>BCOIN: {`R$${Number(BCOIN).toFixed(2)}`}</p>
-            <p className={styles.percentage}>
-              {total.toFixed(2) / 10} &rarr;{" "}
+            <p title='Sua média de lucro nas últimas 12 horas'>{(farm / 12).toFixed(2)} Bcoin</p>
+            <p title="Cotação da moeda">{`R$${Number(BCOIN).toFixed(2)}`}</p>
+            <p className={styles.percentage} title="Sua porcentagem">
+              {(total / 10).toFixed(2)} &rarr;{" "}
               {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}{" "}
             </p>
           </div>
