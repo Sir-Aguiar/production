@@ -25,8 +25,8 @@ export default function Login(props) {
         if (response.data.message == "Válido") {
           props.toggleLogin(true);
           props.setNome(username);
-          sessionStorage.setItem('logado',true)
-          sessionStorage.setItem('name', username)
+          sessionStorage.setItem("logado", true);
+          sessionStorage.setItem("name", username);
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
         }
@@ -39,31 +39,61 @@ export default function Login(props) {
         onSubmit={(e) => handleSubmit(e)}
         className={styles.formulary_container}
       >
-        <div
-          className={`${styles.username_field} ${styles.user_input} ${styles.userdata_input}`}
-        >
-          <input type="text" placeholder="Nome" defaultValue="" required />
+        <h1>Conecte-se a plataforma</h1>
+        <div className={styles.header}>
+          <img
+            src="https://s2.coinmarketcap.com/static/img/coins/200x200/12252.png"
+            className={styles.header_img}
+            id='coiner'
+          />
         </div>
-        <div
-          className={`${styles.userpassword_field} ${styles.user_input} ${styles.userdata_input}`}
-        >
+
+        <div className={styles.username_container}>
+          <input type="text" placeholder="Nome de usuário" />
+        </div>
+        <div className={styles.password_container}>
           <input
             type={showPassword ? "text" : "password"}
+            id="password_field"
             placeholder="Senha"
-            defaultValue=""
-            required
           />
           {showPassword ? (
             <RiEyeLine
-              onClick={() => setToggle(!showPassword)}
+              onClick={() => {
+                setToggle(!showPassword);
+                document.querySelector("#password_field").focus();
+              }}
               className={`${styles.open_eye}`}
             />
           ) : (
-            <RiEyeCloseLine onClick={() => setToggle(!showPassword)} />
+            <RiEyeCloseLine
+              onClick={() => {
+                setToggle(!showPassword);
+                document.querySelector("#password_field").focus();
+              }}
+            />
           )}
         </div>
-        <div className={`${styles.submit_field}  ${styles.user_input} `}>
-          <input type="submit" value="Entrar" />
+        <div className={styles.line_div}></div>
+        {/* <div className={styles.remember_container}>
+          <input type="checkbox" id="remember" title="Não recomendado" />
+          <label htmlFor="remember" title="Não recomendado">
+            Manter usuário
+          </label>
+        </div> */}
+        <div className={styles.submit_container}>
+          <input
+            type="submit"
+            value="Entrar"
+            id="submiter"
+            onClick={() => {
+              const coin = document.getElementById('coiner')
+              coin.style.transform =
+                coin.style.transform == `rotateZ(360deg)`
+                  ? `rotateZ(0deg)`
+                  : `rotateZ(360deg)`;
+            }}
+          />
         </div>
       </form>
       <ToastContainer autoClose={4000} />

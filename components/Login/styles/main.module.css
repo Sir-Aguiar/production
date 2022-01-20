@@ -7,8 +7,31 @@
 
 .formulary_container {
   display: flex;
+  align-items: center;
   flex-direction: column;
+  width: 300px;
+  padding: 4px;
+  box-shadow: 1px 1px 5px #1d1d1d7a;
+  padding: 15px;
+  border-radius: 4px;
+}
+.formulary_container h1 {
+  font-size: 1.5rem;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 5px;
+  margin: 10px 0;
+}
+
+.header img {
+  height: 65px;
+  width: 70px;
+  margin: 0 15px;
+  transition: .3s;
+  transform: rotateZ(0deg);
 }
 
 .user_input {
@@ -17,55 +40,68 @@
 }
 
 .formulary_container input {
-  padding: 12px 10px;
-  width: 290px;
+  font-size: 1.08rem;
+  padding: 10px 10px;
+  border: 1px solid #38383881;
   margin: 3px 0;
   outline: none;
-  border: 1px solid #38383881;
   border-radius: 3px;
-  font-size: 1.09rem;
-  transition: .3s;
-  
+  width: 270px;
+  transition: .29s;
 }
-
-.submit_field input {
-  flex: 0.9;
-  margin: auto;
-  outline: none;
+.submit_container input {
+  border-radius: 3px;
+  width: 290px;
   border: none;
-  background-color: #5bca1bb0;
-  transition: .3s;
-  box-shadow: 0px 1px 3px #00250481;
+  outline: none;
+  background-color: #70c53fc0;
+  color: #333333;
   cursor: pointer;
+  border-radius: 3px;
+  padding: 10px;
+  margin-top: 10px;
+  transition: .2s;
+}
+.formulary_container input[type='text']:focus,
+.formulary_container input[type='password']:focus {
+  border: 1px solid #878f1ac2;
+  box-shadow: 1px 1px 2px #84913748;
+}
+.line_div {
+  border-bottom: 1px solid #1a1a1aa9;
+  margin: 10px 0;
+  width: 70%;
 }
 
-.username_field input{
-  margin: auto;
+.remember_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-.submit_field input:hover {
-  background-color: #2dbb11b0;
+.remember_container input {
+  width: 15px;
+  margin: 0 10px;
+
+}
+
+.submit_container input:hover {
+  filter: brightness(.9);
   color: #222222e1;
 }
 
-.userdata_input input:focus {
-  border: 1px solid #0355118c;
-  box-shadow: 1px 1px 2px #37914648;
-}
-
-.userdata_input input:hover {
-  border: 1px solid #03552c8e;
-}
-.userpassword_field {
+.password_container {
   display: flex;
   align-items: center;
 }
-.userpassword_field svg {
+
+.password_container input {
+  margin-left: 15px;
+}
+.password_container svg {
   position: relative;
   fill: #0355118c;
   right: 25px;
   cursor: pointer;
-}
-.userpassword_field input {
-  margin-left: 15px;
 }
