@@ -25,7 +25,7 @@ export default function Register(props) {
   const [total_inicial, setInit] = useState(0);
 
   useEffect(()=>{
-    setBcoin(Number(sessionStorage.getItem("bomb")).toFixed(2))
+    setBcoin(Number(sessionStorage.getItem("bomb")))
   })
 
   function Calcular() {
