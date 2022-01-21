@@ -184,7 +184,7 @@ export default function Register({ nome }) {
               <button
                 onClick={() => QueryLast()}
                 className={styles.search_button}
-                title="Pesquise o nome inserido na caixa de texto, ou deixe vazia para pesquisar seus registros"
+                title="Complete os campos de valores inicais com base no último registro"
               >
                 Último
               </button>
