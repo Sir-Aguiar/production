@@ -17,7 +17,7 @@ export default async function Timing(request, response) {
   const { db } = await Conectar()
   const users = await db.collection('users')
   const plant_register = await db.collection('plantao_registro')
-  const { service } = reuest.body
+  const { service } = request.body
 
 
 
