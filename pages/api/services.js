@@ -11,7 +11,7 @@ async function Conectar() {
 }
 
 export default async function Timing(request, response) {
-  
+
   response.setHeader('Access-Control-Allow-Origin', '*')
 
   const { db } = await Conectar()
@@ -118,5 +118,17 @@ export default async function Timing(request, response) {
     }).then(res => {
       response.json(res.data)
     })
+  }
+  // PESQUISAR ÚLTIMO
+  if (request.method == 'POST' && service == 'PESQUISAR TUDO') {
+    plant_register.find({}).toArray(function (err, result) {
+      if (err) {
+        response.status(400).json({
+          "WORKED": false
+        })
+      };
+      response.json(result)
+      return
+    });
   }
 }

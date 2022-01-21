@@ -3,19 +3,19 @@
   height: 45px;
   align-items: center;
   justify-content: flex-start;
-
+  border-bottom: 1px solid #0000008e;
 }
 
-.navigation_container a {
+.navigation_container span {
   text-decoration: none;
   color: #137520c5;
   margin: 0 15px;
   font-size: 1.1rem;
   transition: .2s;
-  
+  cursor: pointer;
 }
 
-.navigation_container a:hover {
+.navigation_container span:hover {
   color: #17be3b;
 }
 

@@ -2,17 +2,15 @@ import Link from "next/link";
 import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
 import { BiNote } from 'react-icons/bi'
-export default function Navbar(props) {
+export default function Navbar({ exitCommand, Path }) {
   function Logout() {
-    sessionStorage.setItem("logado", false);
-    sessionStorage.setItem("name", '');
-    Router.push("/");
+    Path('login')
+    exitCommand(false)
   }
   return (
     <nav className={styles.navigation_container}>
-      {/* <Link href="/home">Home</Link> */}
-      <Link href="/registro">Registro</Link>
-      <Link href="/updates">Notas </Link>
+      <span onClick={() => Path('registro')}>Registro</span>
+      <span onClick={() => Path('notas')}>Notas</span>
       <button onClick={() => Logout()}>Sair</button>
     </nav>
   );

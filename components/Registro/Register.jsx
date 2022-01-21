@@ -7,7 +7,29 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableQuery from "./components/QueryTable";
 
-export default function Register(props) {
+export default function Register({ nome }) {
+  const [dados_iniciais, setDados_iniciais] = useState();
+  useEffect(() => {
+    setBcoin(sessionStorage.getItem("bomb"));
+    axios
+      .post("production-jet.vercel.app/api/services", {
+        service: "PESQUISAR TUDO",
+      })
+      .then((response) => {
+        setDados_iniciais(response.data)
+        setTotal(Number(response.data[response.data.length - 1]["Saldo"]));
+        const iniciais = document.querySelectorAll(".incials");
+        const last = response.data[response.data.length - 1];
+        iniciais[0].value = last["Conta 1 (Final)"];
+        iniciais[1].value = last["Conta 2 (Final)"];
+        iniciais[2].value = last["Conta 3 (Final)"];
+        iniciais[3].value = last["Conta 4 (Final)"];
+        setConta1_i(last["Conta 1 (Final)"]);
+        setConta2_i(last["Conta 2 (Final)"]);
+        setConta3_i(last["Conta 3 (Final)"])
+        setConta4_i(last["Conta 4 (Final)"]);
+      });
+  });
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
 
@@ -19,17 +41,12 @@ export default function Register(props) {
 
   const [Conta4_i, setConta4_i] = useState(0);
   const [Conta4_f, setConta4_f] = useState(0);
-  
+  const [dados, setDados] = useState();
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
   const data = new Date();
-  const [BCOIN, setBcoin] = useState(0)
-
-  useEffect(()=>{
-    console.log(sessionStorage.getItem('bomb'))
-    setBcoin(sessionStorage.getItem('bomb'))
-  })
+  const [BCOIN, setBcoin] = useState(0);
 
   function Calcular() {
     setTotal(
@@ -56,12 +73,12 @@ export default function Register(props) {
   }
   function Registrar() {
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
           data.getMonth() + 1
         }:${data.getHours()}`,
         service: "REGISTER",
-        nome: props.nome,
+        nome: nome,
         c1_i: Number(Conta1_i).toFixed(2),
         c1_f: Number(Conta1_f).toFixed(2),
         c2_i: Number(Conta2_i).toFixed(2),
@@ -88,13 +105,12 @@ export default function Register(props) {
       });
   }
 
-  const [dados, setDados] = useState();
   function Query() {
     const name_to_search = document.querySelector(".nametosearch");
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         service: "PESQUISAR",
-        nome: name_to_search.value != "" ? name_to_search.value : props.nome,
+        nome: name_to_search.value != "" ? name_to_search.value : nome,
       })
       .then((response) => {
         setDados(response.data);
@@ -105,10 +121,9 @@ export default function Register(props) {
         }
       });
   }
-
+  function QueryLast() {}
   return (
-    <div className={styles.parent_parent_container}>
-
+    <>
       <div className={styles.parent_container}>
         <div className={`${styles.contas_container}`}>
           <Contas index={1} setconta_i={setConta1_i} setconta_f={setConta1_f} />
@@ -125,24 +140,47 @@ export default function Register(props) {
               Turno: {farm.toFixed(2)} &rarr;{" "}
               {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
-            <p title='Sua média de lucro nas últimas 12 horas'>Média: {(farm / 12).toFixed(2)} Bcoin/hora</p>
-            <p title="Cotação da moeda (consultado no momento de seu login)">Cotação: {`R$${Number(BCOIN).toFixed(2)}`}</p>
+            <p title="Sua média de lucro nas últimas 12 horas">
+              Média: {(farm / 12).toFixed(2)} Bcoin/hora
+            </p>
+            <p title="Cotação da moeda (consultado no momento de seu login)">
+              Cotação: {`R$${Number(BCOIN).toFixed(2)}`}
+            </p>
             <p className={styles.percentage} title="Sua porcentagem">
               Seus 10%: {(total / 10).toFixed(2)} &rarr;{" "}
               {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}{" "}
             </p>
           </div>
           <div className={styles.actions}>
-            <button onClick={() => Registrar()}>Registrar</button>
-            <button onClick={() => Calcular()}>Calcular</button>
+            <div className={styles.important_buttons}>
+              <button
+                onClick={() => Calcular()}
+                title="Aperte para processar os dados inseridos "
+              >
+                Calcular
+              </button>
+              <button
+                onClick={() => Registrar()}
+                title="Insira seu registro no banco de dados"
+              >
+                Registrar
+              </button>
+            </div>
+
             <input
               type="text"
               placeholder="Pesquisar registros de"
               className={`${styles.nametosearch} nametosearch`}
             />
-            <button onClick={() => Query()} className={styles.search_button}>
-              Pesquisar
-            </button>
+            <div className={styles.important_buttons}>
+              <button
+                onClick={() => Query()}
+                className={styles.search_button}
+                title="Pesquise o nome inserido na caixa de texto, ou deixe vazia para pesquisar seus registros"
+              >
+                Pesquisar
+              </button>
+            </div>
           </div>
         </div>
         <div className={styles.table_container}>
@@ -157,7 +195,7 @@ export default function Register(props) {
             c4_f={Conta4_f}
             farm={farm}
             total={total}
-            nome={props.nome}
+            nome={nome}
             inicial={total_inicial}
           />
         </div>
@@ -166,6 +204,6 @@ export default function Register(props) {
         <TableQuery dados={dados} />
       </div>
       <ToastContainer autoClose={4000} />
-    </div>
+    </>
   );
 }

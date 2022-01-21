@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 
-export default function Login(props) {
+export default function Login({ toggleLogin, setNome, Path }) {
   const [showPassword, setToggle] = useState(false);
 
   function handleSubmit(e) {
@@ -16,19 +16,18 @@ export default function Login(props) {
 
   function getLogins(username, userpassword) {
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         service: "LOGIN",
         username: username,
         userpass: userpassword,
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.message == "Válido") {
-          props.toggleLogin(true);
-          props.setNome(username);
-          sessionStorage.setItem("logado", true);
-          sessionStorage.setItem("name", username);
-          sessionStorage.setItem('bomb', response.data.bomb)
+          toggleLogin(true);
+          setNome(username);
+          Path('registro')
+          sessionStorage.setItem("bomb", response.data.bomb);
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
         }
@@ -46,7 +45,7 @@ export default function Login(props) {
           <img
             src="https://s2.coinmarketcap.com/static/img/coins/200x200/12252.png"
             className={styles.header_img}
-            id='coiner'
+            id="coiner"
           />
         </div>
 
@@ -84,18 +83,7 @@ export default function Login(props) {
           </label>
         </div> */}
         <div className={styles.submit_container}>
-          <input
-            type="submit"
-            value="Entrar"
-            id="submiter"
-            onClick={() => {
-              const coin = document.getElementById('coiner')
-              coin.style.transform =
-                coin.style.transform == `rotateZ(360deg)`
-                  ? `rotateZ(0deg)`
-                  : `rotateZ(360deg)`;
-            }}
-          />
+          <input type="submit" value="Entrar" id="submiter" />
         </div>
       </form>
       <ToastContainer autoClose={4000} />

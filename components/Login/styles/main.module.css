@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300&family=PT+Sans:wght@400;700&display=swap');
 .login_parent_container {
   height: 97vh;
   display: flex;
@@ -11,9 +12,9 @@
   flex-direction: column;
   width: 300px;
   padding: 4px;
-  box-shadow: 1px 1px 5px #1d1d1d7a;
+  box-shadow: 2px 3px 8px #1d1d1d52;
   padding: 15px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 .formulary_container h1 {
   font-size: 1.5rem;
@@ -50,22 +51,30 @@
   transition: .29s;
 }
 .submit_container input {
-  border-radius: 3px;
-  width: 290px;
+  background-image: url('https://bombcryptosimulator.com/img/buttonYellow.png');
+  width: 120px;
+  height:46px;
+  
   border: none;
   outline: none;
-  background-color: #70c53fc0;
-  color: #333333;
+  background-color: transparent;
+  
+  background-size: contain;
+  justify-content: center;
+  background-position: center;
+  background-repeat: no-repeat;
   cursor: pointer;
-  border-radius: 3px;
-  padding: 10px;
-  margin-top: 10px;
-  transition: .2s;
+  transition: .3s;
+  font-family: 'Gemunu Libre', sans-serif;
+  color: #ffffffec;
+  font-size: 1.5rem;
+  text-shadow: -1px 0 #634130, 0 1px #634130, 0 1px #634130, 1px 0 #634130, 0 -1px #634130;
+  font-weight: 600;
 }
 .formulary_container input[type='text']:focus,
 .formulary_container input[type='password']:focus {
-  border: 1px solid #878f1ac2;
-  box-shadow: 1px 1px 2px #84913748;
+  border: 1px solid #1a6e8fc2;
+  box-shadow: 1px 1px 2px #72794b48;
 }
 .line_div {
   border-bottom: 1px solid #1a1a1aa9;
@@ -86,9 +95,10 @@
 
 }
 
+
 .submit_container input:hover {
-  filter: brightness(.9);
-  color: #222222e1;
+  filter: brightness(1.1);
+  
 }
 
 .password_container {
@@ -101,7 +111,7 @@
 }
 .password_container svg {
   position: relative;
-  fill: #0355118c;
+  fill: #185288c9;
   right: 25px;
   cursor: pointer;
 }
