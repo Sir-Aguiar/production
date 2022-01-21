@@ -11,26 +11,6 @@ export default function Register({ nome }) {
   const [dados_iniciais, setDados_iniciais] = useState();
   useEffect(() => {
     setBcoin(sessionStorage.getItem("bomb"));
-    axios
-      .post("https://production-jet.vercel.app/api/services", {
-        service: "PESQUISAR TUDO",
-      })
-      .then((response) => {
-        setDados_iniciais(response.data);
-        setTotal(Number(response.data[response.data.length - 1]["Saldo"]));
-        const iniciais = document.querySelectorAll(".incials");
-        const last = response.data[response.data.length - 1];
-        if (iniciais.length > 0) {
-          iniciais[0].value = last["Conta 1 (Final)"];
-          iniciais[1].value = last["Conta 2 (Final)"];
-          iniciais[2].value = last["Conta 3 (Final)"];
-          iniciais[3].value = last["Conta 4 (Final)"];
-          setConta1_i(last["Conta 1 (Final)"]);
-          setConta2_i(last["Conta 2 (Final)"]);
-          setConta3_i(last["Conta 3 (Final)"]);
-          setConta4_i(last["Conta 4 (Final)"]);
-        }
-      });
   });
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
@@ -123,7 +103,26 @@ export default function Register({ nome }) {
         }
       });
   }
-  function QueryLast() {}
+  function QueryLast() {
+    axios
+      .post("https://production-jet.vercel.app/api/services", {
+        service: "PESQUISAR TUDO",
+      })
+      .then((response) => {
+        const iniciais = document.querySelectorAll(".incials");
+        const last = response.data[response.data.length - 1];
+        if (iniciais.length > 0) {
+          iniciais[0].value = last["Conta 1 (Final)"];
+          iniciais[1].value = last["Conta 2 (Final)"];
+          iniciais[2].value = last["Conta 3 (Final)"];
+          iniciais[3].value = last["Conta 4 (Final)"];
+          setConta1_i(last["Conta 1 (Final)"]);
+          setConta2_i(last["Conta 2 (Final)"]);
+          setConta3_i(last["Conta 3 (Final)"]);
+          setConta4_i(last["Conta 4 (Final)"]);
+        }
+      });
+  }
   return (
     <>
       <div className={styles.parent_container}>
@@ -135,11 +134,11 @@ export default function Register({ nome }) {
 
           <div className={styles.account_infos}>
             <p title="Saldo presente nas contas">
-              Saldo: {total.toFixed(2)} &rarr;{" "}
+              Saldo: {total.toFixed(2)} &rarr;
               {`R$${(total * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p title="Quanto você lucrou em seu turno">
-              Turno: {farm.toFixed(2)} &rarr;{" "}
+              Turno: {farm.toFixed(2)} &rarr;
               {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
             </p>
             <p title="Sua média de lucro nas últimas 12 horas">
@@ -149,8 +148,8 @@ export default function Register({ nome }) {
               Cotação: {`R$${Number(BCOIN).toFixed(2)}`}
             </p>
             <p className={styles.percentage} title="Sua porcentagem">
-              Seus 10%: {(total / 10).toFixed(2)} &rarr;{" "}
-              {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}{" "}
+              Seus 10%: {(total / 10).toFixed(2)} &rarr;
+              {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}
             </p>
           </div>
           <div className={styles.actions}>
@@ -181,6 +180,13 @@ export default function Register({ nome }) {
                 title="Pesquise o nome inserido na caixa de texto, ou deixe vazia para pesquisar seus registros"
               >
                 Pesquisar
+              </button>
+              <button
+                onClick={() => QueryLast()}
+                className={styles.search_button}
+                title="Pesquise o nome inserido na caixa de texto, ou deixe vazia para pesquisar seus registros"
+              >
+                Último
               </button>
             </div>
           </div>
