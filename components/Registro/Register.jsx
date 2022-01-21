@@ -16,18 +16,20 @@ export default function Register({ nome }) {
         service: "PESQUISAR TUDO",
       })
       .then((response) => {
-        setDados_iniciais(response.data)
+        setDados_iniciais(response.data);
         setTotal(Number(response.data[response.data.length - 1]["Saldo"]));
         const iniciais = document.querySelectorAll(".incials");
         const last = response.data[response.data.length - 1];
-        iniciais[0].value = last["Conta 1 (Final)"];
-        iniciais[1].value = last["Conta 2 (Final)"];
-        iniciais[2].value = last["Conta 3 (Final)"];
-        iniciais[3].value = last["Conta 4 (Final)"];
-        setConta1_i(last["Conta 1 (Final)"]);
-        setConta2_i(last["Conta 2 (Final)"]);
-        setConta3_i(last["Conta 3 (Final)"])
-        setConta4_i(last["Conta 4 (Final)"]);
+        if (iniciais.length > 0) {
+          iniciais[0].value = last["Conta 1 (Final)"];
+          iniciais[1].value = last["Conta 2 (Final)"];
+          iniciais[2].value = last["Conta 3 (Final)"];
+          iniciais[3].value = last["Conta 4 (Final)"];
+          setConta1_i(last["Conta 1 (Final)"]);
+          setConta2_i(last["Conta 2 (Final)"]);
+          setConta3_i(last["Conta 3 (Final)"]);
+          setConta4_i(last["Conta 4 (Final)"]);
+        }
       });
   });
   const [Conta1_i, setConta1_i] = useState(0);
