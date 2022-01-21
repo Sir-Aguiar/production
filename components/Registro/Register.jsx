@@ -173,7 +173,7 @@ export default function Register({ nome }) {
               placeholder="Pesquisar registros de"
               className={`${styles.nametosearch} nametosearch`}
             />
-            <div className={styles.important_buttons}>
+            <div className={styles.important_buttonstwo}>
               <button
                 onClick={() => Query()}
                 className={styles.search_button}
@@ -183,7 +183,7 @@ export default function Register({ nome }) {
               </button>
               <button
                 onClick={() => QueryLast()}
-                className={styles.search_button}
+                className={styles.last_button}
                 title="Complete os campos de valores inicais com base no último registro"
               >
                 Último
