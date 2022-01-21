@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300&family=PT+Sans:wght@400;700&display=swap');
+
 .login_parent_container {
   height: 97vh;
   display: flex;
@@ -16,9 +17,11 @@
   padding: 15px;
   border-radius: 5px;
 }
+
 .formulary_container h1 {
   font-size: 1.5rem;
 }
+
 .header {
   display: flex;
   flex-direction: row;
@@ -50,15 +53,16 @@
   width: 270px;
   transition: .29s;
 }
+
 .submit_container input {
   background-image: url('https://bombcryptosimulator.com/img/buttonYellow.png');
   width: 230px;
-  height:55px;
-  
+  height: 55px;
+
   border: none;
   outline: none;
   background-color: transparent;
-  
+  letter-spacing: .06rem;
   background-size: 230px 55px;
   justify-content: center;
   background-position: center;
@@ -71,11 +75,13 @@
   text-shadow: -1px 0 #634130, 0 1px #634130, 0 1px #634130, 1px 0 #634130, 0 -1px #634130;
   font-weight: 600;
 }
+
 .formulary_container input[type='text']:focus,
 .formulary_container input[type='password']:focus {
   border: 1px solid #1a6e8fc2;
   box-shadow: 1px 1px 2px #72794b48;
 }
+
 .line_div {
   border-bottom: 1px solid #1a1a1aa9;
   margin: 10px 0;
@@ -98,7 +104,7 @@
 
 .submit_container input:hover {
   filter: brightness(1.08);
-  
+
 }
 
 .password_container {
@@ -109,6 +115,7 @@
 .password_container input {
   margin-left: 15px;
 }
+
 .password_container svg {
   position: relative;
   fill: #185288c9;
