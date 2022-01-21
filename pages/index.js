@@ -8,7 +8,7 @@ import Register from '../components/Registro/Register'
 import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
 export default function Home() {
-  const [loged, setLoged] = useState(true)
+  const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
   const [currentWindow, setWindow] = useState('registro')
 
