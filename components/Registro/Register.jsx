@@ -56,7 +56,7 @@ export default function Register({ nome }) {
   }
   function Registrar() {
     axios
-      .post("production-jet.vercel.app/api/services", {
+      .post("https://production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
           data.getMonth() + 1
         }:${data.getHours()}`,
@@ -91,7 +91,7 @@ export default function Register({ nome }) {
   function Query() {
     const name_to_search = document.querySelector(".nametosearch");
     axios
-      .post("production-jet.vercel.app/api/services", {
+      .post("https://production-jet.vercel.app/api/services", {
         service: "PESQUISAR",
         nome: name_to_search.value != "" ? name_to_search.value : nome,
       })
@@ -106,7 +106,7 @@ export default function Register({ nome }) {
   }
   function QueryLast() {
     axios
-      .post("production-jet.vercel.app/api/services", {
+      .post("https://production-jet.vercel.app/api/services", {
         service: "PESQUISAR TUDO",
       })
       .then((response) => {
