@@ -2,10 +2,10 @@ import styles from "./styles/Register.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Contas from "./components/Contas";
-import Tables from "./components/Tables";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TableQuery from "./components/QueryTable";
+import TableRegister from "./components/Tabelas/TableRegister";
+import QueryTable from "./components/Tabelas/QueryTable";
 
 export default function Register({ nome }) {
   const [dados_iniciais, setDados_iniciais] = useState();
@@ -27,6 +27,7 @@ export default function Register({ nome }) {
   const [total, setTotal] = useState(0);
   const [farm, setFarm] = useState(0);
   const [total_inicial, setInit] = useState(0);
+
   const data = new Date();
   const [BCOIN, setBcoin] = useState(0);
 
@@ -55,7 +56,7 @@ export default function Register({ nome }) {
   }
   function Registrar() {
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         identifier: `${data.getDate()}${
           data.getMonth() + 1
         }:${data.getHours()}`,
@@ -90,7 +91,7 @@ export default function Register({ nome }) {
   function Query() {
     const name_to_search = document.querySelector(".nametosearch");
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         service: "PESQUISAR",
         nome: name_to_search.value != "" ? name_to_search.value : nome,
       })
@@ -105,7 +106,7 @@ export default function Register({ nome }) {
   }
   function QueryLast() {
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         service: "PESQUISAR TUDO",
       })
       .then((response) => {
@@ -191,8 +192,8 @@ export default function Register({ nome }) {
             </div>
           </div>
         </div>
-        <div className={styles.table_container}>
-          <Tables
+        <div className={styles.register_table_container}>
+          <TableRegister
             c1_i={Conta1_i}
             c1_f={Conta1_f}
             c2_i={Conta2_i}
@@ -201,16 +202,14 @@ export default function Register({ nome }) {
             c3_f={Conta3_f}
             c4_i={Conta4_i}
             c4_f={Conta4_f}
+            tot={total}
             farm={farm}
-            total={total}
             nome={nome}
-            inicial={total_inicial}
           />
         </div>
       </div>
-      <div className={styles.data_table}>
-        <TableQuery dados={dados} />
-      </div>
+      {dados && dados.length > 0 ? <QueryTable dados={dados} /> : <></>}
+
       <ToastContainer autoClose={4000} />
     </>
   );

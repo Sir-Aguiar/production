@@ -16,7 +16,7 @@ export default function Login({ toggleLogin, setNome, Path }) {
 
   function getLogins(username, userpassword) {
     axios
-      .post("https://production-jet.vercel.app/api/services", {
+      .post("production-jet.vercel.app/api/services", {
         service: "LOGIN",
         username: username,
         userpass: userpassword,
