@@ -17,7 +17,7 @@ export default function QueryTable({ dados }) {
         </thead>
         <tbody>
           {dados.map((dado) => (
-            <tr>
+            <tr key={dado['_id']}>
               <td>{dado["Nome"]}</td>
               <td>
                 <span>{dado["Conta 1 (Inicial)"]}</span> &rarr;
