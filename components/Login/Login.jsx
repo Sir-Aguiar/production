@@ -26,7 +26,7 @@ export default function Login({ toggleLogin, setNome, Path }) {
         if (response.data.message == "Válido") {
           toggleLogin(true);
           setNome(username);
-          Path('registro')
+          Path("registro");
           sessionStorage.setItem("bomb", response.data.bomb);
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
@@ -83,7 +83,18 @@ export default function Login({ toggleLogin, setNome, Path }) {
           </label>
         </div> */}
         <div className={styles.submit_container}>
-          <input type="submit" value="Entrar" id="submiter" />
+          <input
+            type="submit"
+            value="Entrar"
+            id="submiter"
+            onClick={() => {
+              const button = document.querySelector("#submiter")
+              button.style.transform = `translateY(4px)`
+              setTimeout(() => {
+                button.style.transform = ``
+              }, 210);
+            }}
+          />
         </div>
       </form>
       <ToastContainer autoClose={4000} />

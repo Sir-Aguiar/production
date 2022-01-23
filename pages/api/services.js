@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb"
 import axios from 'axios'
+
 const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
 
 async function Conectar() {
@@ -121,14 +122,19 @@ export default async function Timing(request, response) {
   }
   // PESQUISAR ÚLTIMO
   if (request.method == 'POST' && service == 'PESQUISAR TUDO') {
-    plant_register.find({}).toArray(function (err, result) {
-      if (err) {
-        response.status(400).json({
-          "WORKED": false
-        })
-      };
-      response.json(result)
-      return
-    });
+    return new Promise((resolve, reject) => {
+      plant_register.find({}).toArray((err, result) => {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'application/json');
+        response.setHeader('Cache-Control', 'max-age=180000');
+        response.end(JSON.stringify(result))
+        resolve()
+      })
+    })
+
+
+    /* response.json(result) */
+
   }
+
 }

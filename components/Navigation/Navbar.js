@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
 import { BiNote } from 'react-icons/bi'
-export default function Navbar({ exitCommand, Path }) {
+export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   function Logout() {
     Path('login')
     exitCommand(false)
@@ -37,6 +37,7 @@ export default function Navbar({ exitCommand, Path }) {
           <li><Link href='/'>Início</Link></li>
           <li onClick={() => { Path('registro'); activateMenu() }} ><Link href='/' >Registro</Link></li>
           <li onClick={() => { Path('notas'); activateMenu() }} > <Link href='/' >Notas</Link></li>
+          <li onClick={() => { Path('tabelas'); activateMenu(); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
         </ul>
       </nav>
     </header>

@@ -7,11 +7,23 @@ import Patch from '/components/Updates/Patch'
 import Register from '../components/Registro/Register'
 import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
+import Tabelas from '../components/Tables/Tabelas'
 export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
   const [currentWindow, setWindow] = useState('registro')
+  const[queryData, setQD] = useState()
+  function RealizeQuery() {
+    axios
+      .post("http://localhost:3000/api/services", {
+        service: "PESQUISAR TUDO",
+      })
+      .then((response) => {
+        setQD(response.data)
+        console.log(response.data)
+      })
 
+  }
   return (
     <>
       <Head>
@@ -28,12 +40,15 @@ export default function Home() {
       {
         loged ? (
           <main className={styles.main_container}>
-            <Navbar exitCommand={setLoged} Path={setWindow} />
+            <Navbar exitCommand={setLoged} Path={setWindow} RealizeQuery={RealizeQuery} />
             {
               currentWindow == 'registro' && <Register nome={name} />
             }
             {
               currentWindow == 'notas' && <Patch />
+            }
+            {
+              currentWindow == 'tabelas' && <Tabelas dados={queryData}/>
             }
           </main>
         ) : (
