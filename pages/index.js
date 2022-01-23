@@ -15,7 +15,7 @@ export default function Home() {
   const[queryData, setQD] = useState()
   function RealizeQuery() {
     axios
-      .post("http://localhost:3000/api/services", {
+      .post("https://production-jet.vercel.app/api/services", {
         service: "PESQUISAR TUDO",
       })
       .then((response) => {
