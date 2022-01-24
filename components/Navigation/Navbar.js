@@ -36,7 +36,7 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
           <li><Link href='/'>Início</Link></li>
           <li onClick={() => handleLink('registro')} ><Link href='/' >Registro</Link></li>
           <li onClick={() => handleLink('notas')} > <Link href='/' >Notas</Link></li>
-          <li onClick={() => { handleLink('tabela'); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
+          <li onClick={() => { handleLink('tabelas'); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
         </ul>
       </nav>
     </header>

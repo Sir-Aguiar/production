@@ -1,6 +1,6 @@
 .navigation_container {
   display: flex;
-  height: 8vh;
+  height: 50px;
   align-items: center;
   justify-content: space-between;
   background: #23232e;
@@ -96,11 +96,11 @@
   transition: .3s;
 }
 
-@media (max-width:500px) {
+@media (max-width:900px) {
 
   .nav_list {
     position: absolute;
-    top: 8vh;
+    top: 50px;
     right: 0;
     width: 0;
     height: 0;
@@ -108,7 +108,7 @@
     background: #23232e;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     transform: translateX(100%);
     transition: .4s ease-in;
     border-radius: 0 0 3px 3px;
@@ -116,18 +116,18 @@
 
   .nav_list.active {
     width: 100vw;
-    height: 40vh;
+    height: 200px;
   }
 
   .nav_list li {
-    margin: 0;
+    margin: 15px 0;
     opacity: 0;
-
+    display: none;
   }
 
   .nav_list.active li {
     opacity: 1;
-
+    display: block;
   }
 
   .mobile_menu {
