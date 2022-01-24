@@ -33,17 +33,7 @@ export default async function Timing(request, response) {
       };
       if (result.length > 0) {
         if (result[0].user == username && result[0].senha == userpass) {
-          let qs = `?start=1&limit=2950&convert=BRL`
-          axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest' + qs, {
-            headers: { 'X-CMC_PRO_API_KEY': 'f04378c1-59a3-4376-8bb4-af1a9bbc4f7a' }
-          }).then(res => {
-            res.data.data.forEach((cripto) => {
-              if (cripto["name"] == "Bombcrypto") {
-                response.json({ message: 'Válido', bomb: cripto["quote"]["BRL"]["price"] })
-              }
-            });
-          })
-
+          response.json({ message: 'Válido' })
         }
       }
       else {

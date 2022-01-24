@@ -11,6 +11,7 @@ import Tabelas from '../components/Tables/Tabelas'
 export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
+  const [bcoin, setBcoin] = useState(1)
   const [currentWindow, setWindow] = useState('registro')
   const [queryData, setQD] = useState()
   function RealizeQuery() {
@@ -42,7 +43,7 @@ export default function Home() {
           <main className={styles.main_container}>
             <Navbar exitCommand={setLoged} Path={setWindow} RealizeQuery={RealizeQuery} />
             {
-              currentWindow == 'registro' && <Register nome={name} />
+              currentWindow == 'registro' && <Register nome={name} parent_bcoin={bcoin} />
             }
             {
               currentWindow == 'notas' && <Patch />
@@ -52,7 +53,7 @@ export default function Home() {
             }
           </main>
         ) : (
-          <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
+          <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} setBcoin={setBcoin} />
         )
       }
 

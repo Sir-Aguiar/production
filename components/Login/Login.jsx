@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import Link from "next/dist/client/link";
-export default function Login({ toggleLogin, setNome, Path }) {
+export default function Login({ toggleLogin, setNome, Path}) {
   const [showPassword, setToggle] = useState(false);
 
   function handleSubmit(e) {
@@ -24,13 +24,13 @@ export default function Login({ toggleLogin, setNome, Path }) {
         userpass: userpassword,
       })
       .then((response) => {
-        console.log(response.data);
+
         if (response.data.message == "Válido") {
 
           toggleLogin(true);
           setNome(username);
           Path("registro");
-          sessionStorage.setItem("bomb", response.data.bomb);
+
         } else if (response.data.message == "Inválido") {
           toast.warn("Erro ao realizar login: Verifique seus dados");
         }

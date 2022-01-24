@@ -7,11 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import TableRegister from "./components/Tabelas/TableRegister";
 import QueryTable from "./components/Tabelas/QueryTable";
 
-export default function Register({ nome }) {
+export default function Register({ nome}) {
   const [dados_iniciais, setDados_iniciais] = useState();
-  useEffect(() => {
-    setBcoin(sessionStorage.getItem("bomb"));
-  });
+
   const [Conta1_i, setConta1_i] = useState(0);
   const [Conta1_f, setConta1_f] = useState(0);
 
@@ -29,7 +27,6 @@ export default function Register({ nome }) {
   const [total_inicial, setInit] = useState(0);
 
   const data = new Date();
-  const [BCOIN, setBcoin] = useState(0);
 
   function Calcular() {
     setTotal(
@@ -135,22 +132,13 @@ export default function Register({ nome }) {
 
           <div className={styles.account_infos}>
             <p title="Saldo presente nas contas">
-              Saldo: {total.toFixed(2)} &rarr;
-              {`R$${(total * Number(BCOIN)).toFixed(2)}`}
+              Saldo: {total.toFixed(2)} Bcoin
             </p>
             <p title="Quanto você lucrou em seu turno">
-              Turno: {farm.toFixed(2)} &rarr;
-              {`R$${(farm * Number(BCOIN)).toFixed(2)}`}
+              Turno: {farm.toFixed(2)} Bcoin
             </p>
             <p title="Sua média de lucro nas últimas 12 horas">
               Média: {(farm / 12).toFixed(2)} Bcoin/hora
-            </p>
-            <p title="Cotação da moeda (consultado no momento de seu login)">
-              Cotação: {`R$${Number(BCOIN).toFixed(2)}`}
-            </p>
-            <p className={styles.percentage} title="Sua porcentagem">
-              Seus 10%: {(total / 10).toFixed(2)} &rarr;
-              {`R$${((total / 10) * Number(BCOIN)).toFixed(2)}`}
             </p>
           </div>
           <div className={styles.actions}>
