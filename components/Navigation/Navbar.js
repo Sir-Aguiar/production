@@ -3,9 +3,8 @@ import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
 import { BiNote } from 'react-icons/bi'
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
-  function Logout() {
-    Path('login')
-    exitCommand(false)
+  const handleLink = function (caminho) {
+    Path(caminho); activateMenu()
   }
   function activateMenu() {
     const mobileMenu = document.querySelector(`.${styles.mobile_menu}`)
@@ -35,9 +34,9 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
         </div>
         <ul className={styles.nav_list}>
           <li><Link href='/'>Início</Link></li>
-          <li onClick={() => { Path('registro'); activateMenu() }} ><Link href='/' >Registro</Link></li>
-          <li onClick={() => { Path('notas'); activateMenu() }} > <Link href='/' >Notas</Link></li>
-          <li onClick={() => { Path('tabelas'); activateMenu(); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
+          <li onClick={() => handleLink('registro')} ><Link href='/' >Registro</Link></li>
+          <li onClick={() => handleLink('notas')} > <Link href='/' >Notas</Link></li>
+          <li onClick={() => { handleLink('tabela'); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
         </ul>
       </nav>
     </header>

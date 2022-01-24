@@ -1,0 +1,199 @@
+.sing_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #228cbdb4;
+}
+.bomb_logo{
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bomb_logo img{
+  width: 180px;
+}
+.formulary h1 {
+  font-size: 1.7rem;
+  font-weight: 550;
+  margin: 15px 10px;
+}
+
+.formulary {
+  box-shadow: 2px 4px 15px #33333375;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.formulary input {
+  font-size: 1.08rem;
+  padding: 10px 10px;
+  border: 1px solid #38383881;
+  margin: 5px;
+  outline: none;
+  color: #222222d0;
+  border-radius: 3px;
+  width: 160px;
+  background-color: transparent;
+  transition: .29s;
+}
+
+.formulary input[type='text']:focus,
+.formulary input[type='password']:focus {
+  border: 1px solid #1a6e8fc2;
+  box-shadow: 1px 1px 2px #72794b48;
+}
+
+.username {
+  display: flex;
+  flex-direction: row;
+}
+
+.username input {
+  flex: 1;
+}
+
+.password {
+  display: flex;
+  flex-direction: column;
+}
+
+.pass_field {
+  display: flex;
+}
+
+.password div:last-child {
+  justify-content: flex-start;
+}
+
+.pass_field input {
+  flex: 1;
+}
+
+.showPass {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+
+}
+
+.showPass input {
+  width: 20px;
+  cursor: pointer;
+}
+.showPass label{
+  cursor: pointer;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.team svg {
+  position: relative;
+  right: 30px;
+  fill: #185288c9;
+}
+
+.team input {
+  flex: 1;
+}
+
+
+.submit_container a{
+  color: #185288c9;
+  text-decoration: none;
+}
+.submit_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.submit_container input {
+  height: 58px;
+  width: 154px;
+  background-image: url('https://bombcryptosimulator.com/img/buttonBlue.png');
+  border: none;
+  outline: none;
+  background-color: transparent;
+  letter-spacing: .09rem;
+  background-size: 150px 58px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: .3s;
+  font-family: 'Gemunu Libre', sans-serif;
+  color: #ffffffec;
+  font-size: 1.6rem;
+  text-shadow: -1px 0 #634130, 0 1px #634130, 0 1px #634130, 1px 0 #634130, 0 -1px #634130;
+  font-weight: 600;
+}
+
+.submit_container input:hover {
+  filter: brightness(.9);
+}
+
+.userpassword {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width:900px) {
+  .showPass input {
+    display: none;
+  }
+
+  .showPass label {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .formulary input {
+    font-size: 1.08rem;
+    padding: 10px 10px;
+    border: 1px solid #38383881;
+    margin: 5px;
+    outline: none;
+    border-radius: 3px;
+    width: 120px;
+    transition: .29s;
+  }
+
+  .submit_container input {
+    height: 58px;
+    width: 154px;
+    background-image: url('https://bombcryptosimulator.com/img/buttonBlue.png');
+    border: none;
+    outline: none;
+    background-color: transparent;
+    letter-spacing: .09rem;
+    background-size: 150px 58px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: .3s;
+    font-family: 'Gemunu Libre', sans-serif;
+    color: #ffffffec;
+    font-size: 1.6rem;
+    text-shadow: -1px 0 #634130, 0 1px #634130, 0 1px #634130, 1px 0 #634130, 0 -1px #634130;
+    font-weight: 600;
+  }
+  .submit_container a{
+    color: #185288c9;
+    text-decoration: none;
+    font-size: .9rem;
+  }
+  .formulary h1 {
+    font-size: 1.45rem;
+    font-weight: 550;
+    margin: 15px 5px;
+  }
+}

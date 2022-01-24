@@ -12,7 +12,7 @@ export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
   const [currentWindow, setWindow] = useState('registro')
-  const[queryData, setQD] = useState()
+  const [queryData, setQD] = useState()
   function RealizeQuery() {
     axios
       .post("https://production-jet.vercel.app/api/services", {
@@ -29,10 +29,10 @@ export default function Home() {
       <Head>
         <title>{loged ? 'Home page' : 'Login Page'}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         {/* <meta name="theme-color" content="#23232e"/> */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
         <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </Head>
 
@@ -48,7 +48,7 @@ export default function Home() {
               currentWindow == 'notas' && <Patch />
             }
             {
-              currentWindow == 'tabelas' && <Tabelas dados={queryData}/>
+              currentWindow == 'tabelas' && <Tabelas dados={queryData} />
             }
           </main>
         ) : (

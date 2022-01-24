@@ -4,13 +4,15 @@ import styles from "./styles/main.module.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
-
+import Link from "next/dist/client/link";
 export default function Login({ toggleLogin, setNome, Path }) {
   const [showPassword, setToggle] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     let inputs = document.querySelectorAll("input");
+    
+    
     getLogins(inputs[0].value, inputs[1].value);
   }
 
@@ -24,6 +26,7 @@ export default function Login({ toggleLogin, setNome, Path }) {
       .then((response) => {
         console.log(response.data);
         if (response.data.message == "Válido") {
+
           toggleLogin(true);
           setNome(username);
           Path("registro");
@@ -40,7 +43,7 @@ export default function Login({ toggleLogin, setNome, Path }) {
         onSubmit={(e) => handleSubmit(e)}
         className={styles.formulary_container}
       >
-        <h1>Conecte-se a plataforma</h1>
+        <h1>Seja bem-vindo de volta</h1>
         <div className={styles.header}>
           <img
             src="https://s2.coinmarketcap.com/static/img/coins/200x200/12252.png"
@@ -76,6 +79,9 @@ export default function Login({ toggleLogin, setNome, Path }) {
           )}
         </div>
         <div className={styles.line_div}></div>
+        <div className={styles.not_account}>
+          <Link href='/cadastro'>Não possui uma conta?</Link>
+        </div>
         {/* <div className={styles.remember_container}>
           <input type="checkbox" id="remember" title="Não recomendado" />
           <label htmlFor="remember" title="Não recomendado">

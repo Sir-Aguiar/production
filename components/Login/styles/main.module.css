@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 300px;
+  
   padding: 4px;
   box-shadow: 2px 3px 8px #1d1d1d52;
   padding: 15px;
@@ -35,8 +35,9 @@
   width: 70px;
   margin: 0 15px;
   transition: .3s;
-  transform: rotateZ(0deg);
+  
 }
+
 
 .user_input {
   margin: 5px 0;
@@ -87,7 +88,17 @@
   margin: 10px 0;
   width: 70%;
 }
-
+.not_account {
+  margin: 5px 0;
+}
+.not_account a{
+  text-decoration: none;
+  color: #a8931ce1;
+}
+.not_account a:hover{
+  color: #867511e1;
+  text-decoration: none;
+}
 .remember_container {
   display: flex;
   flex-direction: row;
