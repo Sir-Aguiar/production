@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
 import { BiNote } from 'react-icons/bi'
+import { ChestCalculator } from "./Chests/ChestCalculator";
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   const handleLink = function (caminho) {
     Path(caminho); activateMenu()
@@ -25,7 +26,7 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   return (
     <header>
       <nav className={styles.navigation_container}>
-        <Link href='/' ><span className={styles.logo}><img src='https://bombcryptosimulator.com/img/minticon.png' /></span></Link>
+        <ChestCalculator />
 
         <div className={styles.mobile_menu} onClick={() => activateMenu()}>
           <div className={styles.line1}></div>
