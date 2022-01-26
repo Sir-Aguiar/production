@@ -82,7 +82,7 @@ export function ChestCalculator() {
               metal * Chests.metal.coin +
               gold * Chests.gold.coin +
               crystal * Chests.crystal.coin
-            ).toFixed(3)}
+            ).toFixed(2)} Bcoin
           </span>
         </div>
       </div>
