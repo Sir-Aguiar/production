@@ -42,7 +42,7 @@ export function ChestCalculator() {
   };
   return (
     <div className={styles.header_container}>
-      <div className={styles.chest_container} title="Calcule quanto irá ganhar por mapa">
+      <div className={`${styles.chest_container} ${styles.inactive}`} title="Calcule quanto irá ganhar por mapa">
         <div className={`${styles.wood} ${styles.chest}`}>
           <img src={Chests.wood.link} />
           <input
@@ -75,7 +75,7 @@ export function ChestCalculator() {
             value={crystal}
           />
         </div>
-        <div className={styles.result} >
+        <div className={`${styles.result}`} >
           <span>
             {(
               wood * Chests.wood.coin +
@@ -86,7 +86,7 @@ export function ChestCalculator() {
           </span>
         </div>
       </div>
-      <div className={styles.icons} title="Calcule quanto irá ganhar por mapa">
+      <div className={`${styles.icons} ${styles.inactive}`} title="Calcule quanto irá ganhar por mapa">
         <span onClick={clear}>Limpar</span>
         <span onClick={colapse}>Baús</span>
         <AiOutlineLeft onClick={colapse} />

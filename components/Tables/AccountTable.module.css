@@ -2,15 +2,19 @@
   border: 4px solid #646915b2;
   margin: 0 5px;
   padding: 5px;
+
 }
 
 .tables {
+  width: 285px;
   height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
-
+  display: flex;
+  justify-content: center;
 }
-@media (max-width:500px){
+@media (max-width:800px){
   .account_container{
     margin: 5px 0;
   }

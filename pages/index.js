@@ -3,7 +3,7 @@ import Login from '../components/Login/Login'
 import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import axios from 'axios'
-import Patch from '/components/Updates/Patch'
+
 import Register from '../components/Registro/Register'
 import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
@@ -45,9 +45,7 @@ export default function Home() {
             {
               currentWindow == 'registro' && <Register nome={name} parent_bcoin={bcoin} />
             }
-            {
-              currentWindow == 'notas' && <Patch />
-            }
+            
             {
               currentWindow == 'tabelas' && <Tabelas dados={queryData} />
             }

@@ -1,45 +1,37 @@
 import Link from "next/link";
 import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
-import { BiNote } from 'react-icons/bi'
+import { FaUserAstronaut, FaHistory, FaHome } from 'react-icons/fa'
+import { MdCalendarToday } from 'react-icons/md'
+import { BiLeftArrow } from 'react-icons/bi'
 import { ChestCalculator } from "./Chests/ChestCalculator";
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   const handleLink = function (caminho) {
-    Path(caminho); activateMenu()
+    Path(caminho);
+    activateMenu()
   }
-  function activateMenu() {
-    const mobileMenu = document.querySelector(`.${styles.mobile_menu}`)
-    const navList = document.querySelector(`.${styles.nav_list}`)
-    const activeClass = `${styles.active}`
-    const navLinks = document.querySelectorAll(`.${styles.nav_list} li`)
-    function animateLinks() {
-      navLinks.forEach((link, index) => {
-        link.style.animation ? link.style.animation = '' : link.style.animation = `navLinkFade .5s ease forwards ${((index / 7) + 0.3)}s`
-      })
-    }
+  function activateMenu() {    
+    const navList = document.querySelector(`.${styles.dropdown}`)
+    const arr = document.querySelector(`.${styles.userarrow}`)
 
-    navList.classList.toggle(activeClass)
-    mobileMenu.classList.toggle(activeClass)
-    animateLinks()
-
+    navList.classList.toggle(`${styles.inactive}`)
+    arr.classList.toggle(`${styles.inactive}`)
   }
+
   return (
     <header>
       <nav className={styles.navigation_container}>
         <ChestCalculator />
-
-        <div className={styles.mobile_menu} onClick={() => activateMenu()}>
-          <div className={styles.line1}></div>
-          <div className={styles.line2}></div>
-          <div className={styles.line3}></div>
-        </div>
-        <ul className={styles.nav_list}>
-          <li><Link href='/'>Início</Link></li>
-          <li onClick={() => handleLink('registro')} ><Link href='/' >Registro</Link></li>
-          <li onClick={() => handleLink('notas')} > <Link href='/' >Notas</Link></li>
-          <li onClick={() => { handleLink('tabelas'); RealizeQuery() }} > <Link href='/' >Consultar</Link></li>
+        <span className={`${styles.userprofile}`} onClick={activateMenu}>
+          <FaUserAstronaut size={25} />
+          <BiLeftArrow size={15} className={`${styles.userarrow} ${styles.inactive}`} />
+        </span>
+        <ul className={`${styles.dropdown} ${styles.inactive}`}>
+          <li onClick={() => handleLink('home')}><FaHome size={32} /> Início</li>
+          <li onClick={() => { handleLink('tabelas'); RealizeQuery() }}><FaHistory size={32} /> Histórico</li>
+          <li onClick={() => handleLink('registro')}><MdCalendarToday size={32} /> Registro </li>
         </ul>
       </nav>
-    </header>
+    </header >
   );
 }
