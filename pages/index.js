@@ -9,7 +9,7 @@ import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
 import Tabelas from '../components/Tables/Tabelas'
 export default function Home() {
-  const [loged, setLoged] = useState(true)
+  const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
   const [bcoin, setBcoin] = useState(1)
   const [currentWindow, setWindow] = useState('registro')
