@@ -1,30 +1,50 @@
 import Head from 'next/head'
 import Login from '../components/Login/Login'
 import { useEffect, useState } from 'react'
-import Router from 'next/router'
-import axios from 'axios'
-
+import Profile from '../components/Profile/Profile'
 import Register from '../components/Registro/Register'
 import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
 import Tabelas from '../components/Tables/Tabelas'
+import ServicesApi from '../scripts/ServicesAPI'
 export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
-  const [bcoin, setBcoin] = useState(1)
   const [currentWindow, setWindow] = useState('registro')
   const [queryData, setQD] = useState()
-  function RealizeQuery() {
-    axios
-      .post("https://production-jet.vercel.app/api/services", {
-        service: "PESQUISAR TUDO",
-      })
-      .then((response) => {
-        setQD(response.data)
-        console.log(response.data)
-      })
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    if (loged === false) {
+      if (localStorage.getItem('remember') && localStorage.getItem('remember') == 'true') {
+        setLoading(true)
+        ServicesApi.post('/services', {
+          service: 'LOGIN',
+          username: localStorage.getItem('username'),
+          identificador: localStorage.getItem('userId')
+        }).then(response => {
+          if (response.data['serviceStatus'] === 0) {
+            localStorage.setItem("username", response.data["userName"]);
+            localStorage.setItem('userTeams', response.data["userTeams"])
+            setLoged(true)
+            setLoading(false)
+          } else if (response.data["serviceStatus"] === -1 || response.data["serviceStatus"] === 404) {
+            localStorage.removeItem("username");
+            localStorage.removeItem("userId");
+            localStorage.removeItem('userTeams')
+            localStorage.removeItem('remember')
+            setLoged(false)
+          }
+        })
+      }
+      else if (localStorage.getItem('remember') && localStorage.getItem('remember') != 'true') {
+        localStorage.removeItem("username");
+        localStorage.removeItem("userId");
+        localStorage.removeItem('userTeams')
+        
 
-  }
+      }
+    }
+  }, [])
   return (
     <>
       <Head>
@@ -41,17 +61,19 @@ export default function Home() {
       {
         loged ? (
           <main className={styles.main_container}>
-            <Navbar exitCommand={setLoged} Path={setWindow} RealizeQuery={RealizeQuery} />
+            <Navbar exitCommand={setLoged} Path={setWindow} />
             {
-              currentWindow == 'registro' && <Register nome={name} parent_bcoin={bcoin} />
+              currentWindow == 'registro' && <Register nome={name} />
             }
-            
+            {
+              currentWindow == 'perfil' && <Profile />
+            }
             {
               currentWindow == 'tabelas' && <Tabelas dados={queryData} />
             }
           </main>
         ) : (
-          <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} setBcoin={setBcoin} />
+          loading ? <h1>Carregando</h1> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
         )
       }
 

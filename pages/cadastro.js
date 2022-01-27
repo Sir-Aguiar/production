@@ -2,7 +2,8 @@ import Head from 'next/head'
 import styles from '../styles/Cadastro.module.css'
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { useState } from 'react';
-import ShowHidePassword from '../components/HSPassword';
+import React from 'react'
+import Popup from 'reactjs-popup'
 import Link from 'next/link';
 export default function Cadastro() {
   const handleSubmit = function (event) {
@@ -30,7 +31,7 @@ export default function Cadastro() {
       <form onSubmit={handleSubmit} className={styles.formulary}>
         <h1>Obtenha acesso à plataforma</h1>
         <div className={styles.bomb_logo}>
-          <img src='https://bombcrypto.io/wp-content/uploads/2021/08/12.png' alt='bombimage'/>
+          <img src='https://bombcrypto.io/wp-content/uploads/2021/08/12.png' alt='bombimage' />
         </div>
         <div className={styles.group_one}>
           <div className={styles.username}>
@@ -51,7 +52,21 @@ export default function Cadastro() {
             </div>
             <div className={styles.team} >
               <input type='text' placeholder='Crie seu time' />
-              <BsFillInfoSquareFill />
+
+              <Popup trigger={<BsFillInfoSquareFill />} modal nested>
+                {
+                  close => (
+                    <div className={styles.popup_container}>
+                      <button className={styles.close} onClick={close}>
+                        &times;
+                      </button>
+                      <p>Ao criar um time você pode configurá-lo de forma única, personalizando o número de contas e de pessoas que o compõe.</p>
+                      <p>É possível adicionar outras pessoas ao seu time, dando assim, acesso aos dados do seu time, consequentemente das contas que o compõe.</p>
+                      <p>Usuário de fora não poderão acessar, vizualizar ou modificar os dados de times que não possuem ou fazem parte</p>
+                    </div>
+                  )
+                }
+              </Popup>
             </div>
           </div>
           <div className={styles.submit_container}>
@@ -59,7 +74,9 @@ export default function Cadastro() {
             <input type='submit' value='Cadastrar' id='submiter' onClick={handleClickSubmit} />
           </div>
         </div>
+
       </form>
+
     </div>
   )
 }

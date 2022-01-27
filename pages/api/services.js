@@ -3,128 +3,117 @@ import axios from 'axios'
 
 const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
 
-async function Conectar() {
-  if (!client.isConnected) await client.connect()
-  const db = client.db('plantoes')
-  return {
-    db, client
-  }
-}
 
 export default async function Timing(request, response) {
+  function censor(censor) {
+    var i = 0;
 
+    return function (key, value) {
+      if (i !== 0 && typeof (censor) === 'object' && typeof (value) == 'object' && censor == value)
+        return '[Circular]';
+
+      if (i >= 29) // seems to be a harded maximum of 30 serialized objects?
+        return '[Unknown]';
+
+      ++i; // so we know we aren't using the original object anymore
+
+      return value;
+    }
+  }
   response.setHeader('Access-Control-Allow-Origin', '*')
 
-  const { db } = await Conectar()
-  const users = await db.collection('users')
-  const plant_register = await db.collection('plantao_registro')
   const { service } = request.body
 
+  // ENTRAR
+  if (request.method == 'POST' && service == 'LOGIN') {
+    let resposta
+    async function Conectar() {
+      if (!client.isConnected) await client.connect()
+      const db = client.db('Users')
+      return {
+        db, client
+      }
+    }
+    const { username, userpassword, identificador } = request.body
 
+    const { db } = await Conectar()
+    const USERCOLLECTION = await db.collection(username)
 
-  // LOGIN
-  const { username, userpass } = request.body
-  if (request.method == "POST" && service == "LOGIN") {
-    users.find({ "user": username, "senha": userpass }).toArray(function (err, result) {
-      if (err) {
-        response.status(400).json({
-          "WORKED": false
+    return new Promise((resolve, reject) => {
+      if (identificador) {
+        USERCOLLECTION.find({}).toArray(function (error, result) {
+          if (result[0]["_id"] == identificador) {
+            resposta = {
+              userName: `${result[0]['nome']}`,
+              userTeams: result[0]['times'],
+              serviceStatus: 0
+            }
+            console.log(resposta)
+            console.log('Token Válido')
+          }
+          else {
+            resposta = {
+              serviceStatus: -1
+            }
+            console.log(resposta)
+            console.log('Token inválido')
+          }
+          response.statusCode = 200
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(resposta, censor(resposta)));
+          resolve();
         })
-      };
-      if (result.length > 0) {
-        if (result[0].user == username && result[0].senha == userpass) {
-          response.json({ message: 'Válido' })
-        }
       }
       else {
-
-        response.json({ message: "Inválido" })
-      }
-      return
-    });
-  }
-
-  // REGISTER
-  const { nome, c1_i, c1_f, c2_i, c2_f, c3_i, c3_f, c4_i, c4_f, tota, farm, media, identifier, tota_i } = request.body
-  if (request.method == "POST" && service == 'REGISTER') {
-
-    plant_register.insertOne({
-      "_id": identifier,
-      'Nome': nome,
-      'Conta 1 (Inicial)': c1_i,
-      'Conta 1 (Final)': c1_f,
-      'Conta 2 (Inicial)': c2_i,
-      'Conta 2 (Final)': c2_f,
-      'Conta 3 (Inicial)': c3_i,
-      'Conta 3 (Final)': c3_f,
-      'Conta 4 (Inicial)': c4_i,
-      'Conta 4 (Final)': c4_f,
-      'Saldo inicial': tota_i,
-      'Saldo': tota,
-      'Farm total': farm,
-      "BCOIN/hora": media
-    })
-      .then(
-        () => {
-          response.json({ message: 'Inserido com sucesso' })
-
-        }
-      )
-      .catch(
-        (err) => response.json({ message: "Houve um erro" })
-      )
-  }
-
-  // PESQUISAR
-  if (request.method == 'POST' && service == 'PESQUISAR') {
-    plant_register.find({ 'Nome': nome }).toArray(function (err, result) {
-      if (err) {
-        response.status(400).json({
-          "WORKED": false
+        USERCOLLECTION.find({}).toArray(function (error, result) {
+          if (result && result.length > 0) {
+            if (userpassword === result[0]['senha']) {
+              if (username === result[0]['nome']) {
+                resposta = {
+                  userId: `${result[0]['_id']}`,
+                  userName: `${result[0]['nome']}`,
+                  userTeams: result[0]['times'],
+                  serviceStatus: 0
+                }
+                console.log(resposta)
+                console.log(`Usuário logado com sucesso`)
+              }
+              else {
+                resposta = {
+                  serviceStatus: 404
+                }
+                console.log(resposta)
+                console.log('Usuário não encontrado')
+              }
+            }
+            else {
+              resposta = {
+                serviceStatus: -1
+              }
+              console.log(resposta)
+              console.log('Senha errada')
+            }
+          }
+          else {
+            resposta = {
+              serviceStatus: 404
+            }
+            console.log(resposta)
+            console.log('Usuário não econtrado')
+          }
+          response.statusCode = 200
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(resposta, censor(resposta)));
+          resolve();
         })
-      };
-      response.json(result)
-      return
-    });
-  }
-
-  // ATUALIZAR
-  if (request.method == "POST" && service == 'UPDATE') {
-    const update_object = { '_id': identifier }
-    plant_register.updateOne(update_object, {
-      $set: {
-        "Nome": "Rafael Aguiar"
       }
-    }, function (err, res) {
-      if (err) throw err;
-      console.log("1 document updated")
-      response.json('Atualizado')
-    })
-  }
-  // COIN
-  if (request.method == 'POST' && service == "CRIPTO") {
-    let qs = `?start=1&limit=2950&convert=BRL`
-    axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest' + qs, {
-      headers: { 'X-CMC_PRO_API_KEY': 'f04378c1-59a3-4376-8bb4-af1a9bbc4f7a' }
-    }).then(res => {
-      response.json(res.data)
-    })
-  }
-  // PESQUISAR ÚLTIMO
-  if (request.method == 'POST' && service == 'PESQUISAR TUDO') {
-    return new Promise((resolve, reject) => {
-      plant_register.find({}).toArray((err, result) => {
-        response.statusCode = 200
-        response.setHeader('Content-Type', 'application/json');
-        response.setHeader('Cache-Control', 'max-age=180000');
-        response.end(JSON.stringify(result))
-        resolve()
-      })
     })
 
-
-    /* response.json(result) */
 
   }
 
 }
+
+
