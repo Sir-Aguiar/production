@@ -7,6 +7,7 @@ import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
 import Tabelas from '../components/Tables/Tabelas'
 import ServicesApi from '../scripts/ServicesAPI'
+import Loading from '../components/Loading/Loading'
 export default function Home() {
   const [loged, setLoged] = useState(false)
   const [name, setName] = useState('')
@@ -15,6 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     if (loged === false) {
+      
       if (localStorage.getItem('remember') && localStorage.getItem('remember') == 'true') {
         setLoading(true)
         ServicesApi.post('/services', {
@@ -24,14 +26,17 @@ export default function Home() {
         }).then(response => {
           if (response.data['serviceStatus'] === 0) {
             localStorage.setItem("username", response.data["userName"]);
+            localStorage.setItem("Nome", response.data["Nome"]);
             localStorage.setItem('userTeams', response.data["userTeams"])
             setLoged(true)
             setLoading(false)
           } else if (response.data["serviceStatus"] === -1 || response.data["serviceStatus"] === 404) {
             localStorage.removeItem("username");
             localStorage.removeItem("userId");
+            localStorage.removeItem("Nome");
             localStorage.removeItem('userTeams')
             localStorage.removeItem('remember')
+            setLoading(false)
             setLoged(false)
           }
         })
@@ -40,7 +45,7 @@ export default function Home() {
         localStorage.removeItem("username");
         localStorage.removeItem("userId");
         localStorage.removeItem('userTeams')
-        
+        localStorage.removeItem("Nome");
 
       }
     }
@@ -73,7 +78,8 @@ export default function Home() {
             }
           </main>
         ) : (
-          loading ? <h1>Carregando</h1> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
+          loading ? <Loading containerSize={100} loadingSize={60} loading={true
+          }/> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
         )
       }
 

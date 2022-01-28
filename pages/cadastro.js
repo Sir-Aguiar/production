@@ -1,13 +1,38 @@
 import Head from 'next/head'
 import styles from '../styles/Cadastro.module.css'
 import { BsFillInfoSquareFill } from 'react-icons/bs'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react'
 import Popup from 'reactjs-popup'
 import Link from 'next/link';
+import ServicesApi from '../scripts/ServicesAPI';
 export default function Cadastro() {
+  const userData = {
+    service: 'CADASTRO',
+    userName: '',
+    fullName: '',
+    userPassword: '',
+    userTeams: ''
+  }
+  function getUserdata() {
+    const fname = document.getElementById('first_name')
+    const lname = document.getElementById('last_name')
+    const username = document.getElementById('username')
+    const password = document.getElementById('password_field')
+    const time = document.getElementById('teams')
+    userData.fullName = `${String(fname.value).trim()} ${String(lname.value).trim()}`
+    userData.userName = `${String(username.value).trim()}`
+    userData.userPassword = `${String(password.value).trim()}`
+    userData.userTeams = `${((time.value).trim())}`
+  }
+
   const handleSubmit = function (event) {
     event.preventDefault()
+    getUserdata()
+    
+    ServicesApi.post('/services', userData).then((response) => {
+      
+    })
   }
   const handleClickSubmit = function () {
     const button = document.querySelector('#submiter')
@@ -23,7 +48,7 @@ export default function Cadastro() {
         <title>Entre a bordo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
         <meta charSet="UTF-8" />
-        {/* <meta name="theme-color" content="#23232e"/> */}
+        <meta name="theme-color" content="#228cbdb4" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
         <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
@@ -34,13 +59,18 @@ export default function Cadastro() {
           <img src='https://bombcrypto.io/wp-content/uploads/2021/08/12.png' alt='bombimage' />
         </div>
         <div className={styles.group_one}>
-          <div className={styles.username}>
+          <div className={styles.name}>
             <input type={'text'} placeholder='Nome' required id='first_name' />
             <input type={'text'} placeholder='Sobrenome' id='last_name' required />
+
+          </div>
+          <div className={styles.username}>
+            <input type='text' placeholder='Nome de usuário' id='username' required />
           </div>
           <div className={styles.userpassword}>
             <div className={styles.password}>
               <div className={styles.pass_field}>
+
                 <input type={showPassword ? 'text' : 'password'} required placeholder='Senha' id='password_field' /></div>
               <div className={styles.showPass}>
                 <input type='checkbox' id='showpass' onClick={() => {
@@ -51,7 +81,7 @@ export default function Cadastro() {
 
             </div>
             <div className={styles.team} >
-              <input type='text' placeholder='Crie seu time' />
+              <input type='text' id='teams' placeholder='Crie seu time' />
 
               <Popup trigger={<BsFillInfoSquareFill />} modal nested>
                 {

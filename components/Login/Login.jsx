@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import Link from "next/dist/client/link";
 import { FaSlideshare } from "react-icons/fa";
-export default function Login({ toggleLogin, setNome, Path }) {
+export default function Login({ toggleLogin, setLoading, setNome, Path }) {
   const [showPassword, setToggle] = useState(false);
   const [remember, toggleRemember] = useState(false);
   function handleSubmit(e) {
@@ -23,11 +23,12 @@ export default function Login({ toggleLogin, setNome, Path }) {
       userpassword: userpassword,
     }).then((response) => {
       if (response.data["serviceStatus"] === 0) {
-        toggleLogin(true);
         localStorage.setItem("username", response.data["userName"]);
         localStorage.setItem("userId", response.data["userId"]);
+        localStorage.setItem("Nome", response.data["Nome"]);
         localStorage.setItem('remember', remember)
         localStorage.setItem('userTeams', response.data["userTeams"])
+        toggleLogin(true);
         
       } else if (response.data["serviceStatus"] === -1) {
         toast.warn("Senha errada ou inválida");
