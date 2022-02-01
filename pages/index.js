@@ -6,6 +6,7 @@ import Register from '../components/Registro/Register'
 import Navbar from '../components/Navigation/Navbar'
 import styles from '../styles/Home.module.css'
 import Tabelas from '../components/Tables/Tabelas'
+import axios from 'axios'
 import ServicesApi from '../scripts/ServicesAPI'
 import Loading from '../components/Loading/Loading'
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     if (loged === false) {
-      
+
       if (localStorage.getItem('remember') && localStorage.getItem('remember') == 'true') {
         setLoading(true)
         ServicesApi.post('/services', {
@@ -79,7 +80,7 @@ export default function Home() {
           </main>
         ) : (
           loading ? <Loading containerSize={100} loadingSize={60} loading={true
-          }/> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
+          } /> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
         )
       }
 

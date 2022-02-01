@@ -91,7 +91,6 @@ export default function Login({ toggleLogin, setLoading, setNome, Path }) {
             title="Não recomendado"
             onClick={() => {
               toggleRemember(remember ? false : true);
-              console.log(remember);
             }}
           />
           <label htmlFor="remember" title="Não recomendado">

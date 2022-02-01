@@ -1,38 +1,55 @@
 import Head from 'next/head'
 import styles from '../styles/Cadastro.module.css'
-import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { useEffect, useState } from 'react';
+import { toast, ToastContainer } from "react-toastify";
 import React from 'react'
-import Popup from 'reactjs-popup'
 import Link from 'next/link';
 import ServicesApi from '../scripts/ServicesAPI';
 export default function Cadastro() {
+  useEffect(() => {
+    document.getElementById('first_name').value = ''
+    document.getElementById('last_name').value = ''
+    document.getElementById('username').value = ''
+    document.getElementById('password_field').value = ''
+
+  }, [])
   const userData = {
     service: 'CADASTRO',
     userName: '',
     fullName: '',
-    userPassword: '',
-    userTeams: ''
+    userPassword: ''
   }
   function getUserdata() {
     const fname = document.getElementById('first_name')
     const lname = document.getElementById('last_name')
     const username = document.getElementById('username')
     const password = document.getElementById('password_field')
-    const time = document.getElementById('teams')
+
     userData.fullName = `${String(fname.value).trim()} ${String(lname.value).trim()}`
     userData.userName = `${String(username.value).trim()}`
     userData.userPassword = `${String(password.value).trim()}`
-    userData.userTeams = `${((time.value).trim())}`
+    if (userData.fullName.includes(',') || userData.userName.includes(',') || userData.userPassword.includes(',')) {
+      alert('Não é permitido inserir "," nos campos de cadastro')
+      location.reload()
+    }
   }
 
   const handleSubmit = function (event) {
     event.preventDefault()
     getUserdata()
-    
+
     ServicesApi.post('/services', userData).then((response) => {
-      
+      if (response.data.serviceStatus == 0) {
+        alert('Cadastro realizado com sucesso')
+      }
+      else if (response.data.serviceStatus == -1) {
+        alert('Nome de usuário já em uso')
+      }
+      else {
+        alert('Houve um erro inesperado')
+      }
     })
+    console.log(userData)
   }
   const handleClickSubmit = function () {
     const button = document.querySelector('#submiter')
@@ -80,24 +97,7 @@ export default function Cadastro() {
               </div>
 
             </div>
-            <div className={styles.team} >
-              <input type='text' id='teams' placeholder='Crie seu time' />
 
-              <Popup trigger={<BsFillInfoSquareFill />} modal nested>
-                {
-                  close => (
-                    <div className={styles.popup_container}>
-                      <button className={styles.close} onClick={close}>
-                        &times;
-                      </button>
-                      <p>Ao criar um time você pode configurá-lo de forma única, personalizando o número de contas e de pessoas que o compõe.</p>
-                      <p>É possível adicionar outras pessoas ao seu time, dando assim, acesso aos dados do seu time, consequentemente das contas que o compõe.</p>
-                      <p>Usuário de fora não poderão acessar, vizualizar ou modificar os dados de times que não possuem ou fazem parte</p>
-                    </div>
-                  )
-                }
-              </Popup>
-            </div>
           </div>
           <div className={styles.submit_container}>
             <Link href='/'>Já possui uma conta?</Link>
@@ -106,7 +106,6 @@ export default function Cadastro() {
         </div>
 
       </form>
-
     </div>
   )
 }

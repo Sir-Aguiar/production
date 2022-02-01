@@ -1,63 +1,67 @@
-.parent_container {
+.main_container {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 91.6vh;
+
+}
+
+.register_container {
+  padding: 10px;
+  box-shadow: 1.2px 2px 5px #22222263;
+  border-radius: 5px;
+  margin: 0 25px;
+
+}
+
+.account_container {
+  margin: 10px 0;
+
+}
+
+.register_container h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #1d1d1dd0;
+  text-align: center;
+}
+
+.accounts {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 25px;
-  padding: 0 10px;
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 10px 0;
 }
 
-.contas_container {
+.accounts input {
+  padding: 4px;
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid #55555585;
+  border-radius: 2px;
+  margin: 0 2px;
+  width: 105px;
+  transition: .3s;
+}
+
+.accounts input:focus {
+  box-shadow: .8px .9px 1px #55e47eaf;
+}
+
+.selector_container {
 
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  box-shadow: 1px 3px 8px #4a754462;
-  color: #222222d0;
-  border-radius: 5px;
-  padding: 0 10px;
-}
-.account_field {
+
   margin: 4px 0;
- 
-  flex: 1;
-  
-  background-color: transparent;
+
 }
 
-.account_field h2 {
-  font-size: 1.2rem;
-  font-weight: lighter;
-  text-align: center;
-  margin: 6px 0;
-}
-
-.account_field input {
+.selector_container select {
+  border-radius: 1px;
+  border: 1px solid #838383ce;
+  background-color: #d9e2e2;
   outline: none;
-  border: 1px solid #2b2b2b85;
-  font-size: 1rem;
-  padding: 5px;
-  border-radius: 3px;
-  background-color: transparent;
-  width: 90px;
-  margin: 0 2px;
-  transition: .26s;
-  flex: 1;
-}
-
-.account_field input:focus {
-  border: 1px solid #109e17bb;
-  box-shadow: .6px 0px 3px #1661356e;
-}
-
-@media only screen and (max-width: 1200px) {
-  .parent_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    min-width: 98vw;
-    font-family: Arial, Helvetica, sans-serif;
-  
-  }
+  padding: 4px;
 }

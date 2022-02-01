@@ -1,57 +1,102 @@
 import styles from "./styles/Register.module.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TableRegister from "./components/Tabelas/TableRegister";
-import QueryTable from "./components/Tabelas/QueryTable";
-import SerachButtons from "./components/SerachButtons/SearchButtons";
-import SearchButtons from "./components/SerachButtons/SearchButtons";
-import ActionButtons from "./components/ActionButtons/ActionButtons";
-import AccountInfos from "./components/AccountInfos";
-
+import ServicesAPI from "../../scripts/ServicesAPI";
 export default function Register() {
-  const Contass = [1, 2, 3, 4, 5];
-  const times = ["Discolados"];
+  const [contas, setContas] = useState([]);
+  const [teams, setTeams] = useState(
+    localStorage.getItem("userTeams").split(",")
+  );
+  const [actualTeam, setTeam] = useState(teams[0]);
 
-  const [Farm, setFarm] = useState(0);
-  const [Total, setTotal] = useState(0);
-  const [TotalInicial, setTotalInicial] = useState(0);
-
+  const updateTeam = function (teamName) {
+    ServicesAPI.post("/services", {
+      service: "TEAMINFOS",
+      teamName: teamName,
+    }).then((response) => {
+      if (response.data.serviceStatus == 0) {
+        let acc = [];
+        for (let index = 1; index <= response.data["accountNumber"]; index++) {
+          acc.push(index);
+        }
+        setContas(acc);
+      } else {
+        toast.error("Algo deu errado");
+      }
+    });
+  };
+  const Logar = () => {};
+  const makeRegister = function () {
+    let contaDados = [];
+    const totalDados = {
+      Nome: "",
+      Start: 0,
+      End: 0,
+      Lucro: 0,
+    };
+    const Iniciais = document.querySelectorAll(".Inicial");
+    const Finais = document.querySelectorAll(".Final");
+    for (let index = 0; index < Iniciais.length; index++) {
+      contaDados.push({
+        Nome: localStorage.getItem("username"),
+        Start: Number(Iniciais[index].value.replace(",", ".")),
+        End: Number(Finais[index].value.replace(",", ".")),
+        Lucro:
+          Number(Finais[index].value.replace(",", ".")) -
+          Number(Iniciais[index].value.replace(",", ".")),
+      });
+      totalDados.Start += Number(Iniciais[index].value.replace(",", "."));
+      totalDados.End += Number(Finais[index].value.replace(",", "."));
+      totalDados.Lucro +=
+        Number(Finais[index].value.replace(",", ".")) -
+        Number(Iniciais[index].value.replace(",", "."));
+    }
+    ServicesAPI.post("/services", {
+      service: "REGISTER",
+      teamName: actualTeam,
+      userName: localStorage.getItem("username"),
+      accountNumber: contas.length,
+      DadosContas: contaDados,
+      DadosTotal: totalDados,
+    }).then((response) => {
+      console.log(response.data);
+    });
+    console.log(totalDados, contaDados);
+  };
   return (
-    <>
-      <div className={styles.parent_container}>
-        <div className={`${styles.contas_container}`}>
-          <select>
-            {times.map((time) => (
-              <option value={time.toLowerCase()} key={time}>
-                {time}
-              </option>
-            ))}
-          </select>
-          {Contass.map((conta, index) => (
-            <div className={`${styles.account_field}`} key={index}>
-              <h2>Conta {index}</h2>
+    <div className={styles.main_container}>
+      <button onClick={makeRegister}>Registrar</button>
+      <button onClick={Logar}>Fazer log</button>
+      <div className={styles.register_container}>
+        <select
+          onChange={(e) => {
+            updateTeam(e.target.value);
+            setTeam(e.target.value);
+          }}
+        >
+          <option value="pick">Escolha seu time</option>
+          {teams.map((team, index) => (
+            <option key={index} value={team}>
+              {team}
+            </option>
+          ))}
+        </select>
+        {contas.map((conta, index) => (
+          <div className={styles.account_container} key={index}>
+            <h2>Conta {index + 1}</h2>
+            <div className={styles.accounts}>
               <input
                 type="text"
-                placeholder="Saldo inicial"
-                className="inicials"
+                placeholder="Saldo Inicial"
+                className="Inicial"
               />
-              <input type="text" placeholder="Saldo final" className="finals" />
+              <input type="text" placeholder="Saldo Final" className="Final" />
             </div>
-          ))}
-
-          <AccountInfos farm={Farm} total={Total} />
-          <ActionButtons
-            setFarm={setFarm}
-            setTotal={setTotal}
-            setTotalInicial={setTotalInicial}
-          />
-          <SearchButtons />
-        </div>
+          </div>
+        ))}
       </div>
       <ToastContainer autoClose={4000} />
-    </>
+    </div>
   );
 }
