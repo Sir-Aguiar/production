@@ -15,12 +15,20 @@ export default function Home() {
   const [currentWindow, setWindow] = useState('registro')
   const [queryData, setQD] = useState()
   const [loading, setLoading] = useState(false)
+  function Logout() {
+    setLoged(false)
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
+    localStorage.removeItem('userTeams')
+    localStorage.removeItem("Nome");
+    localStorage.removeItem('remember')
+  }
   useEffect(() => {
     if (loged === false) {
 
       if (localStorage.getItem('remember') && localStorage.getItem('remember') == 'true') {
         setLoading(true)
-        ServicesApi.post('/services', {
+        ServicesApi.post('', {
           service: 'LOGIN',
           username: localStorage.getItem('username'),
           identificador: localStorage.getItem('userId')
@@ -67,7 +75,7 @@ export default function Home() {
       {
         loged ? (
           <main className={styles.main_container}>
-            <Navbar exitCommand={setLoged} Path={setWindow} />
+            <Navbar exitCommand={Logout} Path={setWindow} />
             {
               currentWindow == 'registro' && <Register nome={name} />
             }

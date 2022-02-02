@@ -11,8 +11,23 @@
   box-shadow: 1.2px 2px 5px #22222263;
   border-radius: 5px;
   margin: 0 25px;
-
+  max-height: 500px;
 }
+
+.accountContainers {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 10px;
+}
+
+.accountContainers::-webkit-scrollbar {
+  width: 8px;
+}
+.accountContainers::-webkit-scrollbar-thumb {
+  border-radius: 20px;       /* roundness of the scroll thumb */
+}
+
 
 .account_container {
   margin: 10px 0;
@@ -38,7 +53,7 @@
   font-size: 1rem;
   outline: none;
   border: 1px solid #55555585;
-  border-radius: 2px;
+  border-radius: 1px;
   margin: 0 2px;
   width: 105px;
   transition: .3s;
@@ -64,4 +79,34 @@
   background-color: #d9e2e2;
   outline: none;
   padding: 4px;
+}
+.selector_container option {
+  border-radius: 1px;
+  background-color: #d9e2e2e5;
+}
+.actions {
+  display: flex;
+}
+
+.actions button {
+  flex: 1;
+  padding: 5px 12px;
+  font-size: 1.08rem;
+  border: none;
+  outline: none;
+  margin: 10px 5px;
+  border-radius: 3px;
+  color: #f8ebeb;
+  cursor: pointer;
+  background: #6141cc;
+  transition: .25s;
+}
+
+.actions button:hover {
+  filter: brightness(.85);
+  box-shadow: 1px 1px 4px #b878e6e9;
+}
+
+.account_container input:focus {
+  box-shadow: 1px .6px 2px #8a72d8af;
 }

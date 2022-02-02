@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb"
 import axios from 'axios'
 
-const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
+const client = new MongoClient(process.env.REACT_APP_NOT_SECRET_CODE, { useNewUrlParser: true, useUnifiedTopology: true })
 
 
 export default async function Timing(request, response) {
@@ -21,7 +21,7 @@ export default async function Timing(request, response) {
     }
   }
   response.setHeader('Access-Control-Allow-Origin', '*')
-
+  
   const { service } = request.body
   async function ConnectToUserDB() {
     if (!client.isConnected) await client.connect()
@@ -57,6 +57,7 @@ export default async function Timing(request, response) {
                 userTeams: Teams,
                 serviceStatus: 0
               }
+              
             }
             // Identificador errado
             else {
@@ -160,7 +161,10 @@ export default async function Timing(request, response) {
           userTeams: []
         }
         result[0]['Times'].forEach(time => {
-          serviceResponse.userTeams.push(time.teamName)
+          serviceResponse.userTeams.push({
+            'teamName': time.teamName,
+            'memberType': time.userType
+          })
         });
         response.statusCode = 200
         response.setHeader('Content-Type', 'application/json');
@@ -227,7 +231,7 @@ export default async function Timing(request, response) {
                 serviceResponse = {
                   serviceStatus: 1
                 }
-                response.statusCode = 200
+                response.statusCode = 400
                 response.setHeader('Content-Type', 'application/json');
                 response.setHeader('Cache-Control', 'max-age=180000');
                 response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));

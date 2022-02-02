@@ -1,10 +1,9 @@
 .create_team,
-.delete_team,
+.delete_and_exit_team,
 .add_member {
   display: flex;
   flex-direction: column;
-  width: 150px;
-  margin: 10px;
+  
 }
 
 .profile_container button {
@@ -13,10 +12,11 @@
   border: none;
   outline: none;
   margin: 5px 0;
-  border-radius: 2px;
-  color: #efef;
+  border-radius: 3px;
+  color: #f8ebeb;
   cursor: pointer;
-  background: #7159c1;
+  background: #6141cc;
+  
 }
 
 .profile_container button:hover {
@@ -28,4 +28,29 @@
   font-size: 1rem;
   outline: none;
   margin: 5px 0;
+  transition: .3s;
+}
+.profile_container input:focus{
+  box-shadow: 1px .6px 2px #8a72d8af;
+}
+.create_team {
+  padding: 8px;
+  width: 200px;
+  margin: 10px;
+  box-shadow: 1px 1px 4px #2e2e2e79;
+  border-radius: 4px;
+}
+.delete_and_exit_team{
+  padding: 8px;
+  width: 200px;
+  margin: 10px;
+  box-shadow: 1px 1px 4px #2e2e2e79;
+  border-radius: 4px;
+}
+.add_member {
+  padding: 8px;
+  width: 250px;
+  margin: 10px;
+  box-shadow: 2px 2px 6px #22222287;
+  border-radius: 4px;
 }

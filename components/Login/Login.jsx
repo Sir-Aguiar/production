@@ -17,7 +17,7 @@ export default function Login({ toggleLogin, setLoading, setNome, Path }) {
   }
 
   function getLogins(username, userpassword, keepLogin) {
-    ServicesApi.post("/services", {
+    ServicesApi.post("", {
       service: "LOGIN",
       username: username,
       userpassword: userpassword,

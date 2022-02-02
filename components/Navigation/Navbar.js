@@ -4,7 +4,7 @@ import Router from "next/router";
 import { FaUserAstronaut, FaHistory, FaHome } from 'react-icons/fa'
 import { BsFillCalendarCheckFill } from 'react-icons/bs'
 import { BiDownArrow } from 'react-icons/bi'
-import {FaUserCircle } from'react-icons/fa'
+import { FaUserCircle } from 'react-icons/fa'
 import { ChestCalculator } from "./Chests/ChestCalculator";
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   const handleLink = function (caminho) {
@@ -30,8 +30,11 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
         <ul className={`${styles.dropdown} ${styles.inactive}`}>
           <li onClick={() => handleLink('perfil')}><FaUserCircle size={36} /> Perfil </li>
           <li onClick={() => handleLink('home')}><FaHome size={32} /> Início</li>
-          <li onClick={() => { handleLink('tabelas'); RealizeQuery() }}><FaHistory size={32} /> Histórico</li>
+          <li onClick={() => { handleLink('tabelas'); }}><FaHistory size={32} /> Histórico</li>
           <li onClick={() => handleLink('registro')}><BsFillCalendarCheckFill size={32} /> Registro </li>
+          <li onClick={() => { exitCommand() }}>
+            Sair
+          </li>
         </ul>
       </nav>
     </header >

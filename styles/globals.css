@@ -12,3 +12,10 @@ body {
   overflow-x: hidden;
   height: 100%;
 }
+* {
+  scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+ 
+}

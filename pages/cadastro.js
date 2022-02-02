@@ -38,7 +38,7 @@ export default function Cadastro() {
     event.preventDefault()
     getUserdata()
 
-    ServicesApi.post('/services', userData).then((response) => {
+    ServicesApi.post('', userData).then((response) => {
       if (response.data.serviceStatus == 0) {
         alert('Cadastro realizado com sucesso')
       }

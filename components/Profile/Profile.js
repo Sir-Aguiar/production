@@ -3,40 +3,48 @@ import ServicesApi from '../../scripts/ServicesAPI'
 import { useEffect, useState } from 'react'
 export default function Profile() {
   const [teams, setTeams] = useState([])
+  const [actualType, setactualType] = useState()
   const [actualTeam, updateTeam] = useState()
+  const checkType = (timeType) => {
+    teams.forEach(time => {
+      if (time.teamName == timeType) {
+        setactualType(time.memberType)
+      }
+    });
+  }
   const sendRequest = () => {
     const team = document.querySelector('#teampicker')
     const TeamName = String(team.value).trim()
     const contas = document.querySelector('#contas')
     const ncontas = Number(contas.value)
     if (TeamName != '') {
-      ServicesApi.post('/services', {
+      ServicesApi.post('', {
         service: 'CREATENEWTEAM',
         newTeamName: TeamName,
         userName: localStorage.getItem('username'),
         accountNumber: ncontas
       }).then(response => {
-        if (response.data.serviceStatus == 0) {
+        if (response.status == 0) {
           getUserteams()
         }
       })
     }
   }
   const getUserteams = function () {
-    ServicesApi.post("/services", {
+    ServicesApi.post("", {
       service: "GETEAMS",
       userName: localStorage.getItem("username"),
       userId: localStorage.getItem("userId"),
     }).then((response) => {
       if (response.status == 200) {
-        setTeams(response.data.userTeams);
+        setTeams(response.data.userTeams)
       }
     });
   };
   const exitTeam = function () {
-    if (teams.includes(actualTeam)) {
+    if (actualTeam) {
 
-      ServicesApi.post('/services', {
+      ServicesApi.post('', {
         service: 'EXITTEAM',
         teamName: actualTeam,
         userName: localStorage.getItem('username'),
@@ -51,8 +59,8 @@ export default function Profile() {
     }
   }
   const delTeam = function () {
-    if (teams.includes(actualTeam)) {
-      ServicesApi.post('/services', {
+    if (actualTeam) {
+      ServicesApi.post('', {
         service: 'DELTEAM',
         teamName: actualTeam,
         userName: localStorage.getItem('username'),
@@ -63,12 +71,13 @@ export default function Profile() {
           getUserteams()
           updateTeam('')
         }
+        console.log(response)
       })
       return
     }
   }
   const newMember = function () {
-    ServicesApi.post('/services', {
+    ServicesApi.post('', {
       service: 'ADDMEMBER',
       Team: actualTeam,
       newMember: (document.querySelector('.newmember').value).trim(),
@@ -82,6 +91,7 @@ export default function Profile() {
   }
   useEffect(() => {
     getUserteams()
+    console.log(teams)
   }, [])
   return (
     <div className={styles.profile_container}>
@@ -90,37 +100,35 @@ export default function Profile() {
         <input type='number' placeholder='N de contas' id='contas' />
         <button onClick={sendRequest}>Criar time</button>
       </div>
-      <div className={styles.delete_team}>
-        {
-          actualTeam && actualTeam != 'vazio' && <h1>{actualTeam}</h1>
-        }
-        <select size={teams.length + 1} onChange={(e) => updateTeam(e.target.value)} >
+      <div className={styles.delete_and_exit_team}>
+        <button onClick={getUserteams}>Atualizar lista</button>
+        <select size={teams.length + 1} onChange={(e) => { updateTeam(e.target.value); checkType(e.target.value) }} >
           <option value='vazio'>Escolha um time</option>
           {
             teams && teams.map(time => (
-              <option key={time} value={time}>
-                {time}
+              <option key={time.teamName} value={time.teamName}>
+                {time.teamName}
               </option>
             ))
           }
         </select>
         {
-          actualTeam && teams.includes(actualTeam) && <>
+          actualTeam && actualTeam != 'vazio' && <>
             <button onClick={exitTeam}>Sair do time</button>
-            <button onClick={delTeam}>Excluir</button>
+            {
+              actualType == 'admin' ? <button onClick={delTeam}>Excluir</button> : <></>
+            }
           </>
         }
       </div>
-      <div className={styles.add_member}>
-        {
-          actualTeam && (
-            <>
-              <input type='text' placeholder='Convidar (nome de usuário)' className='newmember' />
-              <button onClick={newMember}>Adicionar a {actualTeam}</button>
-            </>
-          )
-        }
-      </div>
+      {
+        actualTeam && actualTeam != 'vazio' && actualType == 'admin' && (
+          <div className={styles.add_member}>
+            <input type='text' placeholder='Convidar (nome de usuário)' className='newmember' />
+            <button onClick={newMember}>Adicionar a {actualTeam}</button>
+          </div>
+        )
+      }
     </div>
   )
 }
