@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb"
+import { MongoClient, ObjectId } from "mongodb"
 import axios from 'axios'
 
 const client = new MongoClient('mongodb+srv://SirAguiar:06062005@cluster0.jh66v.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -105,7 +105,7 @@ export default async function Timing(request, response) {
   // CADASTRO
   if (request.method == 'POST' && service == 'CADASTRO') {
     let serviceResponse = { serviceStatus: 0 }
-    const { userName, fullName, userPassword} = request.body
+    const { userName, fullName, userPassword } = request.body
     return new Promise((resolve, reject) => {
       USERCOLLECTION.find({ 'Username': userName }).toArray(function (error, result) {
         if (result && result.length >= 1) {
@@ -123,7 +123,8 @@ export default async function Timing(request, response) {
           USERCOLLECTION.insertOne({
             Nome: fullName,
             Username: userName,
-            Senha: userPassword
+            Senha: userPassword,
+            Times: []
           }, function (err, result) {
             if (err) {
               serviceResponse = {
@@ -144,6 +145,30 @@ export default async function Timing(request, response) {
         }
       })
     });
+  }
+  // Pegar times
+  if (request.method == 'POST' && service == 'GETEAMS') {
+    const { userId, userName } = request.body
+
+    return new Promise((resolve, reject) => {
+      const filter = {
+        'Username': userName,
+        '_id': new ObjectId(userId)
+      }
+      USERCOLLECTION.find(filter).toArray((err, result) => {
+        let serviceResponse = {
+          userTeams: []
+        }
+        result[0]['Times'].forEach(time => {
+          serviceResponse.userTeams.push(time.teamName)
+        });
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'application/json');
+        response.setHeader('Cache-Control', 'max-age=180000');
+        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+        resolve();
+      })
+    })
   }
   // CREATETEAM
   if (request.method == 'POST' && service == 'CREATENEWTEAM') {
@@ -195,7 +220,7 @@ export default async function Timing(request, response) {
               DocumentToInsert[`Conta ${index}`] = []
               DocumentToInsert[`NumeroConta`] = index
             }
-            console.log(DocumentToInsert)
+
             TEAMSDB.collection('Times').insertOne(DocumentToInsert)
             USERCOLLECTION.updateOne(userFilter, action, function (err, result) {
               if (err) {
@@ -230,20 +255,18 @@ export default async function Timing(request, response) {
     const { teamName } = request.body
     if (!client.isConnected) await client.connect()
     const TEAMSDB = client.db('Teams')
-    TEAMSDB.collection('Times').find({ Nome: teamName }).toArray((err, result) => {
-      if (result.length == 1) {
-        return new Promise((resolve, reject) => {
-          let serviceResponse = {
-            serviceStatus: 0,
-            accountNumber: result[0]['NumeroConta']
-          }
-          response.statusCode = 200
-          response.setHeader('Content-Type', 'application/json');
-          response.setHeader('Cache-Control', 'max-age=180000');
-          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
-          resolve();
-        })
-      }
+    return new Promise((resolve, reject) => {
+      TEAMSDB.collection('Times').find({ Nome: teamName }).toArray((err, result) => {
+        let serviceResponse = {
+          serviceStatus: 0,
+          accountNumber: result[0]['NumeroConta']
+        }
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'application/json');
+        response.setHeader('Cache-Control', 'max-age=180000');
+        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+        resolve();
+      })
     })
   }
   // Fazer registro em um time
@@ -257,7 +280,7 @@ export default async function Timing(request, response) {
       userName,
       accountNumber,
       DadosContas,
-      DadosTotal
+      DadosTotal,
     } = request.body
 
     if (!client.isConnected) await client.connect()
@@ -321,5 +344,141 @@ export default async function Timing(request, response) {
       }
     })
 
+  }
+  if (request.method == 'POST' && service == 'EXITTEAM') {
+    if (!client.isConnected) await client.connect()
+    const TEAMSDB = client.db('Teams')
+    const { teamName, userName, userId } = request.body
+    return new Promise((resolve, reject) => {
+      const filter = {
+        'Username': userName,
+        '_id': new ObjectId(userId)
+      }
+      const aboutRemove = {
+        $pull: {
+          'Times': {
+            'teamName': teamName
+          }
+        }
+      }
+      USERCOLLECTION.updateOne(filter, aboutRemove, (err, result) => {
+
+        let serviceResponse = {
+          serviceStatus: 0
+        }
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'application/json');
+        response.setHeader('Cache-Control', 'max-age=180000');
+        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+        resolve();
+      })
+    })
+  }
+  // DELTEAM
+  if (request.method == 'POST' && service == 'DELTEAM') {
+    if (!client.isConnected) await client.connect()
+    const TEAMSDB = client.db('Teams')
+    const { teamName, userName, userId } = request.body
+    return new Promise((resolve, reject) => {
+      const filter = {
+        'Nome': teamName,
+      }
+      const aboutRemove = {
+        $unset: {
+          'Nome': teamName
+        }
+      }
+      TEAMSDB.collection('Times').updateOne(filter, aboutRemove, (err, result) => {
+        let serviceResponse = {
+          serviceStatus: 0
+        }
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'application/json');
+        response.setHeader('Cache-Control', 'max-age=180000');
+        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+        resolve();
+      })
+    })
+  }
+  if (request.method == 'POST' && service == 'ADDMEMBER') {
+    if (!client.isConnected) await client.connect()
+    const TEAMSDB = client.db('Teams')
+    const { Team, userName, userId, newMember, newMemberType } = request.body
+    return new Promise((resolve, reject) => {
+      // Verificar se o time existe
+      const teamFilter = {
+        'Nome': Team
+      }
+      TEAMSDB.collection('Times').find(teamFilter).toArray((err, result) => {
+        // Time inválido
+        if (result.length != 1) {
+          let serviceResponse = {
+            serviceStatus: 404,
+            message: 'Time não existe ou não encontrado'
+          }
+          response.statusCode = 400
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+          resolve();
+        }
+        else {
+          let members = []
+          result[0]['Membros'].forEach(membro => {
+            members.push(membro.MemberName)
+          });
+
+          if (!members.includes(newMember)) {
+            const updateFilter = { 'Nome': Team }
+            const updateAction = { $push: { 'Membros': { 'MemberName': newMember, 'memberType': newMemberType } } }
+            TEAMSDB.collection('Times').updateOne(updateFilter, updateAction, (err, result) => {
+              if (err) {
+                let serviceResponse = {
+                  serviceStatus: -1,
+                  message: 'Erro inesperado'
+                }
+                response.statusCode = 400
+                response.setHeader('Content-Type', 'application/json');
+                response.setHeader('Cache-Control', 'max-age=180000');
+                response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+                resolve();
+              } else {
+                USERCOLLECTION.updateMany({ 'Username': newMember }, {
+                  $push: {
+                    'Times': {
+                      'teamName': Team,
+                      'userType': newMemberType
+                    }
+                  }
+                }, function (err, result) {
+                  if (err) {
+                    let serviceResponse = {
+                      serviceStatus: -1,
+                      message: `Erro inesperado`
+                    }
+                    response.statusCode = 400
+                    response.setHeader('Content-Type', 'application/json');
+                    response.setHeader('Cache-Control', 'max-age=180000');
+                    response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+                    resolve();
+                  }
+                  else {
+                    let serviceResponse = {
+                      serviceStatus: 0,
+                      message: `${newMember} adicionado com sucesso`
+                    }
+                    response.statusCode = 200
+                    response.setHeader('Content-Type', 'application/json');
+                    response.setHeader('Cache-Control', 'max-age=180000');
+                    response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+                    resolve();
+                  }
+                })
+              }
+            })
+          }
+        }
+      })
+    })
   }
 }

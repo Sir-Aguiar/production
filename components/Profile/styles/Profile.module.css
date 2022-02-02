@@ -1,10 +1,13 @@
-.create_team {
-  display:flex;
+.create_team,
+.delete_team,
+.add_member {
+  display: flex;
   flex-direction: column;
   width: 150px;
   margin: 10px;
 }
-.create_team button {
+
+.profile_container button {
   padding: 5px;
   font-size: 1rem;
   border: none;
@@ -15,10 +18,12 @@
   cursor: pointer;
   background: #7159c1;
 }
-.create_team button:hover{
+
+.profile_container button:hover {
   filter: brightness(.9);
 }
-.create_team input {
+
+.profile_container input {
   padding: 5px;
   font-size: 1rem;
   outline: none;
