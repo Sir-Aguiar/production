@@ -11,9 +11,7 @@ import ServicesApi from '../scripts/ServicesAPI'
 import Loading from '../components/Loading/Loading'
 export default function Home() {
   const [loged, setLoged] = useState(false)
-  const [name, setName] = useState('')
   const [currentWindow, setWindow] = useState('registro')
-  const [queryData, setQD] = useState()
   const [loading, setLoading] = useState(false)
   function Logout() {
     setLoged(false)
@@ -77,18 +75,19 @@ export default function Home() {
           <main className={styles.main_container}>
             <Navbar exitCommand={Logout} Path={setWindow} />
             {
-              currentWindow == 'registro' && <Register nome={name} />
+              currentWindow == 'registro' && <Register/>
             }
             {
-              currentWindow == 'perfil' && <Profile />
+              currentWindow == 'perfil' && <Profile/>
             }
             {
-              currentWindow == 'tabelas' && <Tabelas dados={queryData} />
+              currentWindow == 'tabelas' && <Tabelas/>
             }
+
           </main>
         ) : (
           loading ? <Loading containerSize={100} loadingSize={60} loading={true
-          } /> : <Login toggleLogin={setLoged} setNome={setName} Path={setWindow} />
+          } /> : <Login toggleLogin={setLoged} Path={setWindow} />
         )
       }
 

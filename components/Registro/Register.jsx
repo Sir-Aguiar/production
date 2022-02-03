@@ -16,7 +16,9 @@ export default function Register() {
   const hour =
     data.getUTCHours() > 9 ? data.getUTCHours() : `0${data.getUTCHours()}`;
   const minutes =
-    data.getUTCMinutes() > 9 ? data.getUTCMinutes() : `0${data.getUTCHours()}`;
+    data.getUTCMinutes() > 9
+      ? data.getUTCMinutes()
+      : `0${data.getUTCMinutes()}`;
   const date = `${day}/${month}/${year} - ${hour}:${minutes}`;
   let AccountData = {};
   const totalDados = {
@@ -48,7 +50,6 @@ export default function Register() {
         Number(Iniciais[index - 1].value.replace(",", "."));
     }
     AccountData["Registros"] = totalDados;
-    console.log(AccountData);
   };
   const getUserteams = function () {
     ServicesAPI.post("", {
@@ -65,7 +66,6 @@ export default function Register() {
       }
     });
   };
-
   const updateTeam = function (teamName) {
     ServicesAPI.post("", {
       service: "TEAMINFOS",
@@ -91,7 +91,6 @@ export default function Register() {
       userName: localStorage.getItem("username"),
       Contas: AccountData,
     }).then((response) => {
-      console.log(response.data);
       if (response.data.serviceStatus == 0) {
         toast.success("Registro realizado com sucesso");
         clearInputs();
@@ -105,6 +104,22 @@ export default function Register() {
       Iniciais[index].value = "";
       Finais[index].value = "";
     }
+  };
+  const getLast = () => {
+    ServicesAPI.post("", {
+      service: "QUERY",
+      userName: localStorage.getItem("username"),
+      teamName: actualTeam,
+    }).then((response) => {
+      const Iniciais = document.querySelectorAll(".Inicial");
+      const Finais = document.querySelectorAll(".Final");
+      for (let index = 0; index < response.data.Accounts.length; index++) {
+        Iniciais[index].value =
+          response.data.Accounts[index][
+            response.data.Accounts[index].length - 1
+          ].End;
+      }
+    });
   };
   return (
     <div className={styles.main_container}>
@@ -152,11 +167,51 @@ export default function Register() {
               <p></p>
             </div>
             <div className={styles.actions}>
-              <button onClick={makeRegister}>Registrar</button>
-              <button onClick={Calcular}>Calcular</button>
+              <button
+                onClick={() => {
+                  const button = document.querySelectorAll(
+                    `.${styles.actions} button`
+                  );
+                  makeRegister();
+                  button[0].style.transform = `translateY(2px)`;
+                  setTimeout(() => {
+                    button[0].style.transform = ``;
+                  }, 210);
+                }}
+              >
+                Registrar
+              </button>
+              <button
+                onClick={() => {
+                  const button = document.querySelectorAll(
+                    `.${styles.actions} button`
+                  );
+                  Calcular();
+                  button[1].style.transform = `translateY(2px)`;
+                  setTimeout(() => {
+                    button[1].style.transform = ``;
+                  }, 210);
+                }}
+              >
+                Calcular
+              </button>
             </div>
             <div className={styles.actions}>
-              <button onClick={Calcular}>Último registro</button>
+              <button
+                onClick={() => {
+                  const button = document.querySelectorAll(
+                    `.${styles.actions} button`
+                  );
+                  getLast();
+                  button[2].style.transform = `translateY(2px)`;
+                  setTimeout(() => {
+                    button[2].style.transform = ``;
+                  }, 210);
+                }}
+                className={styles.lastButton}
+              >
+                Último registro
+              </button>
             </div>
           </>
         )}

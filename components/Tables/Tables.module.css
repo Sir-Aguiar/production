@@ -9,29 +9,36 @@
   display: flex;
   overflow-x: auto;
   flex-direction: row;
-  
+
   scrollbar-width: thin;
 }
+
 .accounts::-webkit-scrollbar {
   width: 12px;
 }
+
 .accounts::-webkit-scrollbar-thumb {
-  border-radius: 20px;       /* roundness of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
 }
+
 .account_container {
   border: 4px solid #646915b2;
   margin: 0 5px;
   padding: 5px;
 
 }
-.tabelas_container h1 {
+
+.tabelas_container h1,
+.geralData h1 {
   font-size: 1.5rem;
   font-weight: 500;
   margin: 10px 0;
   text-align: center;
 
 }
-.team_picker{
+
+.team_picker {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -47,6 +54,7 @@
   padding: 4px;
   margin: 0 4px;
 }
+
 .tables table {
   border-collapse: collapse;
   height: 200px;
@@ -64,9 +72,6 @@
   font-weight: 550;
 }
 
-
-
-
 .tables {
   width: 300px;
   height: 400px;
@@ -77,6 +82,41 @@
   justify-content: center;
 }
 
+.tables tr {
+  height: 40px;
+}
+
+.geralTable {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  height: 300px;
+  width: 500px;
+}
+
+.geralData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+.geralData th {
+  font-size: 1.1rem;
+  font-weight: 550;
+}
+
+.geralData table {
+  border-collapse: collapse;
+  height: 200px;
+}
+
+.geralData td,
+.geralData th {
+  padding: 4px 10px;
+  text-align: center;
+  border: 1px solid #000000;
+}
 
 @media (max-width:900px) {
   .tabelas_container {
@@ -89,13 +129,32 @@
     overflow: auto;
 
   }
+  .team_picker h1 {
+    font-size: 1.3rem;
+  }
   .accounts {
     display: flex;
     overflow-y: auto;
     flex-direction: column;
     scrollbar-width: thin;
   }
-  .account_container{
+
+  .account_container {
     margin: 5px 0;
   }
+  .geralTable {
+    overflow: auto;
+    scrollbar-width: thin;
+    height: 400px;
+    width: 350px;
+  }
+  
+  .geralData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
 }

@@ -8,6 +8,7 @@ export default function Tabelas() {
   const [teams, setTeams] = useState([]);
   const [actualTeam, setTeam] = useState('');
   const [accountData, setAccountData] = useState([])
+  const [totalData, setTotalData] = useState([])
   const [Total, setTotal] = useState(0)
   const getUserteams = function () {
     ServicesAPI.post("", {
@@ -32,7 +33,14 @@ export default function Tabelas() {
     }).then(response => {
       console.log(response.status)
       console.log(response.data)
+      setTotalData(response.data['Geral'])
       setAccountData(response.data['Accounts'])
+      let total = 0
+      response.data['Geral'].forEach(registro => {
+        total += Number(registro['Lucro'])
+      })
+      setTotal(total)
+      console.log(Total)
     })
   }
   return (
@@ -42,8 +50,13 @@ export default function Tabelas() {
           <h1>Balanço individual de</h1>
           <select
             onChange={(e) => {
-              Query(e.target.value);
-              setTeam(e.target.value);
+              if (e.target.value != 'vazio') {
+                setTeam(e.target.value);
+                Query(e.target.value);
+              }
+              else {
+                setTeam('')
+              }
             }}
           >
             <option value="vazio">Escolha seu time</option>
@@ -56,9 +69,11 @@ export default function Tabelas() {
         </div>
         <div className={styles.accounts}>
           {
-            accountData && accountData.length > 0 && accountData.map((conta, index) => (
+            actualTeam && accountData && accountData.length > 0 && accountData.map((conta, index) => (
               <div className={styles.account_container} key={index * (Math.random()) * 0.3 / (Math.random())}>
-                <h1>Conta {index + 1}</h1>
+                <div className={styles.tableHeader}>
+                  <h1>Conta {index + 1}</h1>
+                </div>
                 <div className={styles.tables}>
                   <table>
                     <thead>
@@ -77,13 +92,13 @@ export default function Tabelas() {
                               {dado['Nome']}
                             </td>
                             <td>
-                              {dado['Start']}
+                              {dado['Start'].toFixed(2)}
                             </td>
                             <td>
-                              {dado['End']}
+                              {dado['End'].toFixed(2)}
                             </td>
                             <td>
-                              {dado['Lucro']}
+                              {dado['Lucro'].toFixed(2)}
                             </td>
                           </tr>
                         ))
@@ -95,8 +110,39 @@ export default function Tabelas() {
             ))
           }
         </div>
-
       </div>
+      {
+        actualTeam && totalData && totalData.length > 0 && <div className={styles.geralData}>
+          <h1>Balanço Geral</h1>
+          <div className={styles.geralTable}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Autor</th>
+                  <th>Início</th>
+                  <th>Final</th>
+                  <th>Lucro</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  totalData && totalData.length > 0 && totalData.map((dado, index) => (
+                    <tr>
+                      <td>{dado['Data']}</td>
+                      <td>{dado['Nome']}</td>
+                      <td>{dado['Start'].toFixed(2)}</td>
+                      <td>{dado['End'].toFixed(2)}</td>
+                      <td>{dado['Lucro'].toFixed(2)}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+          <p>Saldo: {Total.toFixed(2)}</p>
+        </div>
+      }
     </>
   )
 }

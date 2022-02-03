@@ -6,6 +6,7 @@ import { BsFillCalendarCheckFill } from 'react-icons/bs'
 import { BiDownArrow } from 'react-icons/bi'
 import { FaUserCircle } from 'react-icons/fa'
 import { ChestCalculator } from "./Chests/ChestCalculator";
+import {HiOutlineDocumentText} from 'react-icons/hi'
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   const handleLink = function (caminho) {
     Path(caminho);
@@ -29,7 +30,7 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
         </span>
         <ul className={`${styles.dropdown} ${styles.inactive}`}>
           <li onClick={() => handleLink('perfil')}><FaUserCircle size={36} /> Perfil </li>
-          <li onClick={() => handleLink('home')}><FaHome size={32} /> Início</li>
+          
           <li onClick={() => { handleLink('tabelas'); }}><FaHistory size={32} /> Histórico</li>
           <li onClick={() => handleLink('registro')}><BsFillCalendarCheckFill size={32} /> Registro </li>
           <li onClick={() => { exitCommand() }}>
