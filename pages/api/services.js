@@ -31,8 +31,8 @@ export default async function Timing(request, response) {
       return value;
     }
   }
-  res.setHeader('Access-Control-Allow-Origin', 'https://production-jet.vercel.app')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  response.setHeader('Access-Control-Allow-Origin', 'https://production-jet.vercel.app/')
+  response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
   const { service } = request.body
   async function ConnectToUserDB() {
     if (!client.isConnected) await client.connect()
