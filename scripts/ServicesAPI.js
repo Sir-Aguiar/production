@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 const ServicesApi = axios.create({
-  baseURL: "http://localhost:3000/api/services"
+  baseURL: "https://plataforma-xi.vercel.app/api/services"
 })
 export default ServicesApi
