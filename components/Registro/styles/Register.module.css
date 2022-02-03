@@ -1,43 +1,100 @@
-.parent_container {
+.main_container {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 91.6vh;
+
+}
+
+.register_container {
+  padding: 10px;
+  box-shadow: 1.2px 2px 5px #22222263;
+  border-radius: 5px;
+  margin: 0 25px;
+  max-height: 590px;
+}
+
+.accountContainers {
+  max-height: 390px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 10px;
+}
+
+.accountContainers::-webkit-scrollbar {
+  width: 8px;
+}
+
+.accountContainers::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+}
+
+
+.account_container {
+  margin: 10px 0;
+
+}
+
+.register_container h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #1d1d1dd0;
+  text-align: center;
+}
+
+.accounts {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 25px;
-  padding: 0 10px;
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 10px 0;
 }
 
-.contas_container {
+.accounts input {
+  padding: 4px;
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid #55555585;
+  border-radius: 1px;
+  margin: 0 2px;
+  width: 105px;
+  transition: .3s;
+}
+
+.accounts input:focus {
+  box-shadow: .8px .9px 1px #55e47eaf;
+}
+
+.selector_container {
 
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  box-shadow: 1px 3px 8px #4a754462;
-  color: #222222d0;
-  border-radius: 5px;
-  padding: 0 10px;
+
+  margin: 4px 0;
+
 }
 
+.selector_container select {
+  border-radius: 1px;
+  border: 1px solid #838383ce;
+  background-color: #d9e2e2;
+  outline: none;
+  padding: 4px;
+}
 
-.account_infos p {
-  font-size: 1.1rem;
-  cursor: not-allowed;
-  color: #222;
-  text-align: center;
-  line-height: 1.5rem;
+.selector_container option {
+  border-radius: 1px;
+  background-color: #d9e2e2e5;
 }
 
 .actions {
   display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 
 .actions button {
   color: rgb(34, 34, 34);
   padding: 8px 0;
-
-  cursor: pointer;
   border: none;
   outline: none;
   width: 110px;
@@ -48,74 +105,40 @@
   background-size: 110px 38px;
   font-family: 'Gemunu Libre', sans-serif;
   background-position: center;
-  color: #baccb9ee;
+  color: #f0f3f0ee;
   letter-spacing: .07rem;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   text-shadow: -1px 0 #2c211dd7, 0 1px #2c211dd7, 0 1px #2c211dd7, 1px 0 #2c211dd7, 0 -1px #2c211dd7;
   transition: .25s;
   margin: 5px 2px;
+  font-weight: 550;
+}
+.registerInfos p {
+  font-size: 1.1rem;
+  line-height: 1.4rem;
+  text-align: center;
+  margin: 2px 0;
+}
+.actions .lastButton {
+  width: 230px;
+  height: 50px;
+  background-size: 230px 48px;
 }
 
 .actions button:hover {
-  filter: brightness(1.06);
+  filter: brightness(.9);
 }
 
-
-.nametosearch {
-  outline: none;
-  padding: 4px;
-  font-size: 1rem;
-  border: 1px solid #2b2b2b85;
-  transition: .2s;
+.account_container input:focus {
+  box-shadow: 1px .6px 2px #8a72d8af;
 }
 
-.nametosearch:focus {
-  border: 1px solid #109e17bb;
-  box-shadow: .6px 0px 3px #1661356e;
-}
-
-.percentage {
-  text-align: center;
-}
-
-.register_table_container {
-  
-  padding: 5px 0;
-  margin: 20px;
-}
-
-
-@media only screen and (max-width: 1200px) {
-  .parent_container {
+@media (max-width:1000px) {
+  .main_container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    min-width: 98vw;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .actions button .contas_container {
-    margin-top: 30px;
-  }
-
-
-  .nametosearch,
-  .search_button {
-    display: none;
-  }
-
-  .account_infos p {
-    margin: 5px 0;
-  }
-
-  .important_buttonstwo button:nth-child(2) {
-    width: 228px;
-    height: 45px;
-    background-size: 225px 45px;
-  }
-  .register_table_container{
-    overflow:scroll;
-    width:100%;
+    justify-content: center;
+    width: 100vw;
+    height: 91.6vh;
   }
 }

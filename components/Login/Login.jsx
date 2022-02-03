@@ -1,40 +1,41 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import ServicesApi from "../../scripts/ServicesAPI";
 import styles from "./styles/main.module.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import Link from "next/dist/client/link";
-export default function Login({ toggleLogin, setNome, Path}) {
+import { FaSlideshare } from "react-icons/fa";
+export default function Login({ toggleLogin, setLoading, setNome, Path }) {
   const [showPassword, setToggle] = useState(false);
-
+  const [remember, toggleRemember] = useState(false);
   function handleSubmit(e) {
     e.preventDefault();
     let inputs = document.querySelectorAll("input");
-    
-    
-    getLogins(inputs[0].value, inputs[1].value);
+
+    getLogins(inputs[0].value, inputs[1].value, false);
   }
 
-  function getLogins(username, userpassword) {
-    axios
-      .post("https://production-jet.vercel.app/api/services", {
-        service: "LOGIN",
-        username: username,
-        userpass: userpassword,
-      })
-      .then((response) => {
-
-        if (response.data.message == "Válido") {
-
-          toggleLogin(true);
-          setNome(username);
-          Path("registro");
-
-        } else if (response.data.message == "Inválido") {
-          toast.warn("Erro ao realizar login: Verifique seus dados");
-        }
-      });
+  function getLogins(username, userpassword, keepLogin) {
+    ServicesApi.post("", {
+      service: "LOGIN",
+      username: username,
+      userpassword: userpassword,
+    }).then((response) => {
+      if (response.data["serviceStatus"] === 0) {
+        localStorage.setItem("username", response.data["userName"]);
+        localStorage.setItem("userId", response.data["userId"]);
+        localStorage.setItem("Nome", response.data["Nome"]);
+        localStorage.setItem('remember', remember)
+        localStorage.setItem('userTeams', response.data["userTeams"])
+        toggleLogin(true);
+        
+      } else if (response.data["serviceStatus"] === -1) {
+        toast.warn("Senha errada ou inválida");
+      } else if (response.data["serviceStatus"] === 404) {
+        toast.error("Usuário não encontrado ou não existe");
+      }
+    });
   }
 
   return (
@@ -53,13 +54,14 @@ export default function Login({ toggleLogin, setNome, Path}) {
         </div>
 
         <div className={styles.username_container}>
-          <input type="text" placeholder="Nome de usuário" />
+          <input type="text" placeholder="Nome de usuário" required />
         </div>
         <div className={styles.password_container}>
           <input
             type={showPassword ? "text" : "password"}
             id="password_field"
             placeholder="Senha"
+            required
           />
           {showPassword ? (
             <RiEyeLine
@@ -80,24 +82,31 @@ export default function Login({ toggleLogin, setNome, Path}) {
         </div>
         <div className={styles.line_div}></div>
         <div className={styles.not_account}>
-          <Link href='/cadastro'>Não possui uma conta?</Link>
+          <Link href="/cadastro">Não possui uma conta?</Link>
         </div>
-        {/* <div className={styles.remember_container}>
-          <input type="checkbox" id="remember" title="Não recomendado" />
+        <div className={styles.remember_container}>
+          <input
+            type="checkbox"
+            id="remember"
+            title="Não recomendado"
+            onClick={() => {
+              toggleRemember(remember ? false : true);
+            }}
+          />
           <label htmlFor="remember" title="Não recomendado">
             Manter usuário
           </label>
-        </div> */}
+        </div>
         <div className={styles.submit_container}>
           <input
             type="submit"
             value="Entrar"
             id="submiter"
             onClick={() => {
-              const button = document.querySelector("#submiter")
-              button.style.transform = `translateY(4px)`
+              const button = document.querySelector("#submiter");
+              button.style.transform = `translateY(4px)`;
               setTimeout(() => {
-                button.style.transform = ``
+                button.style.transform = ``;
               }, 210);
             }}
           />

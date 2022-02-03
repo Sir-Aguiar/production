@@ -2,15 +2,17 @@ import Link from "next/link";
 import styles from "./styles/Navbar.module.css";
 import Router from "next/router";
 import { FaUserAstronaut, FaHistory, FaHome } from 'react-icons/fa'
-import { MdCalendarToday } from 'react-icons/md'
-import { BiLeftArrow } from 'react-icons/bi'
+import { BsFillCalendarCheckFill } from 'react-icons/bs'
+import { BiDownArrow } from 'react-icons/bi'
+import { FaUserCircle } from 'react-icons/fa'
 import { ChestCalculator } from "./Chests/ChestCalculator";
+import {HiOutlineDocumentText} from 'react-icons/hi'
 export default function Navbar({ exitCommand, Path, RealizeQuery }) {
   const handleLink = function (caminho) {
     Path(caminho);
     activateMenu()
   }
-  function activateMenu() {    
+  function activateMenu() {
     const navList = document.querySelector(`.${styles.dropdown}`)
     const arr = document.querySelector(`.${styles.userarrow}`)
 
@@ -24,12 +26,16 @@ export default function Navbar({ exitCommand, Path, RealizeQuery }) {
         <ChestCalculator />
         <span className={`${styles.userprofile}`} onClick={activateMenu}>
           <FaUserAstronaut size={25} />
-          <BiLeftArrow size={15} className={`${styles.userarrow} ${styles.inactive}`} />
+          <BiDownArrow size={15} className={`${styles.userarrow} ${styles.inactive}`} />
         </span>
         <ul className={`${styles.dropdown} ${styles.inactive}`}>
-          <li onClick={() => handleLink('home')}><FaHome size={32} /> Início</li>
-          <li onClick={() => { handleLink('tabelas'); RealizeQuery() }}><FaHistory size={32} /> Histórico</li>
-          <li onClick={() => handleLink('registro')}><MdCalendarToday size={32} /> Registro </li>
+          <li onClick={() => handleLink('perfil')}><FaUserCircle size={36} /> Perfil </li>
+          
+          <li onClick={() => { handleLink('tabelas'); }}><FaHistory size={32} /> Histórico</li>
+          <li onClick={() => handleLink('registro')}><BsFillCalendarCheckFill size={32} /> Registro </li>
+          <li onClick={() => { exitCommand() }}>
+            Sair
+          </li>
         </ul>
       </nav>
     </header >
