@@ -98,15 +98,20 @@ export default function Profile() {
       <div className={styles.create_team}>
         <input type='text' placeholder='Nome do time' id='teampicker' />
         <input type='number' placeholder='N de contas' id='contas' />
-        <button onClick={sendRequest}>Criar time</button>
+        <button onClick={() => {
+          sendRequest()
+          setTimeout(() => {
+            getUserteams()
+          }, 400);
+        }} title='Insira um nome e o número de contas para seu time, fazer parte ou criar um time é o primeiro passo'>Criar time</button>
       </div>
       <div className={styles.delete_and_exit_team}>
         <button onClick={getUserteams}>Atualizar lista</button>
-        <select size={teams.length + 1} onChange={(e) => { updateTeam(e.target.value); checkType(e.target.value) }} >
+        <select size={teams.length + 1} onChange={(e) => { updateTeam(e.target.value); checkType(e.target.value) }} title='Escolha um time a qual tem acesso'>
           <option value='vazio'>Escolha um time</option>
           {
             teams && teams.map(time => (
-              <option key={time.teamName} value={time.teamName}>
+              <option key={`${time.teamName}${Math.random()*999}`} value={time.teamName}>
                 {time.teamName}
               </option>
             ))

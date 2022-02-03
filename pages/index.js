@@ -11,7 +11,7 @@ import ServicesApi from '../scripts/ServicesAPI'
 import Loading from '../components/Loading/Loading'
 export default function Home() {
   const [loged, setLoged] = useState(false)
-  const [currentWindow, setWindow] = useState('registro')
+  const [currentWindow, setWindow] = useState('perfil')
   const [loading, setLoading] = useState(false)
   function Logout() {
     setLoged(false)
@@ -63,10 +63,13 @@ export default function Home() {
         <title>{loged ? 'Home page' : 'Login Page'}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
         <meta charSet="UTF-8" />
-        {/* <meta name="theme-color" content="#23232e"/> */}
+        <meta name="theme-color" content="#23232e" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
         <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+       
+
       </Head>
 
 
@@ -75,15 +78,14 @@ export default function Home() {
           <main className={styles.main_container}>
             <Navbar exitCommand={Logout} Path={setWindow} />
             {
-              currentWindow == 'registro' && <Register/>
+              currentWindow == 'registro' && <Register />
             }
             {
-              currentWindow == 'perfil' && <Profile/>
+              currentWindow == 'perfil' && <Profile />
             }
             {
-              currentWindow == 'tabelas' && <Tabelas/>
+              currentWindow == 'tabelas' && <Tabelas />
             }
-
           </main>
         ) : (
           loading ? <Loading containerSize={100} loadingSize={60} loading={true

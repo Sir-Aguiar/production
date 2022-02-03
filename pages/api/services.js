@@ -180,7 +180,7 @@ export default async function Timing(request, response) {
         response.statusCode = 200
         response.setHeader('Content-Type', 'application/json');
         response.setHeader('Cache-Control', 'max-age=180000');
-        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+        response.end(JSON.stringify(serviceResponse));
         resolve();
       })
     })

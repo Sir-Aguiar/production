@@ -7,6 +7,8 @@ export default function Register() {
   const [contas, setContas] = useState([]);
   const [teams, setTeams] = useState([]);
   const [actualTeam, setTeam] = useState();
+  const [Total, setTotal] = useState(0);
+  const [Farm, setFarm] = useState(0);
   const data = new Date();
   const year = data.getUTCFullYear();
   const month =
@@ -34,6 +36,7 @@ export default function Register() {
   const Calcular = () => {
     const Iniciais = document.querySelectorAll(".Inicial");
     const Finais = document.querySelectorAll(".Final");
+    let farm = 0;
     for (let index = 1; index <= Iniciais.length; index++) {
       AccountData[`Conta ${index}`] = {
         Nome: localStorage.getItem("username"),
@@ -48,7 +51,11 @@ export default function Register() {
       totalDados.Lucro +=
         Number(Finais[index - 1].value.replace(",", ".")) -
         Number(Iniciais[index - 1].value.replace(",", "."));
+      farm +=
+        Number(Finais[index - 1].value.replace(",", ".")) -
+        Number(Iniciais[index - 1].value.replace(",", "."));
     }
+    setFarm(farm);
     AccountData["Registros"] = totalDados;
   };
   const getUserteams = function () {
@@ -105,6 +112,20 @@ export default function Register() {
       Finais[index].value = "";
     }
   };
+  const getData = (teamName) => {
+    ServicesAPI.post("", {
+      service: "QUERY",
+      userName: localStorage.getItem("username"),
+      teamName: teamName,
+    }).then((response) => {
+      let lucrototal = 0;
+
+      response.data.Geral.forEach((item) => {
+        lucrototal += item.Lucro;
+      });
+      setTotal(lucrototal);
+    });
+  };
   const getLast = () => {
     ServicesAPI.post("", {
       service: "QUERY",
@@ -113,11 +134,13 @@ export default function Register() {
     }).then((response) => {
       const Iniciais = document.querySelectorAll(".Inicial");
       const Finais = document.querySelectorAll(".Final");
-      for (let index = 0; index < response.data.Accounts.length; index++) {
-        Iniciais[index].value =
-          response.data.Accounts[index][
-            response.data.Accounts[index].length - 1
-          ].End;
+      if (response.data.Accounts.length > 0) {
+        for (let index = 0; index < response.data.Accounts.length; index++) {
+          Iniciais[index].value =
+            response.data.Accounts[index][
+              response.data.Accounts[index].length - 1
+            ].End;
+        }
       }
     });
   };
@@ -127,8 +150,15 @@ export default function Register() {
         <div className={styles.selector_container}>
           <select
             onChange={(e) => {
-              updateTeam(e.target.value);
-              setTeam(e.target.value);
+              if (e.target.value != "vazio") {
+                updateTeam(e.target.value);
+                setTeam(e.target.value);
+                getData(e.target.value);
+                setTotal(0);
+                setFarm(0);
+              } else {
+                setTeam("");
+              }
             }}
           >
             <option value="vazio">Escolha seu time</option>
@@ -162,9 +192,13 @@ export default function Register() {
               ))}
             </div>
             <div className={styles.registerInfos}>
-              <p></p>
-              <p></p>
-              <p></p>
+              <p title="O primeiro valor representa o saldo inicial, e segundo o saldo final">
+                Saldo: {Total.toFixed(2)} -{" "}
+                {Farm > 0 && Number(Total.toFixed(2)) + Number(Farm.toFixed(2))}
+              </p>
+              <p title="O quanto foi lucrado desde o último registro">
+                Farm: {Farm.toFixed(2)}
+              </p>
             </div>
             <div className={styles.actions}>
               <button
