@@ -128,7 +128,7 @@ export default function Tabelas() {
               <tbody>
                 {
                   totalData && totalData.length > 0 && totalData.map((dado, index) => (
-                    <tr>
+                    <tr key={index * (Math.random(0.32 * index / (index * 0.23 / index + 42)))}>
                       <td>{dado['Data']}</td>
                       <td>{dado['Nome']}</td>
                       <td>{dado['Start'].toFixed(2)}</td>
