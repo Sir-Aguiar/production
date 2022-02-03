@@ -9,7 +9,7 @@
   display: flex;
   overflow-x: auto;
   flex-direction: row;
-
+  justify-content: center;
   scrollbar-width: thin;
 }
 
@@ -129,9 +129,11 @@
     overflow: auto;
 
   }
+
   .team_picker h1 {
     font-size: 1.3rem;
   }
+
   .accounts {
     display: flex;
     overflow-y: auto;
@@ -142,19 +144,20 @@
   .account_container {
     margin: 5px 0;
   }
+
   .geralTable {
     overflow: auto;
     scrollbar-width: thin;
     height: 400px;
     width: 350px;
   }
-  
+
   .geralData {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
   }
-  
+
 }

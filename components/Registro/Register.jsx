@@ -109,6 +109,7 @@ export default function Register() {
     }).then((response) => {
       if (response.data.serviceStatus == 0) {
         toast.success("Registro realizado com sucesso");
+        toast.info(`Registro realizado em ${data} (UTC)`)
         clearInputs();
       }
     });
@@ -259,7 +260,7 @@ export default function Register() {
           </>
         )}
       </div>
-      <ToastContainer autoClose={4000} />
+      <ToastContainer autoClose={5000} />
     </div>
   );
 }

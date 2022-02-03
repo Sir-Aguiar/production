@@ -1,6 +1,7 @@
 import styles from './styles/Profile.module.css'
 import ServicesApi from '../../scripts/ServicesAPI'
 import { useEffect, useState } from 'react'
+import { toast, ToastContainer } from "react-toastify";
 export default function Profile() {
   const [teams, setTeams] = useState([])
   const [actualType, setactualType] = useState()
@@ -24,8 +25,9 @@ export default function Profile() {
         userName: localStorage.getItem('username'),
         accountNumber: ncontas
       }).then(response => {
-        if (response.status == 0) {
+        if (response.status == 200) {
           getUserteams()
+          toast.success('Time criado com sucesso')
         }
       })
     }
@@ -53,6 +55,8 @@ export default function Profile() {
         if (response.status == 200) {
           getUserteams()
           updateTeam('')
+        } else {
+          toast.error('Erro ao sair do time')
         }
       })
       return
@@ -70,6 +74,7 @@ export default function Profile() {
           exitTeam()
           getUserteams()
           updateTeam('')
+          toast.success('Time deletado com sucesso')
         }
         console.log(response)
       })
@@ -86,7 +91,11 @@ export default function Profile() {
       newMemberType: 'user'
     }).then(response => {
       console.log(response.data)
-      console.log(response.status)
+      if (response.status == 200) {
+        toast.success('Usuário adicionado com sucesso')
+      } else {
+        toast.warn('Houve um erro')
+      }
     }).catch(err => console.log(err))
   }
   useEffect(() => {
@@ -111,7 +120,7 @@ export default function Profile() {
           <option value='vazio'>Escolha um time</option>
           {
             teams && teams.map(time => (
-              <option key={`${time.teamName}${Math.random()*999}`} value={time.teamName}>
+              <option key={`${time.teamName}${Math.random() * 999}`} value={time.teamName}>
                 {time.teamName}
               </option>
             ))
@@ -134,6 +143,7 @@ export default function Profile() {
           </div>
         )
       }
+      <ToastContainer autoClose={4000} />
     </div>
   )
 }
