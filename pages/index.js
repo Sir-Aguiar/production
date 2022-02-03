@@ -92,7 +92,6 @@ export default function Home() {
           } /> : <Login toggleLogin={setLoged} Path={setWindow} />
         )
       }
-
     </>
   )
 }

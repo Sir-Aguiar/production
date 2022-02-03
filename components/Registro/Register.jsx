@@ -23,7 +23,7 @@ export default function Register() {
       : `0${data.getUTCMinutes()}`;
   const date = `${day}/${month}/${year} - ${hour}:${minutes}`;
   let AccountData = {};
-  const totalDados = {
+  let totalDados = {
     Data: date,
     Nome: localStorage.getItem("username"),
     Start: 0,
@@ -37,6 +37,13 @@ export default function Register() {
     const Iniciais = document.querySelectorAll(".Inicial");
     const Finais = document.querySelectorAll(".Final");
     let farm = 0;
+    let totalDados = {
+      Data: date,
+      Nome: localStorage.getItem("username"),
+      Start: 0,
+      End: 0,
+      Lucro: 0,
+    };
     for (let index = 1; index <= Iniciais.length; index++) {
       AccountData[`Conta ${index}`] = {
         Nome: localStorage.getItem("username"),
@@ -55,8 +62,10 @@ export default function Register() {
         Number(Finais[index - 1].value.replace(",", ".")) -
         Number(Iniciais[index - 1].value.replace(",", "."));
     }
+    
     setFarm(farm);
     AccountData["Registros"] = totalDados;
+    getData(actualTeam)
   };
   const getUserteams = function () {
     ServicesAPI.post("", {
