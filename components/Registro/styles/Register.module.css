@@ -11,7 +11,7 @@
   box-shadow: 1.2px 2px 5px #22222263;
   border-radius: 5px;
   margin: 0 25px;
-  max-height: 500px;
+  max-height: 550px;
 }
 
 .accountContainers {
@@ -98,15 +98,24 @@
   border-radius: 3px;
   color: #f8ebeb;
   cursor: pointer;
-  background: #6141cc;
+  background: #682ddd;
   transition: .25s;
 }
 
 .actions button:hover {
-  filter: brightness(.85);
+  filter: brightness(.9);
   box-shadow: 1px 1px 4px #b878e6e9;
 }
 
 .account_container input:focus {
   box-shadow: 1px .6px 2px #8a72d8af;
+}
+@media (max-width:1000px) {
+  .main_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 91.6vh;
+  }
 }

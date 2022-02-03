@@ -1,4 +1,3 @@
-
 import styles from "./styles/Register.module.css";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,7 +18,7 @@ export default function Register() {
   const minutes =
     data.getUTCMinutes() > 9 ? data.getUTCMinutes() : `0${data.getUTCHours()}`;
   const date = `${day}/${month}/${year} - ${hour}:${minutes}`;
-  let contaDados = [];
+  let AccountData = {};
   const totalDados = {
     Data: date,
     Nome: localStorage.getItem("username"),
@@ -29,29 +28,27 @@ export default function Register() {
   };
   useEffect(() => {
     getUserteams();
-    setInterval(() => {
-      console.log(process.env.REACT_APP_NOT_SECRET_CODE)
-    }, 2000);
   }, []);
   const Calcular = () => {
     const Iniciais = document.querySelectorAll(".Inicial");
     const Finais = document.querySelectorAll(".Final");
-    for (let index = 0; index < Iniciais.length; index++) {
-      contaDados.push({
+    for (let index = 1; index <= Iniciais.length; index++) {
+      AccountData[`Conta ${index}`] = {
         Nome: localStorage.getItem("username"),
-        Start: Number(Iniciais[index].value.replace(",", ".")),
-        End: Number(Finais[index].value.replace(",", ".")),
+        Start: Number(Iniciais[index - 1].value.replace(",", ".")),
+        End: Number(Finais[index - 1].value.replace(",", ".")),
         Lucro:
-          Number(Finais[index].value.replace(",", ".")) -
-          Number(Iniciais[index].value.replace(",", ".")),
-      });
-      totalDados.Start += Number(Iniciais[index].value.replace(",", "."));
-      totalDados.End += Number(Finais[index].value.replace(",", "."));
+          Number(Finais[index - 1].value.replace(",", ".")) -
+          Number(Iniciais[index - 1].value.replace(",", ".")),
+      };
+      totalDados.Start += Number(Iniciais[index - 1].value.replace(",", "."));
+      totalDados.End += Number(Finais[index - 1].value.replace(",", "."));
       totalDados.Lucro +=
-        Number(Finais[index].value.replace(",", ".")) -
-        Number(Iniciais[index].value.replace(",", "."));
+        Number(Finais[index - 1].value.replace(",", ".")) -
+        Number(Iniciais[index - 1].value.replace(",", "."));
     }
-    console.log(totalDados, contaDados);
+    AccountData["Registros"] = totalDados;
+    console.log(AccountData);
   };
   const getUserteams = function () {
     ServicesAPI.post("", {
@@ -80,32 +77,34 @@ export default function Register() {
           acc.push(index);
         }
         setContas(acc);
+        clearInputs();
       } else {
         toast.error("Algo deu errado");
       }
     });
   };
   const makeRegister = function () {
+    Calcular();
     ServicesAPI.post("", {
       service: "REGISTER",
       teamName: actualTeam,
       userName: localStorage.getItem("username"),
-      accountNumber: contas.length,
-      DadosContas: contaDados,
-      DadosTotal: totalDados,
+      Contas: AccountData,
     }).then((response) => {
       console.log(response.data);
       if (response.data.serviceStatus == 0) {
         toast.success("Registro realizado com sucesso");
-        const Iniciais = document.querySelectorAll(".Inicial");
-        const Finais = document.querySelectorAll(".Final");
-        for (let index = 0; index < Iniciais.length; index++) {
-          Iniciais[index].value = "";
-          Finais[index].value = "";
-        }
+        clearInputs();
       }
     });
-    
+  };
+  const clearInputs = () => {
+    const Iniciais = document.querySelectorAll(".Inicial");
+    const Finais = document.querySelectorAll(".Final");
+    for (let index = 0; index < Iniciais.length; index++) {
+      Iniciais[index].value = "";
+      Finais[index].value = "";
+    }
   };
   return (
     <div className={styles.main_container}>
@@ -155,6 +154,9 @@ export default function Register() {
             <div className={styles.actions}>
               <button onClick={makeRegister}>Registrar</button>
               <button onClick={Calcular}>Calcular</button>
+            </div>
+            <div className={styles.actions}>
+              <button onClick={Calcular}>Último registro</button>
             </div>
           </>
         )}

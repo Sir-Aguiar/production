@@ -3,7 +3,18 @@ import axios from 'axios'
 
 const client = new MongoClient(process.env.REACT_APP_NOT_SECRET_CODE, { useNewUrlParser: true, useUnifiedTopology: true })
 
-
+function ValidateUser(result, userName) {
+  let userValid
+  if (result.length == 1) {
+    result[0].Membros.forEach(membro => {
+      if (membro.MemberName == userName) {
+        userValid = true
+      }
+    })
+    if (userValid) return true
+    return false
+  }
+}
 export default async function Timing(request, response) {
   function censor(censor) {
     var i = 0;
@@ -21,7 +32,7 @@ export default async function Timing(request, response) {
     }
   }
   response.setHeader('Access-Control-Allow-Origin', '*')
-  
+
   const { service } = request.body
   async function ConnectToUserDB() {
     if (!client.isConnected) await client.connect()
@@ -57,7 +68,7 @@ export default async function Timing(request, response) {
                 userTeams: Teams,
                 serviceStatus: 0
               }
-              
+
             }
             // Identificador errado
             else {
@@ -275,80 +286,49 @@ export default async function Timing(request, response) {
   }
   // Fazer registro em um time
   if (request.method == 'POST' && service == 'REGISTER') {
-    let serviceResponse = {
-      serviceStatus: 0
-    }
-    let userValid = true
-    const {
-      teamName,
-      userName,
-      accountNumber,
-      DadosContas,
-      DadosTotal,
-    } = request.body
-
     if (!client.isConnected) await client.connect()
     const TEAMSDB = client.db('Teams')
-    let ObjectToInsert = {
-      'Registros': DadosTotal
-    }
+    const TEAMSCOLLECTION = TEAMSDB.collection('Times')
     return new Promise((resolve, reject) => {
-
-      TEAMSDB.collection('Times').find({ 'Nome': teamName }).toArray((err, result) => {
-        if (result.length == 1) {
-          result[0]['Membros'].forEach(membro => {
-            if (membro['MemberName'] == userName) {
-              userValid = true
-            }
-          });
+      const { teamName, userName, Contas } = request.body
+      const filter = {
+        'Nome': teamName
+      }
+      TEAMSCOLLECTION.find(filter).toArray(function (err, result) {
+        if (ValidateUser(result, userName)) {
+          let ContasToInsert
+          ContasToInsert = Contas
+          const filter = {
+            'Nome': teamName
+          }
+          TEAMSCOLLECTION.updateOne(filter, {
+            $push: ContasToInsert
+          })
+          let serviceResponse = {
+            serviceStatus: 0,
+            message: 'Registro inserido com sucesso'
+          }
+          response.statusCode = 200
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+          resolve();
+        }
+        else {
+          let serviceResponse = {
+            serviceStatus: -1,
+            message: 'Ação não autorizada pelo servidor'
+          }
+          response.statusCode = 400
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+          resolve();
         }
       })
-      if (userValid) {
-        for (let index = 0; index < DadosContas.length; index++) {
-          ObjectToInsert[`Conta ${index + 1}`] = {
-            'Nome': userName,
-            'Start': DadosContas[index]['Start'],
-            'End': DadosContas[index]['End'],
-            'Lucro': DadosContas[index]['Lucro']
-          }
-        }
-        const filter = {
-          'Nome': teamName
-        }
-        const action = {
-          $push: ObjectToInsert
-        }
-        TEAMSDB.collection('Times').updateOne(filter, action, (err, result) => {
-          if (err) {
-            serviceResponse.serviceStatus = -1
-            response.statusCode = 400
-            response.setHeader('Content-Type', 'application/json');
-            response.setHeader('Cache-Control', 'max-age=180000');
-            response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
-            resolve();
-          }
-          else {
-            serviceResponse.serviceStatus = 0
-            response.statusCode = 200
-            response.setHeader('Content-Type', 'application/json');
-            response.setHeader('Cache-Control', 'max-age=180000');
-            response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
-            resolve();
-          }
-        }
-        )
-      }
-      else {
-        serviceResponse.serviceStatus = -1
-        response.statusCode = 400
-        response.setHeader('Content-Type', 'application/json');
-        response.setHeader('Cache-Control', 'max-age=180000');
-        response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
-        resolve();
-      }
     })
-
   }
+  // EXIT TEAM
   if (request.method == 'POST' && service == 'EXITTEAM') {
     if (!client.isConnected) await client.connect()
     const TEAMSDB = client.db('Teams')
@@ -404,6 +384,7 @@ export default async function Timing(request, response) {
       })
     })
   }
+  // ADD MEMBER
   if (request.method == 'POST' && service == 'ADDMEMBER') {
     if (!client.isConnected) await client.connect()
     const TEAMSDB = client.db('Teams')
@@ -481,6 +462,51 @@ export default async function Timing(request, response) {
               }
             })
           }
+        }
+      })
+    })
+  }
+  // QUERY
+  if (request.method == 'POST' && service == 'QUERY') {
+
+    if (!client.isConnected) await client.connect()
+    const TEAMSDB = client.db('Teams')
+    const TEAMSCOLLECTION = TEAMSDB.collection('Times')
+    return new Promise((resolve, reject) => {
+      const { teamName, userName } = request.body
+      const filter = {
+        'Nome': teamName
+      }
+      const Contas = []
+      let Geral
+      TEAMSCOLLECTION.find(filter).toArray(function (err, result) {
+        if (ValidateUser(result, userName)) {
+          Geral = result[0]['Registros']
+          for (let index = 1; index <= result[0]['NumeroConta']; index++) {
+            Contas.push(result[0][`Conta ${index}`])
+          }
+         
+          let serviceResponse = {
+            message: 'Busca realizada com sucesso',
+            Accounts: Contas,
+            'Geral': Geral
+          }
+          response.statusCode = 200
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse));
+          resolve();
+        }
+        else {
+          
+          let serviceResponse = {
+            message: 'Erro ao realizar busca'
+          }
+          response.statusCode = 400
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+          resolve();
         }
       })
     })

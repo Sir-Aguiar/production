@@ -9,7 +9,7 @@
   display: flex;
   overflow-x: auto;
   flex-direction: row;
-  justify-content: space-between;
+  
   scrollbar-width: thin;
 }
 .accounts::-webkit-scrollbar {
@@ -18,39 +18,67 @@
 .accounts::-webkit-scrollbar-thumb {
   border-radius: 20px;       /* roundness of the scroll thumb */
 }
+.account_container {
+  border: 4px solid #646915b2;
+  margin: 0 5px;
+  padding: 5px;
 
+}
 .tabelas_container h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 500;
   margin: 10px 0;
   text-align: center;
 
 }
-
-
-.tabelas_container table {
-  border-collapse: collapse;
-
+.team_picker{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-.tabelas_container td,
-.tabelas_container th {
+.team_picker select {
+  border-radius: 1px;
+  height: 25px;
+  border: 1px solid #838383ce;
+  background-color: #d9e2e2;
+  outline: none;
+  padding: 4px;
+  margin: 0 4px;
+}
+.tables table {
+  border-collapse: collapse;
+  height: 200px;
+}
+
+.tables td,
+.tables th {
   padding: 4px 10px;
   text-align: center;
-
+  border: 1px solid #000000;
 }
 
-.tabelas_container th {
+.tables th {
   font-size: 1.1rem;
   font-weight: 550;
-  border: 1px solid black;
 }
 
-.tabelas_container td {
-  border: 1px solid black;
+
+
+
+.tables {
+  width: 300px;
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  display: flex;
+  justify-content: center;
 }
 
-@media (max-width:600px) {
+
+@media (max-width:900px) {
   .tabelas_container {
 
     padding: 5px;
@@ -66,5 +94,8 @@
     overflow-y: auto;
     flex-direction: column;
     scrollbar-width: thin;
+  }
+  .account_container{
+    margin: 5px 0;
   }
 }

@@ -18,7 +18,13 @@
   background: #6141cc;
   
 }
-
+.delete_and_exit_team select {
+  font-size: 0.96rem;
+  
+}
+.delete_and_exit_team option{
+  margin: 2px 0;
+}
 .profile_container button:hover {
   filter: brightness(.9);
 }
