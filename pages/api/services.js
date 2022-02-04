@@ -31,8 +31,6 @@ export default async function Timing(request, response) {
       return value;
     }
   }
-  response.setHeader('Access-Control-Allow-Origin', '*')
-
   const { service } = request.body
   async function ConnectToUserDB() {
     if (!client.isConnected) await client.connect()
