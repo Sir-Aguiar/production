@@ -28,6 +28,8 @@ export default function Profile() {
         if (response.status == 200) {
           getUserteams()
           toast.success('Time criado com sucesso')
+        } else {
+          toast.error('Este time já existe, tente outro nome')
         }
       })
     }

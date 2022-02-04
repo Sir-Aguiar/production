@@ -209,7 +209,7 @@ export default async function Timing(request, response) {
           serviceResponse = {
             serviceStatus: -1
           }
-          response.statusCode = 200
+          response.statusCode = 400
           response.setHeader('Content-Type', 'application/json');
           response.setHeader('Cache-Control', 'max-age=180000');
           response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
