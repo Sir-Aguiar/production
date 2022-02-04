@@ -31,8 +31,6 @@ export default function Tabelas() {
       userName: localStorage.getItem('username'),
       teamName: teamName
     }).then(response => {
-      console.log(response.status)
-      console.log(response.data)
       setTotalData(response.data['Geral'])
       setAccountData(response.data['Accounts'])
       let total = 0
@@ -40,7 +38,6 @@ export default function Tabelas() {
         total += Number(registro['Lucro'])
       })
       setTotal(total)
-      console.log(Total)
     })
   }
   return (

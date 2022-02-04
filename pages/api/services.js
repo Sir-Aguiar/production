@@ -485,7 +485,7 @@ export default async function Timing(request, response) {
           for (let index = 1; index <= result[0]['NumeroConta']; index++) {
             Contas.push(result[0][`Conta ${index}`])
           }
-         
+
           let serviceResponse = {
             message: 'Busca realizada com sucesso',
             Accounts: Contas,
@@ -498,9 +498,65 @@ export default async function Timing(request, response) {
           resolve();
         }
         else {
-          
+
           let serviceResponse = {
             message: 'Erro ao realizar busca'
+          }
+          response.statusCode = 400
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'max-age=180000');
+          response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+          resolve();
+        }
+      })
+    })
+  }
+  if (request.method == 'POST' && service == 'ADDACCOUNT') {
+    if (!client.isCoonected) await client.connect()
+    const TEAMSDB = client.db('Teams')
+    const TEAMSCOLLECTION = TEAMSDB.collection('Times')
+    const { userName, userTeam } = request.body
+    const filter = {
+      'Nome': userTeam
+    }
+    return new Promise((resolve, reject) => {
+      TEAMSCOLLECTION.find(filter).toArray((err, result) => {
+        if (ValidateUser(result, userName)) {
+          const accounToInsert = {}
+          accounToInsert[`Conta ${result[0]['NumeroConta'] + 1}`] = []
+          const updateAction = {
+            $inc: {
+              NumeroConta: 1
+            },
+            $set: accounToInsert
+          }
+          TEAMSCOLLECTION.updateMany(filter, updateAction, function (err, result) {
+            if (err) {
+              let serviceResponse = {
+                message: 'Erro desconhecido'
+              }
+              response.statusCode = 400
+              response.setHeader('Content-Type', 'application/json');
+              response.setHeader('Cache-Control', 'max-age=180000');
+              response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+              resolve();
+            }
+            else {
+              let serviceResponse = {
+                message: 'Conta adicionada com sucesso'
+              }
+              response.statusCode = 200
+              response.setHeader('Content-Type', 'application/json');
+              response.setHeader('Cache-Control', 'max-age=180000');
+              response.end(JSON.stringify(serviceResponse, censor(serviceResponse)));
+              resolve();
+            }
+          })
+
+        }
+        else {
+          let serviceResponse = {
+            message: 'Acesso negado'
           }
           response.statusCode = 400
           response.setHeader('Content-Type', 'application/json');

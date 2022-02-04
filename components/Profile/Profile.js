@@ -76,7 +76,7 @@ export default function Profile() {
           updateTeam('')
           toast.success('Time deletado com sucesso')
         }
-        console.log(response)
+        
       })
       return
     }
@@ -90,7 +90,7 @@ export default function Profile() {
       userId: localStorage.getItem('userId'),
       newMemberType: 'user'
     }).then(response => {
-      console.log(response.data)
+      
       if (response.status == 200) {
         toast.success('Usuário adicionado com sucesso')
       } else {
@@ -98,9 +98,23 @@ export default function Profile() {
       }
     }).catch(err => console.log(err))
   }
+  const addAccount = () => {
+    ServicesApi.post('', {
+      service: 'ADDACCOUNT',
+      userName: localStorage.getItem('username'),
+      userTeam: actualTeam
+    }).then(response => {
+      if (response.status == 200) {
+        toast.success('Conta adicionada com sucesso')
+      }
+      else {
+        toast.error('Erro ao adicionar conta')
+      }
+    })
+  }
   useEffect(() => {
     getUserteams()
-    console.log(teams)
+    
   }, [])
   return (
     <div className={styles.profile_container}>
@@ -130,7 +144,12 @@ export default function Profile() {
           actualTeam && actualTeam != 'vazio' && <>
             <button onClick={exitTeam}>Sair do time</button>
             {
-              actualType == 'admin' ? <button onClick={delTeam}>Excluir</button> : <></>
+              actualType == 'admin' ? (
+                <>
+                  <button onClick={delTeam}>Excluir</button>
+                  <button onClick={addAccount}>Adicionar Conta</button>
+                </>
+              ) : <></>
             }
           </>
         }
@@ -140,6 +159,7 @@ export default function Profile() {
           <div className={styles.add_member}>
             <input type='text' placeholder='Convidar (nome de usuário)' className='newmember' />
             <button onClick={newMember}>Adicionar a {actualTeam}</button>
+
           </div>
         )
       }
