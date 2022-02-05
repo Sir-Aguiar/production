@@ -12,6 +12,9 @@
   border-radius: 5px;
   margin: 0 25px;
   max-height: 590px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .accountContainers {
@@ -22,12 +25,12 @@
 }
 
 .accountContainers::-webkit-scrollbar {
-  width: 8px;
+  width: 14px;
 }
 
 .accountContainers::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  /* roundness of the scroll thumb */
+  
 }
 
 
@@ -90,6 +93,8 @@
 
 .actions {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .actions button {
@@ -113,12 +118,14 @@
   margin: 5px 2px;
   font-weight: 550;
 }
+
 .registerInfos p {
   font-size: 1.1rem;
   line-height: 1.4rem;
   text-align: center;
   margin: 2px 0;
 }
+
 .actions .lastButton {
   width: 230px;
   height: 50px;
