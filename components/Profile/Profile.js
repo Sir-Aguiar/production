@@ -18,7 +18,7 @@ export default function Profile() {
     const TeamName = String(team.value).trim()
     const contas = document.querySelector('#contas')
     const ncontas = Number(contas.value)
-    if (TeamName != '') {
+    if (TeamName != '' && ncontas > 0 && ncontas != '' && ncontas != ' ') {
       ServicesApi.post('', {
         service: 'CREATENEWTEAM',
         newTeamName: TeamName,
@@ -32,6 +32,9 @@ export default function Profile() {
           toast.error('Este time já existe, tente outro nome')
         }
       })
+    }
+    else {
+      toast.warn('Insira um nome ou número de contas')
     }
   }
   const getUserteams = function () {
