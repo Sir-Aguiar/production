@@ -78,7 +78,7 @@ export default function Register() {
         response.data.userTeams.forEach((time) => {
           usert.push(time.teamName);
         });
-        setTeams(usert);
+        setTeams(usert)
       }
     });
   };
