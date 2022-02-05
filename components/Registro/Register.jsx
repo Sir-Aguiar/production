@@ -204,7 +204,7 @@ export default function Register() {
             <div className={styles.registerInfos}>
               <p title="O primeiro valor representa o saldo inicial, e segundo o saldo final">
                 Saldo: {Total.toFixed(2)} -{" "}
-                {Farm > 0 && Number(Total.toFixed(2)) + Number(Farm.toFixed(2))}
+                {Farm > 0 && Number(Number(Total) + Number(Farm)).toFixed(2)}
               </p>
               <p title="O quanto foi lucrado desde o último registro">
                 Farm: {Farm.toFixed(2)}
