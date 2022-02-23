@@ -73,7 +73,7 @@ export default function Cadastro() {
       <form onSubmit={handleSubmit} className={styles.formulary}>
         <h1>Obtenha acesso à plataforma</h1>
         <div className={styles.bomb_logo}>
-          <img src='https://bombcrypto.io/wp-content/uploads/2021/08/12.png' alt='bombimage' />
+          <img src='/BOMB-LOGO.png' alt='bombimage' />
         </div>
         <div className={styles.group_one}>
           <div className={styles.name}>
